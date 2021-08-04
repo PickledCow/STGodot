@@ -1,0 +1,8 @@
+red 0 
+magenta 300 
+blue 240 
+cyan 180
+green 150
+puke 90
+yellow 60
+orange 30 

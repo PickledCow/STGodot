@@ -1,0 +1,567 @@
+[gd_scene load_steps=29 format=2]
+
+[ext_resource path="res://player.gd" type="Script" id=1]
+[ext_resource path="res://player/eff_sloweffect.png" type="Texture" id=2]
+[ext_resource path="res://player/p0/option.tres" type="Texture" id=3]
+[ext_resource path="res://playerHurt.wav" type="AudioStream" id=4]
+[ext_resource path="res://se/graze.wav" type="AudioStream" id=5]
+[ext_resource path="res://bullet/add.tres" type="Material" id=6]
+[ext_resource path="res://DeathEffect.tscn" type="PackedScene" id=7]
+[ext_resource path="res://funnyobscure.png" type="Texture" id=8]
+[ext_resource path="res://se/item.wav" type="AudioStream" id=9]
+[ext_resource path="res://se/se_extend.wav" type="AudioStream" id=10]
+[ext_resource path="res://se/se_cardget.wav" type="AudioStream" id=11]
+[ext_resource path="res://se/se_powerup.wav" type="AudioStream" id=12]
+[ext_resource path="res://se/spark.wav" type="AudioStream" id=13]
+[ext_resource path="res://effect/eff_deadcircle.png" type="Texture" id=14]
+[ext_resource path="res://player/particle.png" type="Texture" id=15]
+
+[sub_resource type="Animation" id=1]
+resource_name = "focus"
+length = 0.25
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath("focus:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("focus2:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("focus:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.025 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("focus2:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.05 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("focus:scale:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 0.1, 0, 0, 0.05, 0, 1.333, -0.075, 0, 0.05, 0, 1, -0.025, -1, 0.0197574, 0.597892 ),
+"times": PoolRealArray( 0, 0.13, 0.25 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("focus:scale:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 0.1, 0, 0, 0.05, 0, 1.333, -0.075, 0, 0.05, 0, 1, -0.025, -1, 0.125, 0 ),
+"times": PoolRealArray( 0, 0.13, 0.25 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("focus2:scale:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 0.5, 0, 0, 0.05, 0, 1, -0.05, 0, 0, 0 ),
+"times": PoolRealArray( 0, 0.13 )
+}
+tracks/7/type = "bezier"
+tracks/7/path = NodePath("focus2:scale:y")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"points": PoolRealArray( 0.5, 0, 0, 0.05, 0, 1, -0.05, 0, 0, 0 ),
+"times": PoolRealArray( 0, 0.13 )
+}
+
+[sub_resource type="Shader" id=2]
+code = "// Fireworks shader
+// Based on shadertoy shader by Martijn Steinrucken aka BigWings - 2015 
+// (https://www.shadertoy.com/view/lscGRl)
+
+shader_type canvas_item;
+
+uniform float PI = 3.141592653589793238;
+uniform float TWOPI = 6.283185307179586 ;
+uniform float NUM_EXPLOSIONS = 8.0;
+uniform float NUM_PARTICLES = 70.0;
+
+// Noise functions by Dave Hoskins
+
+uniform vec3 MOD3 = vec3(0.1031,0.11369,0.13787);
+
+vec3 hash31(float p) {
+   vec3 p3 = fract(vec3(p) * MOD3);
+   p3 += dot(p3, p3.yzx + 19.19);
+   return fract(vec3((p3.x + p3.y)*p3.z, (p3.x+p3.z)*p3.y, (p3.y+p3.z)*p3.x));
+}
+
+float hash12(vec2 p) // attention changement vec2 p en vec3
+{
+                vec3 p3  = fract(vec3(p.xy, 0.0) * MOD3);
+    p3 += dot(p3, p3.yzx + 19.19);
+    return fract((p3.x + p3.y) * p3.z);
+}
+
+float circ(vec2 uv, vec2 pos, float size) {
+                uv -= pos;
+    
+    size *= size;
+    return smoothstep(size*1.1, size, dot(uv, uv));
+}
+
+float lighter(vec2 uv, vec2 pos, float size) {
+    uv -= pos;
+    size *= size;
+    return size/dot(uv, uv);
+}
+
+vec3 explosion(vec2 uv, vec2 p, float seed, float t) {
+                
+    vec3 col = vec3(0.);
+    
+    vec3 en = hash31(seed);
+    vec3 baseCol = en;
+    for(float i=0.; i<NUM_PARTICLES; i++) {
+               vec3 n = hash31(i)-.5;
+       
+                               vec2 startP = p-vec2(0., t*t*.1);        
+        vec2 endP = startP+normalize(n.xy)*n.z;
+        
+        
+        float pt = 1.-pow(t-1., 2.);
+        vec2 pos = mix(p, endP, pt);    
+        float size = mix(.01, .005, smoothstep(0., .1, pt));
+        size *= smoothstep(1., .1, pt);
+        
+        float sparkle = (sin((pt+n.z)*100.)*.5+.5);
+        sparkle = pow(sparkle, pow(en.x, 3.)*50.)*mix(0.01, .01, en.y*n.y);
+		float B = smoothstep(en.x-en.z, en.x+en.z, t)*smoothstep(en.y+en.z, en.y-en.z, t);
+        size += sparkle*B;
+        
+        col += baseCol*lighter(uv, pos, size);
+    }
+    
+    return col;
+}
+
+
+void fragment() {
+    vec2 iResolution = vec2(1024,600);
+	vec2 uv = FRAGCOORD.xy / iResolution.xy;
+                uv.x -= .5;
+    uv.x *= iResolution.x/iResolution.y;
+    
+    float n = hash12(uv+10.0);
+    float t = TIME*.5;
+    
+    vec3 c = vec3(0.);
+    
+    for(float i=0.; i<NUM_EXPLOSIONS; i++) {
+               float et = t+i*1234.45235;
+        float id = floor(et);
+        et -= id;
+        
+        vec2 p = hash31(id).xy;
+        p.x -= .5;
+        p.x *= 1.6;
+        c += explosion(uv, p, id, et);
+		}
+    
+	float alpha = 1.0;
+//	if (c.x < 0.2){alpha=0.0;} 
+    COLOR = vec4(c, alpha);
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+shader_param/PI = 3.14159
+shader_param/TWOPI = 6.28319
+shader_param/NUM_EXPLOSIONS = 100.0
+shader_param/NUM_PARTICLES = 70.0
+shader_param/MOD3 = Vector3( 0.1031, 0.11369, 0.13787 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 5
+atlas = ExtResource( 14 )
+region = Rect2( 0, 0, 512, 512 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 5
+atlas = ExtResource( 14 )
+region = Rect2( 512, 0, 512, 512 )
+
+[sub_resource type="Animation" id=6]
+resource_name = "death1"
+length = 0.5
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 3, 3 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Node2D/deathcircle:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Node2D2/deathcircle2:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -240.0 ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "death2"
+length = 0.5
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -3, 3 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Node2D/deathcircle:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Node2D2/deathcircle2:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -240.0 ]
+}
+
+[sub_resource type="ParticlesMaterial" id=8]
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 30.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 3000.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 4.0
+color = Color( 0.356863, 0.572549, 1, 1 )
+
+[sub_resource type="Animation" id=9]
+resource_name = "New Anim"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Gradient" id=10]
+offsets = PoolRealArray( 0, 0.521739, 0.996377, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=11]
+gradient = SubResource( 10 )
+
+[sub_resource type="ParticlesMaterial" id=12]
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 1200.0
+initial_velocity_random = 0.75
+angular_velocity = 360.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 720.0
+angle_random = 1.0
+scale = 0.1
+scale_random = 0.5
+color_ramp = SubResource( 11 )
+
+[sub_resource type="ParticlesMaterial" id=13]
+flag_disable_z = true
+gravity = Vector3( 0, 98, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+
+[node name="player" type="Node2D"]
+script = ExtResource( 1 )
+pid = 1
+
+[node name="focus2" type="Sprite" parent="."]
+visible = false
+z_index = 32
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 128, 128 )
+
+[node name="focus" type="Sprite" parent="."]
+visible = false
+z_index = 32
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 128, 128 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.667, 0.667 )
+z_index = -1
+hframes = 4
+vframes = 2
+region_enabled = true
+region_rect = Rect2( 0, 0, 512, 384 )
+
+[node name="Hurt" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
+stream = ExtResource( 4 )
+volume_db = -20.0
+
+[node name="focusanimation" type="AnimationPlayer" parent="."]
+playback_speed = 1.5
+anims/focus = SubResource( 1 )
+
+[node name="Graze" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+volume_db = -20.0
+
+[node name="GrazeParticles" type="Particles2D" parent="."]
+visible = false
+material = ExtResource( 6 )
+amount = 1900
+lifetime = 0.5
+local_coords = false
+process_material = SubResource( 3 )
+
+[node name="option0" type="Sprite" parent="."]
+visible = false
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 0, 384, 64, 64 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="option1" type="Sprite" parent="."]
+visible = false
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 0, 384, 64, 64 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="option2" type="Sprite" parent="."]
+visible = false
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 0, 384, 64, 64 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="option3" type="Sprite" parent="."]
+visible = false
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+region_enabled = true
+region_rect = Rect2( 0, 384, 64, 64 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="deathcircle" type="Node2D" parent="."]
+rotation = 2.77507
+scale = Vector2( 1e-05, 1e-05 )
+z_index = 10
+
+[node name="Node2D" type="Node2D" parent="deathcircle"]
+scale = Vector2( 0.333, 1.25 )
+
+[node name="deathcircle" type="Sprite" parent="deathcircle/Node2D"]
+material = ExtResource( 6 )
+texture = SubResource( 4 )
+
+[node name="Node2D2" type="Node2D" parent="deathcircle"]
+rotation = 1.74533
+scale = Vector2( 0.5, 1 )
+
+[node name="deathcircle2" type="Sprite" parent="deathcircle/Node2D2"]
+material = ExtResource( 6 )
+scale = Vector2( -1, 1 )
+texture = SubResource( 5 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="deathcircle"]
+anims/death1 = SubResource( 6 )
+anims/death2 = SubResource( 7 )
+
+[node name="bombtemp" type="Particles2D" parent="."]
+material = ExtResource( 6 )
+position = Vector2( 0, -128 )
+z_index = 9
+emitting = false
+amount = 256
+process_material = SubResource( 8 )
+texture = ExtResource( 15 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="bombtemp"]
+"anims/New Anim" = SubResource( 9 )
+
+[node name="DeathEffect" parent="." instance=ExtResource( 7 )]
+z_index = 10
+
+[node name="Sprite2" type="Sprite" parent="."]
+visible = false
+scale = Vector2( 2, 2 )
+z_index = 10
+texture = ExtResource( 8 )
+
+[node name="blood" type="Particles2D" parent="."]
+emitting = false
+amount = 900
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.9
+process_material = SubResource( 12 )
+
+[node name="deathparticles" type="Particles2D" parent="."]
+material = ExtResource( 6 )
+emitting = false
+amount = 192
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.75
+process_material = SubResource( 12 )
+texture = ExtResource( 15 )
+
+[node name="bomb" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 13 )
+volume_db = -15.0
+
+[node name="item" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -20.0
+
+[node name="extend" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -20.0
+
+[node name="spellextend" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+volume_db = -20.0
+
+[node name="powerup" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 12 )
+volume_db = -20.0
+
+[node name="Particles2D" type="Particles2D" parent="."]
+visible = false
+emitting = false
+amount = 300
+process_material = SubResource( 13 )

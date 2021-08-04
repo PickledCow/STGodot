@@ -1,0 +1,89 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://player/p0/2.tres" type="Texture" id=1]
+[ext_resource path="res://player/shot.gd" type="Script" id=2]
+[ext_resource path="res://bullet/add.tres" type="Material" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 32, 16 )
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 512.0
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 32, 512 )
+
+[sub_resource type="Gradient" id=4]
+offsets = PoolRealArray( 0, 0.622093, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1.5, 1.5, 1.5, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=5]
+gradient = SubResource( 4 )
+width = 64
+
+[sub_resource type="ParticlesMaterial" id=6]
+emission_shape = 1
+emission_sphere_radius = 16.0
+flag_disable_z = true
+direction = Vector3( -1, 0, 0 )
+spread = 90.0
+flatness = 1.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 300.0
+initial_velocity_random = 0.75
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 20.0
+angle = 360.0
+angle_random = 1.0
+scale = 10.0
+scale_random = 0.25
+color_ramp = SubResource( 5 )
+
+[node name="Shot" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
+z_index = -1
+texture = ExtResource( 1 )
+region_rect = Rect2( 512, 0, 512, 16 )
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+monitorable = false
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )
+
+[node name="RadialDetector" type="Area2D" parent="."]
+visible = false
+position = Vector2( 128, 0 )
+monitoring = false
+monitorable = false
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RadialDetector"]
+shape = SubResource( 2 )
+
+[node name="LateralDetector" type="Area2D" parent="."]
+visible = false
+monitoring = false
+monitorable = false
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LateralDetector"]
+shape = SubResource( 3 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+material = ExtResource( 3 )
+position = Vector2( -16, 0 )
+emitting = false
+amount = 3
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.8
+process_material = SubResource( 6 )

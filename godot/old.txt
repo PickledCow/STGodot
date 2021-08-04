@@ -1,0 +1,809 @@
+
+	if false:
+		if t % 120 == 0 && t % 480 != 360:
+			a1 = randf() * 180
+			a2 = randf()*360.0
+		
+		if t % 1 == 0:
+			if t % 480 < 100:
+				create_bullet(0, 2, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(-150,150), range(a1, 360+a1, 12), [22], 15, 0.0, 0.0, -.03, false)
+			elif t % 480 > 120 && t % 480 < 220:
+				create_bullet(0, 6, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(-150,-150), range(-a1, 360-a1, 12), [22], -15, 0.0, 0.0, .03, false)
+			elif t % 480 > 280 && t % 480 < 440:
+				create_bullet(0, 4, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(-150,-150), range(a1, 360+a1, 30), [20], 95, 0.0, 0.0, .03, false)
+				create_bullet(0, 4, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(-150,150), range(a1, 360+a1, 30), [20], -95, 0.0, 0.0, -.03, false)
+				create_bullet(0, 10, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(-150,-150), range(a1, 360+a1, 30), [20], -90, 0.0, 0.0, .03, false)
+				create_bullet(0, 10, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(-150,150), range(a1, 360+a1, 30), [20], 90, 0.0, 0.0, -.03, false)
+		if t % 12 == 0:
+			if ((t-10)%480) < 40:
+				create_bullet(17, 4, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(0,0), range(0, 360, 10), [7], a2, 0.0, 0.0, 0, false)
+				a2 += 2.5
+			elif ((t%480)>130 && (t%480) < 190):
+				create_bullet(17, 6, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(0,0), range(0, 360, 10), [7], a2, 0.0, 0.0, 0, false)
+				a2 -= 2.5
+				
+				
+		if (t%480) > 260 && (t%480) < 380 && t % 16 == 0:
+			create_bullet(17, 7, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(-300,0), range(int(a2), int(360+a2), 6), [8], 0, 0.0, 0.0, 0, false)
+		
+	# playtime
+	if false:
+		if t % 20 == 0:
+			
+			create_bullet(1, 2, Constants.FIELD_SIZE / 2 + Vector2(100,-250), Vector2(0,0), range(0,360,12), [2], -t*TAU*TAU, 0.0, 0.0, 0, false)
+			create_bullet(1, 2, Constants.FIELD_SIZE / 2 + Vector2(-100,-250), Vector2(0,0), range(0,360,12), [2], t*TAU*TAU, 0.0, 0.0, 0, false)
+			create_bullet(1, 6, Vector2(Constants.FIELD_SIZE.x*0.5, 0), Vector2(400,00), range(90-45,90+46,5), [2], 0, 0.0, 0.0, 0, false)
+	
+
+	#square creature
+	if false:
+		if t % 15 == 0:
+			for i in range(3,363,6):
+				var a = Vector2(1,0).rotated(deg2rad(i))
+				var speed = min(1.0/max(abs(a.x),0.001), 1.0/max(abs(a.y),0.001))
+				create_bullet(6, 2, Constants.FIELD_SIZE / 2 + Vector2(0,-250), Vector2(0,0), [0], [2*speed], i+t*PI*0.11, 0.0, 0.0, 0, false)
+				
+	
+
+	# jellybeans
+	if false:
+		if t % 10 == 0:
+			a1 += t*sqrt(t)
+			create_bullet(20, (t/10)%6+1, Constants.FIELD_SIZE / 2 + Vector2(0,-250), Vector2(-200,100), range(0,360,12), [4], a1, 0.0, 0.0, 0.0, false)
+			#create_bullet(20, (t/15)%6+1, Constants.FIELD_SIZE / 2 + Vector2(0,-250), Vector2(-200,-100), range(0,360,12), [4], -t*TAU*TAU, 0.0, 0.0, 0, false)
+			
+	
+	# chicken
+	if false:
+		if t%600 < 300 && t % 30 == 0:
+			create_bullet(3, 0, Constants.FIELD_SIZE / 2 + Vector2(0,-250), Vector2(0,0), range(0,360,8), [1], randf()*360.0, 0.0, 0.0, 0.0, false)
+			
+	
+	# confuzzle
+	if false:
+		p = Vector2(0,-300).rotated(t*0.01)
+		if t % 15 == 0:
+			var v = randf()*360.0
+			create_bullet(1, [2,4,6,8,10,13][(t/15)%6], Constants.FIELD_SIZE / 2 + p, Vector2(100,0), range(int(v),360+int(v),60), [5], randf()*360.0, 0.0, 0.0, 0, false)
+
+	# the chaser
+	if false:
+		if t == 0:
+			p = Constants.FIELD_SIZE * 0.5 + Vector2(0, -200)
+			p2 = p
+		if t % 8 == 0:
+			create_bullet(1, [2,4,6,8,10,13][(t/8)%6], p2, Vector2(0,0), range(0,360,40), [2], 180, 0.0, 0.0, 0, true)
+			p2 = p
+			p = player.position
+			
+	# The chaser season 2
+	if false:
+		if t == 0:
+			p = Constants.FIELD_SIZE * 0.5 + Vector2(0, -200)
+			lp = p
+		if t % 8 == 0:
+			create_bullet(1, [2,4,6,8,10,13][(t/8)%6], p, Vector2(0,0), range(0,360,40), [2], 180, 0.0, 0.0, 0, true)
+			lp = p
+			p += (player.position-p).normalized()*30
+
+
+
+	# nausea
+	if false:
+		if t % 20 == 0:
+			create_bullet(1, 11, Constants.FIELD_SIZE * 0.5 + Vector2(0,-100), Vector2(0,0), range(0,360,10), [2], randf()*360.0, 0.0, 0.0, 0, false)
+
+	# Flying thing
+	if false:
+		if t % 6 == 0:
+			create_bullet(1, [2,4,6,8,10,13][(t/6)%6], lp, Vector2(0,0), range(0,360,30), [2], 180, 0.0, 0.0, 0, false, p)
+			lp = p
+			p +=  Vector2(50 * (randf()*2 - p.x / (Constants.FIELD_SIZE.x)*2), 50 * (randf()*2 - p.y / (Constants.FIELD_SIZE.y) * 2))
+			
+			create_bullet(1, [2,4,6,8,10,13][(t/6)%6], lp2, Vector2(0,0), range(0,360,30), [2], 180, 0.0, 0.0, 0, false, p2)
+			lp2 = p2
+			p2 +=  Vector2(50 * (randf()*2 - p.x / (Constants.FIELD_SIZE.x)*2), 50 * (randf()*2 - p.y / (Constants.FIELD_SIZE.y) * 2))
+	
+	
+	# randomxd
+	
+	if false:
+		
+		create_bullet(1, 0, Vector2(Constants.FIELD_SIZE.x * randf(), Constants.FIELD_SIZE.y * randf()), Vector2(0,0), [0], [6], randf()*360.0, 0.0, 0.0, 0, false)
+	
+	# TSS
+	if false:
+		if t % 30 == 0:
+			create_bullet(3, 6, Constants.FIELD_SIZE / 2 + Vector2(0, -250), Vector2(0,0), range(0,360,4), [2], 0, 0.0, 0.0, 0.0, false)
+		elif t % 30 == 15:
+			create_bullet(3, 6, Constants.FIELD_SIZE / 2 + Vector2(0, -250), Vector2(0,0), range(0,360,4), [2], 2, 0.0, 0.0, 0.0, false)
+	
+	# bouncy
+	if false:
+		if t == 0 || t == 240 || t == 480:
+			create_bullet(17, 7, Constants.FIELD_SIZE / 2, Vector2(0,0), range(0,360,6), [2], randf()*360.0, 0.0, 0.0, 0.0, false)
+	# curvy clipdeath
+	if false:
+		if t % 40 == 0:
+			create_bullet(1, 2, Constants.FIELD_SIZE / 2, Vector2(0,0), range(0,360,20), [2], randf()*360.0, 0.0, 0.0, 0.0, false)
+			
+			
+	# Crazy bullet storm
+	if false:
+		if t % 150 == 0:
+			a = (Constants.FIELD_SIZE *.5 +Vector2(0,-200)).angle_to_point(player.position)+PI
+		if t % 150 < 120 && t % 2 == 0:
+			for i in range(-150,151,30):
+				create_bullet(8, [2,4,6,8,10,13][(t/6)%6], Constants.FIELD_SIZE / 2+Vector2(0,-200) + Vector2(abs(i)*-0.1,i).rotated(a), Vector2(0,0), [0], [24], rad2deg(a), 0.0, 0.0, 0.0, false)
+				
+	# Crazy bullet storm 2
+	if false:
+		if t % 150 == 0:
+			a = (Constants.FIELD_SIZE *.5 +Vector2(0,-200)).angle_to_point(player.position)+PI
+		if t % 150 < 120 && t % 3 == 0:
+			create_bullet(8, [2,4,6,8,10,13][(t/6)%6], Constants.FIELD_SIZE / 2+Vector2(0,-200), Vector2(0,0), range(0,360,6)+range(1,361,6)+range(-1,359,6), [24], rad2deg(a)+t*0.1*(((t/150) % 2)*2-1), 0.0, 0.0, 0.0, false)
+		
+	#tengu macroburst
+	if false:
+		if t % 10 == 0:
+			var angle = 90+(randf()*2.0-1.0)*60.0
+			var x = randf()*(Constants.FIELD_SIZE.x-100)+50
+			create_bullet(1, 6, Vector2(x, 0) + Vector2(0.0, 0.0).rotated(deg2rad(angle)), Vector2(0,0), [0], [14], angle, 0.0, 0.0, 0, false)
+			for i in range(20, 180, 20):
+				create_bullet(1, 10, Vector2(x, 0) + Vector2(-i, -i*0.3).rotated(deg2rad(angle)), Vector2(0,0), [0], [14], angle, 0.0, 0.0, 0, false)
+				create_bullet(1, 10, Vector2(x, 0) + Vector2(-i, i*0.3).rotated(deg2rad(angle)), Vector2(0,0), [0], [14], angle, 0.0, 0.0, 0, false)
+				create_bullet(1, 8, Vector2(x, 0) + Vector2(-i-100, -i*0.3).rotated(deg2rad(angle)), Vector2(0,0), [0], [14], angle, 0.0, 0.0, 0, false)
+				create_bullet(1, 8, Vector2(x, 0) + Vector2(-i-100, i*0.3).rotated(deg2rad(angle)), Vector2(0,0), [0], [14], angle, 0.0, 0.0, 0, false)
+				create_bullet(1, 6, Vector2(x, 0) + Vector2(-i, 0.0).rotated(deg2rad(angle)), Vector2(0,0), [0], [14], angle, 0.0, 0.0, 0, false)
+
+
+	
+	# die
+	if false:
+		if t % 10 == 0:
+			create_bullet(1,10, Constants.FIELD_SIZE * 0.5 + Vector2(0, -200), Vector2(-60,60), range(0,360,15), [6], t*PI, 0.0, 0.0, 0.0)	
+		elif t % 10 == 5:
+			create_bullet(1,10, Constants.FIELD_SIZE * 0.5 + Vector2(0, -200), Vector2(-60,-60), range(0,360,15), [6], -t*PI, 0.0, 0.0, 0.0)	
+
+	# ranbow
+	if false:
+		if t % 6 == 0:
+			lp = p
+			lp2 = p2
+			p = Constants.FIELD_SIZE / 2 + Vector2(0, -200) + Vector2(cos(t/200.0) + sin(7 *t/200.0), sin(t/200.0) + cos(17 * t/200.0)) * 100
+			p2 = Constants.FIELD_SIZE / 2 + Vector2(0, -200) + Vector2(-cos(t/200.0) - sin(7 * t/200.0), sin(t/200.0) + cos(17 * t/200.0)) * 100
+			
+			
+			create_bullet(9, 1+(t/6 % 14), p, Vector2(0, 0), range(0,360, 30), [2], rad2deg(atan2(lp.y - p.y, lp.x - p.x)), 0.0, 0.0, 0.0)
+			create_bullet(9, 1+(t/6 % 14), p2, Vector2(0, 0), range(0,360, 30), [2], rad2deg(atan2(lp2.y - p2.y, lp2.x - p2.x)), 0.0, 0.0, 0.0)
+
+	
+	# Double rainbow all across the sky
+	if false:
+		if t % 2 == 0:
+			for i in range(6):
+				var y = 64*((t/12)+i) % 1500
+				create_bullet(5,[2,4,6,8,10,13][(t/2 + i)%6], Vector2(-10, y), Vector2(0,0), [0], [5], -15.0, 0.0, 0.0, 0.006)
+				create_bullet(5,[2,4,6,8,10,13][(t/2 + i)%6], Vector2(Constants.FIELD_SIZE.x+10, y), Vector2(0,0), [0], [5], 195.0, 0.0, 0.0, -0.006)
+		if t % 4 == 0:
+			var type = 3 if randi() % 3 == 0 else 4
+			create_bullet(type,6, Vector2(Constants.FIELD_SIZE.x * randf(), -10.0), Vector2(0,0), [0], [5], 90.0, 0.0, 0.0, 0.0)
+	
+	# criss cross
+	if false:
+		if t % 60 == 0:
+			for a in range(0,360,6):
+				var b = create_bullet(4, 11, Constants.FIELD_SIZE / 2 + Vector2(0, -50), Vector2(0,0), [0], [2], a, 0.0, 0.0, 0.0, false)[0]
+				b.variables += [t, -1, b.angle]
+
+				var b2 = create_bullet(4, 11, Constants.FIELD_SIZE / 2 + Vector2(0, -50), Vector2(0,0), [0], [2], a, 0.0, 0.0, 0.0, false)[0]
+				b2.variables += [t, 1, b2.angle]
+
+	# criss cross 2
+	if false:
+		if t % 20 == 0:
+			for a in range(0,360,12):
+				if t % 40 == 0:
+					var b = create_bullet(4, 11, Constants.FIELD_SIZE / 2 + Vector2(0, -50), Vector2(0,0), [0], [2], a, 0.0, 0.0, 0.0, false)[0]
+					b.variables += [t, -1, b.angle]
+				else:
+					var b2 = create_bullet(4, 11, Constants.FIELD_SIZE / 2 + Vector2(0, -50), Vector2(0,0), [0], [2], a, 0.0, 0.0, 0.0, false)[0]
+					b2.variables += [t, 1, b2.angle]
+
+	# Spam
+	if false:
+		if t % 6 == 0:
+			for i in range(0,360, 45):
+				create_bullet(1, 6, Constants.FIELD_SIZE * 0.5 + Vector2(0,-150) + Vector2(150*cos(deg2rad(i+t)),50*sin(deg2rad(i+t))).rotated(i+t), Vector2(0,0), [i+t], [3], t*TAU, 0.0, 0.0, 0.0, false)
+		if t % 6 == 2:
+			for i in range(0,360, 45):
+				create_bullet(1, 10, Constants.FIELD_SIZE * 0.5 + Vector2(0,-150) + Vector2(150*cos(deg2rad(i+t)),50*sin(deg2rad(i+t))).rotated(i+t), Vector2(0,0), [i-t], [3], -t*TAU, 0.0, 0.0, 0.0, false)
+		if t % 6 == 4:
+			for i in range(0,360, 90):
+				create_bullet(1, 8, Constants.FIELD_SIZE * 0.5 + Vector2(0,-150), Vector2(0,0), [i-PI*t], [3], -t*TAU, 0.0, 0.0, 0.0, false)
+				create_bullet(1, 8, Constants.FIELD_SIZE * 0.5 + Vector2(0,-150), Vector2(0,0), [i+PI*t], [3], t*TAU, 0.0, 0.0, 0.0, false)
+	
+	
+	# seija speen
+	if false:
+		var angle = -t * 1.5
+		if t % 2 == 0:
+			create_bullet(9, 2, Constants.FIELD_SIZE * 0.5, Vector2(0,0), range(0,360, 90), [3], angle, 0.0, 0.0, 0.0, false)
+		
+	
+	# PDH
+	if false:
+		match t % 120:
+			0:
+				create_bullet(3, 2, Constants.FIELD_SIZE * 0.5 + Vector2(Constants.FIELD_SIZE.x * (randf()*1.8- 0.9),-150 - 200 * randf()), Vector2(0,0), range(0,360,4), [1.5], randf()*360.0, 0.0, 0.0, 0.0, false)
+				create_bullet(3, 2, Constants.FIELD_SIZE * 0.5 + Vector2(Constants.FIELD_SIZE.x * (randf()*1.8- 0.9),-150 - 200 * randf()), Vector2(0,0), range(0,360,4), [1.5], randf()*360.0, 0.0, 0.0, 0.0, false)
+			40:
+				create_bullet(3, 4, Constants.FIELD_SIZE * 0.5 + Vector2(Constants.FIELD_SIZE.x * 0.4 * randf(),-150 - 200 * randf()), Vector2(0,0), range(0,360,30), [2.5], randf()*360.0, 0.0, 0.0, 0.0, false)
+				create_bullet(3, 4, Constants.FIELD_SIZE * 0.5 + Vector2(-Constants.FIELD_SIZE.x * 0.4 * randf(), -150 - 200 * randf()), Vector2(0,0), range(0,360,30), [2.5], randf()*360.0, 0.0, 0.0, 0.0, false)
+			80:
+				create_bullet(3, 6, Vector2(0,-150 + Constants.FIELD_SIZE.y * (0.5+randf()*0.5)), Vector2(0,0), range(0,360,10), [3.5], randf()*360.0, 0.0, 0.0, 0.0, false)
+				create_bullet(3, 6, Vector2(Constants.FIELD_SIZE.x,-150 + Constants.FIELD_SIZE.y * (0.5+randf()*0.5)), Vector2(0,0), range(0,360,10), [3.5], randf()*360.0, 0.0, 0.0, 0.0, false)
+		
+		if t % 5 == 0:
+			create_bullet(20, 3, Constants.FIELD_SIZE * 0.5 + Vector2(0,-250), Vector2(0,0), range(0,360,30), [12], 7.5, 1.0, 0.0, 0.0, false)
+			create_bullet(20, 3, Constants.FIELD_SIZE * 0.5 + Vector2(0,-250), Vector2(0,0), range(0,360,30), [12], -7.5, 1.0, 0.0, 0.0, false)
+		
+		
+	# milky way
+	if false:
+		if t % 15 == 0:
+			create_bullet(16, 1, Constants.FIELD_SIZE * 0.5 + Vector2(0,-250), Vector2(0,0), range(0,360,36), [3], 18+t*PI*0.1, 1.0, 0.0, 0.05, false)
+			create_bullet(16, 1, Constants.FIELD_SIZE * 0.5 + Vector2(0,-250), Vector2(0,0), range(0,360,36), [3], -t*PI*0.1, 1.0, 0.0, -0.05, false)
+		
+			create_bullet(10, 10, Vector2(0, Constants.FIELD_SIZE.y * (0.5+randf()*0.5)), Vector2(0,0), [0], [2], 0, 1.0, 0.0, -0.05, false)
+			create_bullet(10, 14, Vector2(Constants.FIELD_SIZE.x, Constants.FIELD_SIZE.y * (0.5+randf()*0.5)), Vector2(0,0), [0], [2], 180, 1.0, 0.0, 0.05, false)
+			
+	
+	
+	# circle
+	if false:
+		if t % 60 == 0:
+			a1 += 28
+			a2 -= 32
+			
+			for i in range(0,360,30):
+				for j in range(0,360,15):
+					create_bullet(4, 8, Constants.FIELD_SIZE * 0.5 + Vector2(0,-150) + Vector2(150, 0).rotated(deg2rad(i+a1)) + 0*Vector2(25, 0).rotated(deg2rad(i+j+a1)), Vector2(0,0), [0], [2], j+a1, 0.0, 0.0, 0.0, false)
+					create_bullet(4, 14, Constants.FIELD_SIZE * 0.5 + Vector2(0,-150) + Vector2(100, 0).rotated(deg2rad(i+a2)) + 0*Vector2(25, 0).rotated(deg2rad(i+j+a2)), Vector2(0,0), [0], [2], j+a2, 0.0, 0.0, 0.0, false)
+	
+	if false: # seiran
+		if t % 400 == 0:
+			a += GOLDEN_ANGLE
+			p = player.position
+		if t % 400 < 178:
+			if t % 2 == 0:
+				create_bullet(8, 6, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(0,0), range(-t % 400, t % 400  + 1, 4), [14], 0.0, 0.0, 0.0, 0.0, false, p)
+		
+		if t % 400 >= 240 && t % 400 < 350:
+			if t % 40 == 0:
+	#		pass
+				create_bullet(8, 6, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(0,0), range(0, 360, 10), [4,4.5,5,5.5,6,6.5,7,7.5,8], 0.0, 0.0, 0.0, 0.0, true)
+	
+	for i in range(0):
+		if t % 1 == 0:
+			create_bullet(8, 1+(t/6 % 14), Vector2(768 * randf(), -5), Vector2(0,0), [0], [15], 90 + randf()*24 - 12, 0.0, 0.0, (randi()%2-0.5)*0.0)
+			
+	if false:
+		if t % 120 < 60:
+			for i in range(2):
+				create_bullet(8, 7, Vector2(768 * randf(), -5), Vector2(0,0), [-5,0,5], [15], 0, 0.0, 0.0, (randi()%2-0.5)*0.0, true)
+		elif t % 120 < 120:
+			for i in range(2):
+				create_bullet(8, 1, Vector2(768 * randf(), -5), Vector2(0,0), [-2.5,2.5], [15], 0, 0.0, 0.0, (randi()%2-0.5)*0.0, true)
+	
+	#Ayayayayayayayayayayayaya
+	if false:
+		if t % 6 == 0:
+			for i in range(10):
+				create_bullet(3, 5, Vector2(768*0.5, 200) + Vector2(cos(i*TAU/10.0),sin(i*TAU/10.0)) * 100, Vector2(0,0), range(0,360, 90), [4], t*PI, 0.0, 0.0, 0, false)
+				#create_bullet(3, 1, Vector2(768*0.5, 200) + Vector2(cos(i*TAU/10.0),sin(i*TAU/10.0)) * 30, Vector2(0,0), range(0,360, 90), [6], -t*PI, 0.0, 0.0, 0, false)
+
+	# Absolute justice
+	if false:
+		if t % 40 == 0:
+			#create_bullet(3, 2, Vector2(768 * randf(), Constants.FIELD_SIZE.y+30), Vector2(0,0), [0], [3.0], -90.0, 15.0, 0.0, 0, false)
+			for j in range(5):
+				var x = 768 * ((j + randf()) / 5) 
+				for i in range(-30,31, 15):
+					var bs = create_bullet(1, 12, Vector2(x + i, 896 * 0.333333333333 + 10 * randf()), Vector2(0,0), [0,180], [1.5], 90.0, 0.0, 0.0, 0, false)
+					for b in bs:
+						b.variables.append(0)
+			
+		if t % 160 < 80:
+			for i in range(6):
+				create_bullet(0, 6, Vector2(768 * (i + 0.5) / 6.0, -30), Vector2(0,0), [0], [16], 90.0, 0.0, 0.0, 0, false)[0].variables.append(0)
+				
+				if t % 160 == 1160:
+					var bs = create_bullet(2, 13, Vector2(768 * (i + 0.5) / 4.0, -30), Vector2(0,0), [0,0], [12], 90.0, 0.0, 0.0, 0, false)
+					bs[0].variables.append(1)
+					bs[1].variables.append(2)
+					bs[0].variables.append(768 * (i + 0.5) / 4.0)	
+					bs[1].variables.append(768 * (i + 0.5) / 4.0)
+		
+		if t % 77 == 0:
+			var bs = create_bullet(17, 3, Vector2(Constants.FIELD_SIZE.x * 0.5, 896 * 0.333333333 + 10 * randf()), Vector2(0,0), range(-45,46,15), [3.0], 0.0, 0.0, 0.0, 0, true)
+			for b in bs:
+				b.variables.append(0)
+
+	if false:
+		if t % 80 == 0:
+			a1 = randf()*90
+		if t % 80 < 35:
+			if t % 1 == 0:
+				create_bullet(0, 6, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(30,0), range(0, 90, 15), [24.0], a1, 0.0, 0.0, 0.0, false)
+				create_bullet(0, 6, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(30,0), range(180, 270, 15), [24.0], a1, 0.0, 0.0, 0.0, false)
+	#	if t % 10 == 0:
+	#		create_bullet(16, 1, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(30,0), range(0, 360, 45), [8.0], randf()*360.0, 0.0, 0.0, 0.05, false)
+		
+	if false:
+		if t % 60 == 0:
+			create_bullet(6, 2, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(0,0), range(0, 360, 6), [2.0], 0.0, 0.0, 0.0, 0.0, false)
+		if t % 60 == 3:
+			create_bullet(6, 2, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(0,0), range(0, 360, 6), [2.0], .5, 0.0, 0.0, 0.0, false)
+			create_bullet(6, 2, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(0,0), range(0, 360, 6), [2.0], -.5, 0.0, 0.0, 0.0, false)
+	
+	# eternal meek
+	if false:
+		if true:
+			for i in range(30):
+				create_bullet(3, 6, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(0,0), [randf() * 360], [6 + randf()*4], 0.0, 0.0, 0.0, 0.0, false)
+	
+	#okina opener
+	if false:
+		a += t*0.02
+		if t % 4 == 0:
+			create_bullet(5, 14, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(0,0), range(0,360,10), [4.0], a, 0.0, 0.0, 0.0, false)
+	
+	# bowap
+	if false:
+		a1 += t*0.03
+		if a1 > 360:
+			a1 -= 360
+		if t % 2 == 0:
+			create_bullet(4, 0, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(50,0), range(0, 360, 30), [5.0], a1, 0.0, 0.0, 0.0, false)
+		#	create_bullet(4, 0, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(50,0), range(0, 360, 30), [4.0], -a1, 0.0, 0.0, 0.0, false)
+				
+	
+	# sapphire megalith
+	if false:
+		if t % 20 == 0:
+			var x = Constants.FIELD_SIZE.x * randf()
+			for a in [45,135,90]:
+				create_bullet(22, 1, Vector2(x,Constants.FIELD_SIZE.y*0.5-250), Vector2(0,0), [0], [5.0+2*randf()], a, 1, 0.0, 1, false)
+				for i in range(20):
+					var speed = randf()*2+3
+					create_bullet(2, 6, Vector2(x,Constants.FIELD_SIZE.y*0.5-250), Vector2(0,0), [0], [speed], randf()*360.0, 10, 0.0, 1, false)
+	
+	
+	
+	# hell god sword
+	if false:
+		if t % 120 < 60 && t % 6 == 0:
+			var angle = 2*(t%120)
+			var x = 0
+			if t % 240 >= 120:
+				x = Constants.FIELD_SIZE.x
+				angle = 180-angle
+			create_bullet(22, 0, Vector2(x,0), Vector2(0,0), [0], [7.0+2*randf()], angle, 1, 0.0, 1, false)
+			for i in range(15):
+				var speed = randf()*4+4
+				create_bullet(17, 1, Vector2(x,0), Vector2(0,0), [0], [speed], angle, 25, 0.0, 1, false)
+			for i in range(30):
+				var speed = randf()*4+3
+				create_bullet(3, 2, Vector2(x,0), Vector2(0,0), [0], [speed], angle, 25, 0.0, 1, false)
+	
+	
+	# marine meister
+	if false:
+		if t % 120 < 60 && t % 2 == 0:
+			var angle = 17*(t%120) + randf()*8
+			if t % 240 >= 120:
+				angle = 180-angle
+			create_bullet(22, 1, Constants.FIELD_SIZE / 2 + Vector2(0,-250), Vector2(0,0), [0], [11.0+2*randf()], angle, 1, 0.0, 1, false)
+			for i in range(7):
+				var speed = randf()*4+7
+				create_bullet(17, 3, Constants.FIELD_SIZE / 2 + Vector2(0,-250), Vector2(0,0), [0], [speed], angle, 25, 0.0, 1, false)
+			for i in range(14):
+				var speed = randf()*4+4
+				create_bullet(3, 6, Constants.FIELD_SIZE / 2 + Vector2(0,-250), Vector2(0,0), [0], [speed], angle, 25, 0.0, 1, false)
+	
+	# marine gensokyo
+	if false:
+		if t % 240 == 0:
+			a = randf()*360
+			create_bullet(22, 1, Constants.FIELD_SIZE / 2 + Vector2(0,-250), Vector2(0,0), range(0,360,15), [6], a, 1, 0.0, 1, false)
+		if t % 6 == 0 && t % 240 < 160:
+			for i in range(0,360,15):
+				create_bullet(3, 6, Constants.FIELD_SIZE / 2 + Vector2(0,-300) + Vector2((t%240)*6,0).rotated(deg2rad(i+a)), Vector2(0,0), [0], [1.5], t+i+a, 25, 0.0, 1, false)
+
+	# you shrink smaller
+	if false:
+		for i in range(4):
+			create_bullet(29, 2, Constants.FIELD_SIZE / 2 + Vector2(0, -100), Vector2(200,0), [randf()*180.0], [1.0], 0, 0.0, 0.0, 0, false)
+		create_bullet(22, 0, Constants.FIELD_SIZE / 2 + Vector2(0, 100), Vector2(0,0), [210+randf()*120.0], [8.0], 0, 0.0, 0.0, 1, false)
+	
+	
+	
+	# you bowap bigger
+	if false:
+		a1 += t*0.01
+		if a1 > 360:
+			a1 -= 360
+		if t % 6 == 0:
+			create_bullet(4, 0, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(50,0), range(0, 360, 15), [4.0], a1, 0.0, 0.0, 0.0, false)
+		#	create_bullet(4, 0, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(50,0), range(0, 360, 30), [4.0], -a1, 0.0, 0.0, 0.0, false)
+			
+	# you bowap smaller
+	if false:
+		a1 += t*0.05
+		if a1 > 360:
+			a1 -= 360
+		if t % 2 == 0:
+			create_bullet(4, 0, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(50,0), range(0, 360, 18), [4.0], a1, 0.0, 0.0, 0.0, false)
+		#	create_bullet(4, 0, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(50,0), range(0, 360, 30), [4.0], -a1, 0.0, 0.0, 0.0, false)
+			
+	# you bowap bubbles
+	if false:
+		a1 += t*0.025
+		if a1 > 360:
+			a1 -= 360
+		if t % 6 == 0:
+			create_bullet(22, 0, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(50,0), range(0, 360, 36), [4.0], a1, 0.0, 0.0, 0.0, false)
+		#	create_bullet(4, 0, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(50,0), range(0, 360, 30), [4.0], -a1, 0.0, 0.0, 0.0, false)
+			
+	# kogasanon
+	if false:
+		if t % 300 == 0:
+			a1 = randf() * 360
+		if t % 600 < 300:
+			a1 += 0.03
+		else:
+			a1 -= 0.03
+		if t % 3 == 0 && t % 300 < 270:
+			create_bullet(3, 4, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(50,0), range(0, 360, 4), [16.0], a1, 0.0, 0.0, 0.0, false)
+
+	# midirain
+	if false:
+		if t % 2 == 0:
+			var x = randf()*Constants.FIELD_SIZE.x
+			for y in range(-80, 0, 5):
+				create_bullet(4, 6, Vector2(x, y), Vector2(), [0], [9], 90.0, 0.0, 0.0, 0.0, false)
+		if t % 12 == 120:
+			create_bullet(10, 2, Vector2(Constants.FIELD_SIZE.x*randf(), -20), Vector2(), [0], [12], 0.0, 0.0, 0.0, 0.02, true)
+			
+	
+	# yoki paragraph
+	if false:
+		if t % 5 == 0:
+			create_bullet(1, 2, player.position, Vector2(-200,0), range(45,405,90), [3], 0*rad2deg((Constants.FIELD_SIZE*0.5).angle_to_point(player.position)), 0.0, 0.0, 0.00, false)
+	
+	# nue
+	if false:
+		var angle = (t)/6.0
+		var c = 2
+		if (t % 60 < 30) && (t % 6 == 0):
+			if t % 240 >= 120:
+				angle = 180-angle
+				c = 6
+			for i in range(0,360,24):
+				create_bullet(6, c, Constants.FIELD_SIZE*0.5 + Vector2(0,-200) + Vector2(200,0).rotated(deg2rad(i+angle)), Vector2(0,0), range(0,360,72), [3], i+angle, 0.0, 0.0, 0.00, false)
+	
+
+	
+	
+	# HFW
+	if false:
+		if t % 300 == 0:
+			a1 = randf() * 360
+		if t % 15 == 0 && t % 300 < 270:
+			if t % 600 < 300:
+				a1 += 182.7
+			else:
+				a1 -= 182.7
+			create_bullet(4, (t/15)%14+1, Constants.FIELD_SIZE / 2 + Vector2(0, -200), Vector2(100,0), range(0, 360, 5), [3.0], a1, 0.0, 0.0, 0.0, false)
+
+	# lunatic september  but bad
+	if false:
+		if t % 120 == 0:
+			var offset = randf()*360.0
+			for i in range(0,360,20):
+				create_bullet(3, (t/120)%14+1, Constants.FIELD_SIZE / 2 + Vector2(0, -200)+Vector2(100,0).rotated(i + offset), Vector2(20,0), range(0, 360, 10), [2.0], offset+i, 0.0, 0.0, 0.0, false)
+
+	if false:
+		if t % 10 == 0:
+			a1 = fmod(a1 + t*0.01, 1.0)
+			#a1 = fmod(a1 + 0.1, 1.0)
+			var split_x = 6
+			for i in range(split_x):
+				create_bullet(4, 2, Vector2((768 / split_x) * (i + a1), Constants.FIELD_SIZE.y+30), Vector2(0,0), [0], [2.0], -90.0, 0.0, 0.0, 0, false)
+			for i in range(1,split_x + 1):
+				create_bullet(4, 6, Vector2((768 / split_x) * (i - a1), -30), Vector2(0,0), [0], [2.0], 90.0, 0.0, 0.0, 0, false)
+
+	# walls closing in
+	if false:
+		if t % 240 == 0:
+			#a1 = fmod(a1 + t*0.001, 1.0)
+			#a1 = fmod(a1 + 0.1, 1.0)
+			var split_x = 23
+			var split_y = 26
+			if t % 300 < 300:#240:
+				a1 = 0#randf()
+				for i in range(split_x):
+					create_bullet(3, 1, Vector2((768.0 / split_x) * (i + a1), Constants.FIELD_SIZE.y+30), Vector2(0,0), [0], [.5], -90.0, 0.0, 0.0, 0, false)
+			if (t+75) % 300 < 300:#240:
+				a1 = 0.5# randf()
+				for i in range(split_y):
+					create_bullet(3, 1, Vector2(-30, (Constants.FIELD_SIZE.y / split_y) * (i + a1)), Vector2(0,0), [0], [.5], 0.0, 0.0, 0.0, 0, false)
+				
+			if (t+150+75) % 300 < 300:#240:	
+				a1 = 0#randf()
+				for i in range(1, split_y + 1):
+					create_bullet(3, 1, Vector2(Constants.FIELD_SIZE.x + 30, (Constants.FIELD_SIZE.y / split_y) * (i - a1)), Vector2(0,0), [0], [.5], 180.0, 0.0, 0.0, 0, false)
+	
+			if (t+150) % 300 < 300:#240:	
+				a1 = 0.5# randf()
+				for i in range(1,split_x + 1):
+					create_bullet(3, 1, Vector2((768.0 / split_x) * (i - a1), -30), Vector2(0,0), [0], [.5], 90.0, 0.0, 0.0, 0, false)
+	if false:
+		if t % 12 == 0:
+			create_bullet(8,5, Vector2(768.0 * randf(), Constants.FIELD_SIZE.y+30), Vector2(0,0), [0], [1], 0.0, 0.0, 0.0, 0, true)
+			create_bullet(8,5, Vector2(768.0 * randf(), -30), Vector2(0,0), [0], [1], 0.0, 0.0, 0.0, 0, true)
+			create_bullet(8,5, Vector2(Constants.FIELD_SIZE.x+30,Constants.FIELD_SIZE.y * randf()), Vector2(0,0), [0], [1], 0.0, 0.0, 0.0, 0, true)
+			create_bullet(8,5, Vector2(-30,Constants.FIELD_SIZE.y * randf()), Vector2(0,0), [0], [1], 0.0, 0.0, 0.0, 0, true)
+		
+	# LLS
+	if false:	
+		a1 = sin(t*0.004)*360
+		#a1 = t * 1
+		if t % 2 == 0:
+			create_bullet(20,2, Constants.FIELD_SIZE * 0.5, Vector2(-300,20), range(0,360,72), [5], a1, 0.0, 0.0, 0, false)
+		if t % 2 == 0:
+			if cos(t*0.004 - 0.2)>0.2 || cos(t*0.004 - 0.2)<-0.4:
+				create_bullet(20,2, Constants.FIELD_SIZE * 0.5, Vector2(-20,-300), range(36,360,72), [5], a1+90, 0.0, 0.0, 0, false)
+			if (cos(t*0.004 - 0.2)<-0.2 || cos(t*0.004 - 0.2)>0.4):
+				create_bullet(20,2, Constants.FIELD_SIZE * 0.5, Vector2(20,300), range(0,360,72), [5], a1+90, 0.0, 0.0, 0, false)
+		if t % 150 == 0 && t > 300:
+			create_bullet(18,2, Constants.FIELD_SIZE * 0.5, Vector2(0,0), range(0,360,45), [2], randf()*0.0, 0.0, 0.0, 0.002, true)
+			create_bullet(18,2, Constants.FIELD_SIZE * 0.5, Vector2(0,0), range(0,360,45), [2], randf()*0.0, 0.0, 0.0, -0.002, true)
+			create_bullet(18,2, Constants.FIELD_SIZE * 0.5, Vector2(0,0), range(0,360,45), [2], randf()*0.0, 0.0, 0.0, 0.001, true)
+			create_bullet(18,2, Constants.FIELD_SIZE * 0.5, Vector2(0,0), range(0,360,45), [2], randf()*0.0, 0.0, 0.0, -0.001, true)
+			create_bullet(18,2, Constants.FIELD_SIZE * 0.5, Vector2(0,0), range(0,360,45), [2], randf()*0.0, 0.0, 0.0, 0, true)
+		if t == 0:
+			create_bullet(18,2, Constants.FIELD_SIZE * 0.5, Vector2(0,0), range(0,360,45), [2], randf()*0.0, 0.0, 0.0, 0.05)
+	
+	# Hell rain
+	if false:
+		if t % 2 == 0:
+			var type = 3 if randi() % 3 == 0 else 4
+			create_bullet(type, 6, Vector2(-10.0, Constants.FIELD_SIZE.y * randf()), Vector2(0,0), [0], [10], 45.0, 5.0, 0.0, 0.0)
+			create_bullet(type,6, Vector2(Constants.FIELD_SIZE.x * randf(), -10.0), Vector2(0,0), [0], [10], 45.0, 5.0, 0.0, 0.0)
+	
+	
+
+	
+	# rng maze
+	
+	if false:
+		if t == 0:
+			a2 = 60
+			a = Constants.FIELD_SIZE.x * 0.5
+		a1 += 1
+		if a1 >= a2:
+			a1 -= a2
+			a2 = max(30, a2 - 1)
+			
+			var ran = 100
+			var x = a - 50
+			if x < 30:
+				ran -= (30 - x)
+				x = 30
+			elif x + 100 > Constants.FIELD_SIZE.x - 30:
+				ran -= x + 100 - (Constants.FIELD_SIZE.x - 30)
+			
+			var skew = ((Constants.FIELD_SIZE.x * 0.5) - a)*0.1
+			
+			a = x + ran * randf() + skew
+			
+			for i in range(a-25, -10, -10):
+				create_bullet(9,1, Vector2(i, -10.0), Vector2(0,0), [0], [2], 90.0, 0.0, 0.0, 0.0)
+			for i in range(a+25, Constants.FIELD_SIZE.x+10, 10):
+				create_bullet(9,1, Vector2(i, -10.0), Vector2(0,0), [0], [2], 90.0, 0.0, 0.0, 0.0)
+				
+	
+	
+	if false:
+		a1 += t *0.03
+		if t % 8 == 0:
+			for i in range(30):	
+				var angle = TAU * i / 30.0
+				create_bullet(19,1, Constants.FIELD_SIZE * 0.5 + Vector2(cos(angle) * 150,sin(angle) * 50).rotated(sin(t * .006)*PI*0.5) + Vector2(0,-200), Vector2(0,0), [0], [8.0], rad2deg(angle+sin(t * .006)*PI*0.5), 0.0, 0.0, 0.00)
+		if t % 15 == 0:
+			create_bullet(19,3, Constants.FIELD_SIZE * 0.5 + Vector2(0, -200), Vector2(0,0), [0], [4], randf()*0.0, 0.0, 0.0, 0.0, true)
+	
+	
+	if false:
+		if t % 4 == 0:
+			create_bullet(19,1, Constants.FIELD_SIZE * 0.5 + Vector2(0, -200), Vector2(0,0), range(10,351,5), [15], randf()*0.0, 0.0, 0.0, 0.0, true)
+		elif t % 4 == 2:
+			create_bullet(19,1, Constants.FIELD_SIZE * 0.5 + Vector2(0, -200), Vector2(0,0), range(10,351,5), [15], 2.5, 0.0, 0.0, 0.0, true)
+		if t % 10 == 0:
+			create_bullet(19,3, Constants.FIELD_SIZE * 0.5 + Vector2(0, -200), Vector2(0,0), [0], [12], randf()*0.0, 0.0, 0.0, 0.0, true)
+	#giap
+	if false:
+		if t % 600 < 480:
+			if t % 1 == 0:
+				#a1 = randf() * 36
+				for i in range(5):
+					create_bullet(9,5, Constants.FIELD_SIZE * 0.5 + Vector2(400, 0).rotated(randf()*TAU), Vector2(0,0), [0], [5], 8+(t % 600)/30.0, 0.0, 0.0, -0.0, false, Constants.FIELD_SIZE * 0.5)
+			
+		if t % 600 > 50 || t % 600 < 300:
+			if t % 20 == 0:
+				create_bullet(4,5, Constants.FIELD_SIZE * 0.5 + Vector2(400, 0).rotated(randf()*TAU), Vector2(0,0), [0], [1], 0.0, 2, 0.0, -0.0, false, Constants.FIELD_SIZE * 0.5)
+			
+	#PWG
+	if false:
+		for i in range(1):
+			create_bullet(4,14, Vector2(Constants.FIELD_SIZE.x * randf(), -30), Vector2(0,0), [0], [6], 90.0, 15, 0.0, -0.0, false)
+
+	if false:
+		if t % 10 == 0:
+			create_bullet(3,4, Constants.FIELD_SIZE * 0.5, Vector2(0,0), range(0,360,8), [2], randf()*0.0, 0.0, 0.0, 0, true)
+		elif t % 10 == 5:
+			create_bullet(3,4, Constants.FIELD_SIZE * 0.5, Vector2(0,0), range(0,360, 8), [2], randf()*0.0 + 4, 0.0, 0.0, 0, true)
+	
+	#rat
+	if false:
+		if t % 30 == 0:
+			create_bullet(20,3, Constants.FIELD_SIZE * 0.5, Vector2(0,0), [0.0], [0.1,0.2,0.3,0.4,0.5,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], randf()*0.0, 0.0, 0.0, 0, true)
+			
+	# marine
+	if false:
+		if t % 3 == 0:
+			p = Vector2(300,0).rotated(t*0.01)
+			create_bullet(1, [2,4,6,8,10,13][(t/3)%6], Constants.FIELD_SIZE * 0.5 + p, Vector2(0,0), [0], [4], 0, 0, 0.0, 0, true)
+			
+	if false:
+		var type = 3 if randi() % 3 == 0 else 4
+		match t % 4:
+			0:
+				create_bullet(type, 5, Vector2(0.0, Constants.FIELD_SIZE.y+30), Vector2(0,0), [0], [8.5], -90.0, 25, 0.0, 0, false)
+			1:
+				create_bullet(type, 5, Vector2(768.0 * 0.25, Constants.FIELD_SIZE.y+30), Vector2(0,0), [0], [8.5], -90.0, 25, 0.0, 0, false)
+			2:
+				create_bullet(type, 5, Vector2(768.0 * 0.75, Constants.FIELD_SIZE.y+30), Vector2(0,0), [0], [8.5], -90.0, 25, 0.0, 0, false)
+			3:
+				create_bullet(type, 5, Vector2(768.0, Constants.FIELD_SIZE.y+30), Vector2(0,0), [0], [8.5], -90.0, 25, 0.0, 0, false)
+	
+	# idola diablous
+	if false:
+		if t % 4 == 0:
+				create_bullet(5, 2, Constants.FIELD_SIZE * 0.5 +Vector2(0, -200)+ Vector2(200, 0).rotated(PI+t*0.03), Vector2(0,0), range(0,360, 45), [4], rad2deg(t*0.03+PI), .0, 0.0, 0, false)
+		elif t % 4 == 40:
+				create_bullet(5, 6, Constants.FIELD_SIZE * 0.5 +Vector2(0, -200)+ Vector2(100, 0).rotated(PI*0.5+t*0.02), Vector2(0,0), range(0,360, 45), [4], rad2deg(PI*0.5+t*0.02), 0.0, 0.0, 0, false)
+				create_bullet(5, 6, Constants.FIELD_SIZE * 0.5 +Vector2(0, -200)+ Vector2(100, 0).rotated(PI*1.5+t*0.02), Vector2(0,0), range(0,360, 45), [4], rad2deg(PI*1.5+t*0.02), .0, 0.0, 0, false)
+	
+	# geometric creature
+	if false:
+		if t % 10 == 0:
+			create_bullet(5, 2, Constants.FIELD_SIZE * 0.5 +Vector2(0, -200), Vector2(0,0), range(3,363, 6), [3], sin(0.1*(t)+PI*0.25)*3, .0, 0.0, 0, false)
+	
+	
+	# saki
+	if false:
+		if t % 120 == 0:
+			a1 = 360 * randf()
+			a1 = player.position
+		if t % 120 == 100:
+			a2 = 360 * randf()
+		if t % 120 < 60:
+			if t % 4 == 0:
+				create_bullet(20, 1, Constants.FIELD_SIZE * 0.5 + Vector2(0, -200), Vector2(0,-9), range(0,360, 12), [18], 0, 3.0, 0.0, 0, false, a1)
+				create_bullet(20, 1, Constants.FIELD_SIZE * 0.5 + Vector2(0, -200), Vector2(0,9), range(0,360, 12), [18], 0, 3.0, 0.0, 0, false, a1)
+		if t % 120 > 100 || t % 120 < 40:
+			if t % 2 == 0:
+				if (t+140) % 240 < 120:
+					a2 -= 10.4
+				else:
+					a2 += 10.4
+				create_bullet(1, 5, Constants.FIELD_SIZE * 0.5 + Vector2(0, -200), Vector2(0,0), range(0,360, 30), [5], a2 , 0.0, 0.0, 0, false)
+		if t % 1 == 0:
+			create_bullet(1, 14, Constants.FIELD_SIZE * 0.5 + Vector2(0, -200), Vector2(0,2.5), [0], [5], t*PI*TAU, 10.0, 0.0, 0, false)
+		if t % 4 == 0:
+			create_bullet(16, 1, Constants.FIELD_SIZE * 0.5 + Vector2(0, -200), Vector2(0,0), [0], [7], t*TAU*TAU*PI, 60.0, 0.0, 0.1, false)
+		
+
+	# gold
+	if false:
+		if t % 1 == 0:
+			for i in range(3):
+				a1 += 1
+				var angle = a1 * 360.0 * ((1 + sqrt(5)) / 2 + 1)
+				create_bullet(1, 13, Constants.FIELD_SIZE * 0.5 + Vector2(0, -200) + Vector2(-i, 0).rotated(deg2rad(angle)), Vector2(0,0), [0], [4], angle, 0.0, 0.0, 0.0, false)
+			
+	# speen
+	if false:
+		if t % 120 == 120:
+			create_bullet(3, 0, Constants.FIELD_SIZE * 0.5 + Vector2(0, 0), Vector2(0,0), range(0,360, 30), [.5], 0.0, 360.0, 0.0, 0)
+		
+		a1 += 0.3 + max(0.16666, t * 0.0005)
+		if t % 2 == 0:
+			create_bullet(20, 3, Constants.FIELD_SIZE * 0.5 + Vector2(0, 0), Vector2(0,0), range(0,360, 180), [1,16], a1, 0.0, 0.0, 0)
+				
+	
+	
+	if false:
+		if t % 50 == 0:
+			#a1 = fmod(a1 + t*0.005, 1.0)
+			#a1 = fmod(a1 + 1, 1.0)
+			var split_x = 5
+			var split_y = 5
+			for i in range(split_x):
+				create_bullet(3, 2, Vector2((768 / split_x) * (i + a1), Constants.FIELD_SIZE.y+30), Vector2(0,0), [0], [1.5], -90.0, 0.0, 0.0, 0, false)
+			for i in range(1,split_x + 1):
+				create_bullet(3, 6, Vector2((768 / split_x) * (i - a1), -30), Vector2(0,0), [0], [1.5], 90.0, 0.0, 0.0, 0, false)
+			for i in range(split_y):
+				create_bullet(3, 4, Vector2(-30, (Constants.FIELD_SIZE.y / split_y) * (i + a1)), Vector2(0,0), [0], [1.5], 0.0, 0.0, 0.0, 0, false)
+			for i in range(1, split_y + 1):
+				create_bullet(3, 10, Vector2(Constants.FIELD_SIZE.x + 30, (Constants.FIELD_SIZE.y / split_y) * (i - a1)), Vector2(0,0), [0], [1.5], 180.0, 0.0, 0.0, 0, false)
+			
+		if t % 60 == 60:
+			create_bullet(3, 14, Vector2(0, 0), Vector2(0,0), [0], [10.0], 0.0, 0.0, 0.0, 0, true)
+
+
+		if t % 80 == 0:
+			#a += GOLDEN_ANGLE
+			p = player.position
+			a2 = floor((t % 320) / 80)
+			if a2 == 0:
+				a2 = Vector2(0,0)
+			elif a2 == 1:
+				a2 = Vector2(Constants.FIELD_SIZE.x,0)
+			elif a2 == 2:
+				a2 = Vector2(Constants.FIELD_SIZE.x,Constants.FIELD_SIZE.y)
+			elif a2 == 3:
+				a2 = Vector2(0,Constants.FIELD_SIZE.y)
+		if t % 80 < 25:
+			if t % 2 == 0:
+				create_bullet(8, 6, a2, Vector2(0,0), range(-(t % 80) * 0.5, (t % 80) * 0.5 + 1, 2), [4], 0.0, 0.0, 0.0, 0.0, false, p)
+		
+	
+	if false:
+		if t % 40 == 0:
+			#a1 += t
+			a1 = fmod(a1 + t*0.5, 1.0)
+			
+			if t % 60 < 60:
+				var a = 8
+				for i in range(a):
+					create_bullet(3, 2, Vector2((768 / a) * i + a1 * a, Constants.FIELD_SIZE.y+30), Vector2(0,0), [0], [3.0], -90.0, 0.0, 0.0, 0, false)
+					#create_bullet(3, 2, Vector2((768 / a) * i + a1 * a, Constants.FIELD_SIZE.y+30), Vector2(0,0), [0], [3.0], -90.0, 0.0, 0.0, 0, false)
+
+				for i in range(1,a+1):
+					create_bullet(3, 6, Vector2((768 / a) * i - a1 * a, -30), Vector2(0,0), [0], [3.0], 90.0, 0.0, 0.0, 0, false)
+
+
+	if false:
+		if t % 2 == 0:
+			a1 += t * 0.05 
+			create_bullet(4, 0, Vector2(768*0.5, 200), Vector2(0,0), range(0,360, 45), [4], a1, 0.0, 0.0, 0, false)
+		
+	# spin 2.0
+	
+	if false:
+		if t % 5 == 0:
+			a1 += 15
+			for i in range(0,360, 60):
+				create_bullet(3, 0, Constants.FIELD_SIZE *0.5+ Vector2(-400, -10).rotated(deg2rad(a1+i)), Vector2(0,0), [0], [4], a1+i, 0.0, 0.0, 0, true)
+			
+
+
+	if false:
+		if t % 4 == 0:
+			var b = create_bullet(randi() % 10 + 1, randi() % 16, Vector2(768 / 2.0, Constants.FIELD_SIZE.y+30), Vector2(0,0), [-90], [2], 0.0, 3.0, 0.0, randi()*.001-.0005)
+			if b:
+				b[0].variables.append(TAU * randf())

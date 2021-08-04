@@ -1,0 +1,60 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://bullet/itemtext.png" type="Texture" id=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform sampler2D text_texture;
+uniform float number;
+uniform float fade;
+uniform float max_value;
+
+const float inv_log10 = 1.0 / log(10.0);
+const float base = 10.0;
+const float one = 1.0;
+
+float log10(float x) {
+	return log(x) * inv_log10;
+}
+
+void vertex() {
+	float digits = floor(log10(number))+1.0;
+	VERTEX.x *= digits;
+	VERTEX.y -= fade * 20.0;
+}
+
+float get_digit_value(float digit) {
+	return floor(mod(number / pow(10.0, digit), base));
+}
+
+
+void fragment() {
+	float digits = floor(log10(number))+1.0;
+	float digit = floor((1.0 - UV.x) * digits);
+	
+	vec2 uv = vec2(get_digit_value(digit) * 0.1, 0.0) + vec2(0.1 * mod(UV.x * digits, one), 1.0 * UV.y);
+	vec4 tex = texture(text_texture, uv);
+	COLOR = tex;
+	COLOR.b -= max_value;
+	COLOR.a *= (1.0 - fade);
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/number = 1.67772e+07
+shader_param/fade = 0.0
+shader_param/max_value = 1.0
+shader_param/text_texture = ExtResource( 2 )
+
+[node name="Sprite" type="ColorRect"]
+material = SubResource( 2 )
+margin_left = -20.2271
+margin_top = -14.2339
+margin_right = -10.2271
+margin_bottom = 0.766083
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Node2D" type="Node2D" parent="."]

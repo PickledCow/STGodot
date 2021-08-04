@@ -1,0 +1,22 @@
+[gd_resource type="Environment" format=2]
+
+[resource]
+background_mode = 1
+background_color = Color( 0.254902, 0, 0.129412, 1 )
+ambient_light_color = Color( 0.435294, 0, 0.152941, 1 )
+fog_enabled = true
+fog_color = Color( 2.05, 1.29, 0.58, 1 )
+fog_depth_begin = 190.0
+fog_depth_end = 210.0
+fog_depth_curve = 0.90125
+fog_transmit_curve = 0.707107
+fog_height_enabled = true
+fog_height_min = 0.0
+fog_height_max = -50.0
+tonemap_mode = 3
+tonemap_exposure = 0.9
+tonemap_white = 1.17
+glow_enabled = true
+glow_intensity = 0.25
+glow_blend_mode = 0
+glow_bicubic_upscale = true
