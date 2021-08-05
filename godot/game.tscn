@@ -470,7 +470,7 @@ use_filter = true
 font_data = ExtResource( 5 )
 
 [sub_resource type="DynamicFont" id=51]
-size = 48
+size = 36
 outline_size = 4
 outline_color = Color( 0.592157, 0, 0.627451, 1 )
 font_data = ExtResource( 17 )
@@ -1865,8 +1865,8 @@ rect_pivot_offset = Vector2( 174, 18 )
 custom_fonts/normal_font = SubResource( 51 )
 custom_colors/default_color = Color( 1, 1, 1, 1 )
 bbcode_enabled = true
-bbcode_text = "[center]EASY"
-text = "EASY"
+bbcode_text = "[center]OVERWHELMINGLY EASY"
+text = "OVERWHELMINGLY EASY"
 scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false

@@ -1484,10 +1484,10 @@ func waterdance():
 	if u >= 0:
 		var aim = sin(u * 0.02) * 24
 		
-		if u % 3 == 0:
-			for i in range(-3, 4):
+		if u % 4 == 0:
+			for i in range(-5, 6):
 				var angle = aim + i * 8 - 90 + rand_range(-5, 5) * 0
-				var b = Bullets.create_bullet(position, rand_range(10,12), angle, 0.0, 0.0, Constants.BULLET_TYPE.FIREBALL, Constants.COLOURS_LARGE.BLUE, true, 0.0, 0.0, BLEND_MODE_ADD)
+				var b = Bullets.create_bullet(position, rand_range(10,10.5), angle, 0.0, 0.0, Constants.BULLET_TYPE.FIREBALL, Constants.COLOURS_LARGE.BLUE, true, 0.0, 0.0, BLEND_MODE_ADD)
 				Bullets.set_gravity(b, Vector2(0, 0.2), Vector2(0, 10))
 
 func super_laser_piss():
@@ -1534,7 +1534,7 @@ func shapeattack():
 		if u % 30 == 0:
 			root.shoot1.play()
 			var pos = position
-			var speed = 5
+			var speed = 4.75
 			var offset = a
 			var sides = 3
 			var density = 29
@@ -1549,7 +1549,7 @@ func shapeattack():
 			
 			a += 30 * lr
 			
-		if (u + 1) % 300 == 0:
+		if (u + 1) % 300 == 30000:
 			var x = rand_range( max(Constants.FIELD_SIZE.x*0.3, position.x - 200 * (position.x / Constants.FIELD_SIZE.x)), min(Constants.FIELD_SIZE.x*0.7, position.x + 200 * (1 - position.x / Constants.FIELD_SIZE.x))  )
 			dest = Vector2(x, position.y	)
 
@@ -1687,7 +1687,7 @@ func firesaber2():
 func incinerate():
 	var u = t - 120
 	if u >= 0:
-		if u % 20 < 10:
+		if u % 40 < 10:
 			for _i in 30:
 				var p = position #Vector2(rand_range(-64, 1064), -32)
 				var a = rand_range(-60, 60) - 90 #rad2deg( root.player.position.angle_to_point(p) ) + rand_range(-1, 1) * 5
@@ -1696,7 +1696,7 @@ func incinerate():
 				var b = Bullets.create_bullet(p, s, a, -s / 60.0, 0.0, Constants.BULLET_TYPE.FIREBALL, Constants.COLOURS_LARGE.RED, true, 0.0, 0.0, BLEND_MODE_ADD)
 				Bullets.queue_update_bullet(b, 60, null, null, null, 0.5, s2)
 				Bullets.queue_aim_at_player(b, 60);
-				#Bullets.queue_offset_angle(b, 60, rand_range(-8, 8))
+				Bullets.queue_offset_angle(b, 60, rand_range(-8, 8))
 
 func scaline():
 	var u = t - 120
@@ -1723,7 +1723,7 @@ func scaline():
 func kana():
 	var CYCLE_TIME = 300
 	var u = t - 60
-	var difficulty = 0
+	var difficulty = 3
 	var arms = [3, 5, 7, 7]
 	var step = [0.9, 0.7, 0.8, 1]
 	var step2 = 0.2 if difficulty == 3 else 0.0666
@@ -1758,6 +1758,30 @@ func bhe():
 			for i in 21:
 				Bullets.create_bullet(position, 5, a + i * 360 / 21, 0.0, 0.0, Constants.BULLET_TYPE.ARROWHEAD, COLOURS[i/3], true, 0.0, 0.0, BLEND_MODE_ADD)
 
+func godot_piece(pos, speed, ang):
+	for i in range(-7, 8):
+		var p = pos + Vector2(64, i*8.5).rotated(deg2rad(ang))
+		var b = Bullets.create_bullet(p, speed, ang, 0.0, 0.0, Constants.BULLET_TYPE.BALL, Constants.COLOURS.BLUE, true, 0.0, 0.0, BLEND_MODE_ADD)
+		#b.bounce_count = 1
+	for i in range(9):
+		var p = pos + Vector2(64-i*64.0/6.1, 59.5+i*3.1).rotated(deg2rad(ang))
+		var b = Bullets.create_bullet(p, speed, ang, 0.0, 0.0, Constants.BULLET_TYPE.BALL, Constants.COLOURS.BLUE, true, 0.0, 0.0, BLEND_MODE_ADD)
+		#b.bounce_count = 1
+		p = pos + Vector2(64-i*64.0/6.0, -59.5-i*3.1).rotated(deg2rad(ang))
+		b = Bullets.create_bullet(p, speed, ang, 0.0, 0.0, Constants.BULLET_TYPE.BALL, Constants.COLOURS.BLUE, true, 0.0, 0.0, BLEND_MODE_ADD)
+		#b.bounce_count = 1
+		
+
+func godot():
+	var u = t - 120
+	if u >= 0:
+		if u % 90 == 0:
+			a = randf()*360.0
+			for i in 17:
+				godot_piece(position, 3, a + i*360/17)
+		if u % 90 == 24:
+			for i in 17:
+				godot_piece(position, -3, a + (i)*360/17)
 
 var fade_radius = 0
 var FADE_RAD_MAX = 1000
@@ -1784,6 +1808,7 @@ func _process(delta):
 	#rainbarf()
 	#ds()
 	if phase == 0:
+		#godot()
 		#bhe()
 		#kana()
 		#scaline()
@@ -1792,10 +1817,10 @@ func _process(delta):
 		#firesaber()
 		#firesaber2()
 		#funny_junko2()
-		#shapeattack2()
+		#shapeattack3()
 		#shapeattack4()
 		#current()
-		#super_laser_piss()
+		super_laser_piss()
 		#tss2()
 		#waterdance()
 		#firewily()
