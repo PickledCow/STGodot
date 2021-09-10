@@ -1,0 +1,145 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://effect/unusual/lightning.gd" type="Script" id=1]
+[ext_resource path="res://dummy.png" type="Texture" id=2]
+[ext_resource path="res://bg/Smoke30Frames.png" type="Texture" id=3]
+[ext_resource path="res://bg/trace_01.png" type="Texture" id=4]
+[ext_resource path="res://bullet/add.tres" type="Material" id=5]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+particles_animation = true
+particles_anim_h_frames = 6
+particles_anim_v_frames = 5
+particles_anim_loop = true
+
+[sub_resource type="ParticlesMaterial" id=2]
+emission_shape = 1
+emission_sphere_radius = 32.0
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 360.0
+angle_random = 1.0
+scale = 0.1
+scale_random = 0.16
+color = Color( 1, 1, 1, 0.188235 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+emission_shape = 1
+emission_sphere_radius = 32.0
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 360.0
+angle_random = 1.0
+scale = 0.1
+scale_random = 0.16
+color = Color( 1, 1, 1, 0.188235 )
+
+[sub_resource type="ParticlesMaterial" id=4]
+emission_shape = 1
+emission_sphere_radius = 24.0
+flag_disable_z = true
+direction = Vector3( 0, 1, 0 )
+spread = 0.0
+initial_velocity = 500.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 180.0
+scale = 0.1
+
+[sub_resource type="Shader" id=5]
+code = "shader_type canvas_item;
+
+float plot(vec2 st, float pct,float half_width){
+  return  smoothstep( pct-half_width, pct, st.y) -
+          smoothstep( pct, pct+half_width, st.y);
+}
+
+float rand(vec2 n) {
+    return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
+}
+
+float noise(vec2 n) {
+    const vec2 d = vec2(0.0, 1.0);
+    vec2 b = floor(n), f = smoothstep(vec2(0.0), vec2(1.0), fract(n));
+    return mix(mix(rand(b), rand(b + d.yx), f.x), mix(rand(b + d.xy), rand(b + d.yy), f.x), f.y);
+}
+
+float fbm(vec2 n) {
+    float total = 0.0, amplitude = 1.0;
+    for (int i = 0; i < 7; i++) {
+        total += noise(n) * amplitude;
+        n += n;
+        amplitude *= 0.5;
+    }
+    return total;
+}
+
+void fragment(){
+	vec2 uv = UV;
+	vec4 color = vec4(0.0,0.0,0.0,0.0);
+	vec2 t;
+	float y;
+	float pct;
+	float buffer = plot(uv,y,0.08);
+	color += pct * vec4(1.0,1.0,1.0,1.0);
+	color += buffer * vec4(0.2,0,0.8,0.0);
+	
+	int lightning_number = 1;
+	for(int i = 0; i < lightning_number; i++){
+		t = uv * vec2(2.0,1.0) - TIME*3.0; // + vec2(float(i))
+		y = fbm(t)*0.5;
+		pct = plot(uv,y,0.1);
+		buffer = plot(uv,y,0.08);
+		color += pct * vec4(1.0,1.0,1.0,1.0);
+		color += buffer * vec4(0.2,0,0.8,0.0);
+	}
+	
+	COLOR = color;
+}"
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+
+[node name="thundercloud" type="Particles2D"]
+material = SubResource( 1 )
+position = Vector2( 0, -128 )
+z_index = 1
+amount = 512
+lifetime = 0.5
+process_material = SubResource( 2 )
+texture = ExtResource( 3 )
+
+[node name="Particles2D" type="Particles2D" parent="."]
+material = SubResource( 1 )
+amount = 256
+lifetime = 0.5
+local_coords = false
+process_material = SubResource( 3 )
+texture = ExtResource( 3 )
+
+[node name="rain" type="Particles2D" parent="."]
+show_behind_parent = true
+material = ExtResource( 5 )
+amount = 12
+lifetime = 0.2
+process_material = SubResource( 4 )
+texture = ExtResource( 4 )
+
+[node name="lightning" type="Sprite" parent="."]
+modulate = Color( 1.5, 1.5, 1.5, 1 )
+show_behind_parent = true
+material = SubResource( 6 )
+position = Vector2( 0, 60 )
+rotation = 1.5708
+scale = Vector2( 64, 40 )
+z_index = -2
+texture = ExtResource( 2 )
+script = ExtResource( 1 )

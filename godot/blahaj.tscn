@@ -1,18 +1,292 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://testboss.gd" type="Script" id=1]
-[ext_resource path="res://godette_body.png" type="Texture" id=2]
+[ext_resource path="res://enemy/cow.png" type="Texture" id=2]
 [ext_resource path="res://healthbarunder.png" type="Texture" id=3]
 [ext_resource path="res://healthbarprogress.png" type="Texture" id=4]
 [ext_resource path="res://se/eat02.wav" type="AudioStream" id=5]
 [ext_resource path="res://bg/bg.png" type="Texture" id=6]
+[ext_resource path="res://dummy.png" type="Texture" id=7]
+[ext_resource path="res://bullet/add.tres" type="Material" id=9]
+[ext_resource path="res://enemy/cow_water.png" type="Texture" id=10]
+
+[sub_resource type="Shader" id=5]
+code = "shader_type canvas_item;
+
+uniform float frequency = 15;
+uniform float depth = 0.005;
+uniform float speed = 2.0;
+uniform float distort = 0.1;
+
+void fragment() {
+	float dist = sqrt(pow(UV.x - 0.5, 2.0) + pow(UV.y - 0.5, 2.0)) * 2.0;
+	float intensity = clamp(3.0 - dist*4.0, 0.0, 1.0);
+	
+	float uv_x = SCREEN_UV.x;
+	
+	vec2 uvr = SCREEN_UV;
+	uvr.x += sin(uvr.y * frequency + TIME * speed) * depth * intensity;
+	uvr.x = clamp(uvr.x, 0.0, 1.0);
+	uvr.y += cos(uv_x * frequency + TIME * speed) * depth * intensity;
+	uvr.y = clamp(uvr.y, 0.0, 1.0);
+	vec2 uvg = SCREEN_UV;
+	uvg.x += sin(uvg.y * frequency + (TIME+distort) * speed) * depth * intensity;
+	uvg.x = clamp(uvg.x, 0.0, 1.0);
+	uvg.y += cos(uv_x * frequency + (TIME+distort) * speed) * depth * intensity;
+	uvg.y = clamp(uvg.y, 0.0, 1.0);
+	vec2 uvb = SCREEN_UV;
+	uvb.x += sin(uvb.y * frequency + (TIME-distort) * speed) * depth * intensity;
+	uvb.x = clamp(uvb.x, 0.0, 1.0);
+	uvb.y += cos(uv_x * frequency + (TIME-distort) * speed) * depth * intensity;
+	uvb.y = clamp(uvb.y, 0.0, 1.0);
+	
+	vec3 c = vec3(textureLod(SCREEN_TEXTURE, uvr, 0.0).r, textureLod(SCREEN_TEXTURE, uvg, 0.0).g - 0.1 * intensity, textureLod(SCREEN_TEXTURE, uvb, 0.0).b - 0.025 * intensity);
+
+	COLOR.rgb = c;
+}"
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+shader_param/frequency = 12.0
+shader_param/depth = 0.015
+shader_param/speed = 4.0
+shader_param/distort = 0.1
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 32, 72 )
+extents = Vector2( 64, 72 )
+
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+
+uniform float whitening = 0.0;
+
+void fragment() {
+	vec4 c = texture(TEXTURE, UV);
+	COLOR.rgb = c.rgb + vec3(whitening);
+	COLOR.a = c.a;
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+shader_param/whitening = 0.0
+
+[sub_resource type="Animation" id=4]
+resource_name = "death"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:material:shader_param/whitening")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 5.9, 6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Explosion/beam1:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 0 ), Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Explosion/beam2:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.5, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 0 ), Vector2( 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Explosion/beam3:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.7, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 0 ), Vector2( 1, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Explosion/beam4:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.9, 1.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 0 ), Vector2( 1, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Explosion/beam5:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 1.1, 1.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 0 ), Vector2( 1, 1 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Explosion/beam6:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 1.3, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 0 ), Vector2( 1, 1 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Explosion/beam1:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.3, 6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Explosion/beam2:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.5, 6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Explosion/beam3:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 0.7, 6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Explosion/beam4:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 0.9, 6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Explosion/beam5:visible")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0, 1.1, 6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Explosion/beam6:visible")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0, 1.3, 6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Explosion/beam7:scale")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 1.5, 1.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 0 ), Vector2( 1, 1 ) ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("Explosion/beam7:visible")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0, 1.5, 6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("Explosion/beam8:scale")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 1.7, 1.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 0 ), Vector2( 1, 1 ) ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("Explosion/beam8:visible")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 0, 1.7, 6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
 
 [node name="aaaaaa" type="Node2D"]
 position = Vector2( 384, 268.8 )
 script = ExtResource( 1 )
+
+[node name="wave" type="Sprite" parent="."]
+material = SubResource( 6 )
+scale = Vector2( 1000, 1000 )
+z_index = -2
+texture = ExtResource( 7 )
 
 [node name="bg" type="Sprite" parent="."]
 visible = false
@@ -35,9 +309,65 @@ collision_mask = 0
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 0.2, 0.2 )
+material = SubResource( 3 )
+rotation = -0.139626
+scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 2 )
 region_rect = Rect2( 96, 0, 48, 64 )
+
+[node name="water" type="Sprite" parent="Sprite"]
+modulate = Color( 1, 1, 1, 0.6 )
+material = ExtResource( 9 )
+texture = ExtResource( 10 )
+
+[node name="Explosion" type="Node2D" parent="."]
+
+[node name="beam1" type="Polygon2D" parent="Explosion"]
+visible = false
+antialiased = true
+polygon = PoolVector2Array( 0, -10, 2000, -50, 2000, 50, 0, 10 )
+
+[node name="beam2" type="Polygon2D" parent="Explosion"]
+visible = false
+rotation = 0.637503
+antialiased = true
+polygon = PoolVector2Array( 0, -10, 2000, -50, 2000, 50, 0, 10 )
+
+[node name="beam3" type="Polygon2D" parent="Explosion"]
+visible = false
+rotation = -1.00543
+antialiased = true
+polygon = PoolVector2Array( 0, -10, 2000, -50, 2000, 50, 0, 10 )
+
+[node name="beam4" type="Polygon2D" parent="Explosion"]
+visible = false
+rotation = 1.98335
+antialiased = true
+polygon = PoolVector2Array( 0, -10, 2000, -50, 2000, 50, 0, 10 )
+
+[node name="beam5" type="Polygon2D" parent="Explosion"]
+visible = false
+rotation = 1.07129
+antialiased = true
+polygon = PoolVector2Array( 0, -10, 2000, -50, 2000, 50, 0, 10 )
+
+[node name="beam6" type="Polygon2D" parent="Explosion"]
+visible = false
+rotation = -2.69248
+antialiased = true
+polygon = PoolVector2Array( 0, -10, 2000, -50, 2000, 50, 0, 10 )
+
+[node name="beam7" type="Polygon2D" parent="Explosion"]
+visible = false
+rotation = 1.07129
+antialiased = true
+polygon = PoolVector2Array( 0, -10, 2000, -50, 2000, 50, 0, 10 )
+
+[node name="beam8" type="Polygon2D" parent="Explosion"]
+visible = false
+rotation = -2.69248
+antialiased = true
+polygon = PoolVector2Array( 0, -10, 2000, -50, 2000, 50, 0, 10 )
 
 [node name="Healthbar" type="TextureProgress" parent="."]
 margin_left = -128.0
@@ -56,3 +386,12 @@ __meta__ = {
 [node name="chomp" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 volume_db = -15.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/death = SubResource( 4 )
+
+[node name="icon" type="Sprite" parent="."]
+visible = false
+scale = Vector2( 500, 500 )
+z_index = -2
+texture = ExtResource( 7 )

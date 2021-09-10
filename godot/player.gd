@@ -11,6 +11,7 @@ onready var hitbox2 = get_node('focus2')
 onready var focus_animation = get_node("focusanimation")
 
 var facing = 1
+var moving = false
 
 var Shot = preload("res://player/shot.tscn")
 
@@ -32,7 +33,7 @@ var life_requirement = 3
 var bombs = 3
 var bomb_fragments = 0
 var bomb_requirement = 5
-var power = 1
+var power = 4
 var power_decimal = 0
 
 var speed = 9
@@ -68,7 +69,9 @@ onready var graze_particles = get_node("GrazeParticles")
 
 onready var death_effect = get_node("DeathEffect")
 
-onready var option_sprites = [get_node("option0"),get_node("option1"),get_node("option2"),get_node("option3")]
+onready var option_sprites = [get_node("options/option0"),get_node("options/option1"),get_node("options/option2"),get_node("options/option3")]
+
+var prev_pos = [Vector2(), Vector2(), Vector2(), Vector2()]
 
 var shooters_unfocus = []
 var shooters_focus = []
@@ -104,6 +107,9 @@ class Shooter:
 	
 
 func _ready():
+	for i in len(prev_pos):
+		prev_pos[i] = position
+	
 	death_effect.material.set_shader_param("radius", 0)
 	root = get_parent()
 	Globals.player = self
@@ -183,6 +189,7 @@ func check_collision():
 		hit()
 	if col[1] > 0:
 		graze()
+	graze_this_frame = col[1]
 	graze_piv_progress += col[1]
 	root.piv += 10 * (graze_piv_progress / 10)
 	graze_piv_progress -= 10 * (graze_piv_progress / 10)
@@ -234,8 +241,9 @@ func graze():
 func hit():
 	hurt_sound.play()
 	#Bullets.clear_screen_fade(position, 128, true)
-	deathbomb_timer = deathbomb_window
-	got_hit = true
+	if false:
+		deathbomb_timer = deathbomb_window
+		got_hit = true
 	$deathcircle.rotation = TAU * randf()
 	$deathcircle/AnimationPlayer.play("death1" if randi()%2==0 else "death2")
 	#dead = true
@@ -256,6 +264,8 @@ func move():
 	elif Input.is_action_pressed("up"):
 		move.y = -1
 	
+	moving = true if move.x else false
+	
 	if Input.is_action_pressed('focus'):
 		$focus.visible = true
 		$focus2.visible = true
@@ -271,6 +281,25 @@ func move():
 	
 	#position.y -= 1.5
 	#position.x =  Constants.FIELD_SIZE.x * 0.5 + sin(root.t * 0.01) * Constants.FIELD_SIZE.x * 0.45
+	
+	if false:
+		#focused = true
+		#$focus.visible = true
+		#$focus2.visible = true
+		var force = Vector2()
+		var wall_force = 0.000001
+		for b in Bullets.active_bullets:
+			var diff = (position - (b.position + b.direction * b.speed))
+			var length = diff.length_squared() - b.size
+			var dot = diff.normalized().dot(b.direction)
+			var weight = max(0, dot * b.speed) * 0 + 1
+			if length < 500*500:
+				force += weight * diff.normalized() / (length * length)
+			
+	#force.y *= 0.1
+		position += force.normalized() * speed
+	
+	
 	position.x = clamp(position.x, 18, Constants.FIELD_SIZE.x - 18)
 	position.y = clamp(position.y, 65, Constants.FIELD_SIZE.y - 32)
 
@@ -345,6 +374,7 @@ func shoot():
 					shot.sprite.material = add_material
 				
 func _process(delta):
+	var last_position = position
 	hitbox1.rotation += 2.0 * delta
 	hitbox2.rotation -= 2.0 * delta
 	
@@ -367,7 +397,7 @@ func _process(delta):
 		facing = 1
 		Sprite.frame = 4 + int(anim_frame) % 4
 	
-	Sprite.scale.x = facing * 2.0/3.0
+	Sprite.scale.x = facing * 0.75
 	
 	for i in 4:
 		option_sprites[i].visible = i <= power-1
@@ -385,11 +415,16 @@ func _process(delta):
 			option_interp = 0.0
 	death_effect.position = -position
 	death_effect.material.set_shader_param("position", position)
+	
 	if dead:
 		death_wave_radius += 32.0
 		death_effect.material.set_shader_param("radius", max(0, death_wave_radius))
 		Bullets.clear_screen_fade(position, max(0, death_wave_radius), false)
 		
+	# option smoothing, looks bad though
+	#for i in range(len(prev_pos)-1, 0, -1):
+	#	prev_pos[i] = prev_pos[i-1]
+	#prev_pos[0] = position
 	
 	if !got_hit:
 		move()
@@ -401,25 +436,12 @@ func _process(delta):
 			Sprite.modulate = Color(0, 0, 1) if (i_frame_timer / 6) % 2 == 1 else Color(1,1,1)
 		check_collision()
 		
-		while power_decimal >= 100:
-			$powerup.play()
-			power += 1
-			power_decimal -= 100
-		while power_decimal < 0:
-			power -= 1
-			power_decimal += 100
-		if power >= 4:
-			power = 4
-			power_decimal = 0
-		if power < 1:
-			power = 1
-			power_decimal = 0
 		
 	else:
 		deathbomb_timer -= 1
 		if deathbomb_timer <= 0:
 			dead = true
-			$Sprite.hide()
+			Sprite.hide()
 			if !respawning:
 				lives -= 1
 				power_decimal -= 50
@@ -428,6 +450,19 @@ func _process(delta):
 				respawn_timer = respawn_time
 				respawning = true
 			
+	while power_decimal >= 100:
+		$powerup.play()
+		power += 1
+		power_decimal -= 100
+	while power_decimal < 0:
+		power -= 1
+		power_decimal += 100
+	if power >= 4:
+		power = 4
+		power_decimal = 0
+	if power < 1:
+		power = 1
+		power_decimal = 0
 			
 	if !dead:
 		bomb()
@@ -436,7 +471,7 @@ func _process(delta):
 			respawn_timer -= 1
 			if respawn_timer <= 0:
 				respawn_timer = 0
-				$Sprite.show()
+				Sprite.show()
 				dead = false
 				got_hit = false
 				respawning = false
@@ -444,13 +479,17 @@ func _process(delta):
 				position = Vector2(500, 900)
 				i_frame_timer = respawn_iframes
 	
-	for i in range(0, 5):
+	for i in range(0):
 		if Input.is_action_just_pressed("debug_" + str(i) + "p"):
 			power = i
 	
 	
-	graze_this_frame = 0
-	if graze_this_frame && !graze_particles.emitting:
-		graze_particles.amount = graze_this_frame
-		graze_particles.emitting = true
+	graze_particles.process_material.trail_divisor = 360 / (graze_this_frame * 10) if graze_this_frame > 0 else 9999
 	
+	#$options.position += last_position - position
+	$options.position = lerp($options.position + last_position - position, Vector2(0,0), 0.25)
+	
+	Sprite.material.set_shader_param("direction", facing)
+	Sprite.material.set_shader_param("frame", Sprite.frame)
+	
+	#Sprite.rotation = randf()*TAU

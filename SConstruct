@@ -7,12 +7,12 @@ opts = Variables([], ARGUMENTS)
 env = DefaultEnvironment()
 
 # Define our options
-opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r', 'release']))
+opts.Add(EnumVariable('target', "Compilation target", 'release', ['d', 'debug', 'r', 'release']))
 opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
 opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'godot/bin/'))
-opts.Add(PathVariable('target_name', 'The library name.', 'libgdexample', PathVariable.PathAccept))
+opts.Add(PathVariable('target_name', 'The library name.', 'libstg', PathVariable.PathAccept))
 
 # Local dependency paths, adapt them to your setup
 godot_headers_path = "godot-cpp/godot-headers/"
@@ -67,7 +67,7 @@ elif env['platform'] == "windows":
     if env['target'] in ('debug', 'd'):
         env.Append(CCFLAGS = ['-EHsc', '-D_DEBUG', '-MDd'])
     else:
-        env.Append(CCFLAGS = ['-O2', '-EHsc', '-DNDEBUG', '-MD'])
+        env.Append(CCFLAGS = ['-O3', '-EHsc', '-DNDEBUG', '-MD'])
 
 if env['target'] in ('debug', 'd'):
     cpp_library += '.debug'

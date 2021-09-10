@@ -1,0 +1,94 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://effect/unusual/autoplay.gd" type="Script" id=1]
+[ext_resource path="res://effect/unusual/moolah.png" type="Texture" id=2]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+particles_animation = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 4
+particles_anim_loop = false
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 0.463636 ), 0.0, 0.0, 0, 0, Vector2( 0.125, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.743421, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0335861, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=3]
+curve = SubResource( 2 )
+
+[sub_resource type="ParticlesMaterial" id=4]
+emission_shape = 1
+emission_sphere_radius = 8.0
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+spread = 0.0
+initial_velocity = 200.0
+initial_velocity_random = 1.0
+angular_velocity = 90.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 360.0
+angle_random = 1.0
+scale = 0.5
+scale_random = 0.25
+scale_curve = SubResource( 3 )
+anim_offset = 1.0
+anim_offset_random = 1.0
+
+[sub_resource type="Animation" id=5]
+resource_name = "main"
+length = 1.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("axis:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("axis/Sprite:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
+
+[node name="money" type="Node2D"]
+modulate = Color( 1.15, 1.15, 1.15, 1 )
+position = Vector2( 0, -69 )
+scale = Vector2( 1, 0.333 )
+
+[node name="axis" type="Node2D" parent="."]
+
+[node name="money" type="Particles2D" parent="axis"]
+material = SubResource( 1 )
+position = Vector2( 40, 0 )
+z_index = 1
+amount = 20
+local_coords = false
+draw_order = 1
+process_material = SubResource( 4 )
+texture = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="axis"]
+position = Vector2( 39.392, -6.944 )
+scale = Vector2( 0.75, 0.75 )
+z_index = 1
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 0, 64, 64, 64 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/main = SubResource( 5 )
+script = ExtResource( 1 )

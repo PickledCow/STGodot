@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=2]
+[gd_scene load_steps=95 format=2]
 
 [ext_resource path="res://addons/cloud/Cloud.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/cloud/Cloud.shader" type="Shader" id=2]
@@ -12,505 +12,515 @@
 [ext_resource path="res://bg/muzzle_05.png" type="Texture" id=10]
 [ext_resource path="res://bg/lightning.gd" type="Script" id=11]
 [ext_resource path="res://bg/water.tscn" type="PackedScene" id=12]
+[ext_resource path="res://bg/bubble.png" type="Texture" id=13]
+[ext_resource path="res://bg/pickleseanm.png" type="Texture" id=14]
+[ext_resource path="res://bg/barn.png" type="Texture" id=15]
+[ext_resource path="res://dummy.png" type="Texture" id=16]
+[ext_resource path="res://bg/picklesea.png" type="Texture" id=17]
+[ext_resource path="res://bg/barnnm.png" type="Texture" id=18]
+[ext_resource path="res://bg/picklerama.png" type="Texture" id=19]
+[ext_resource path="res://bg/picklefactory.png" type="Texture" id=20]
+[ext_resource path="res://bg/autoscale.gd" type="Script" id=21]
 
-[sub_resource type="ProceduralSky" id=1]
-sky_top_color = Color( 0.176471, 0.176471, 0.176471, 1 )
-sky_horizon_color = Color( 0, 0, 0, 1 )
-ground_bottom_color = Color( 0.145098, 0.164706, 0.180392, 1 )
-ground_horizon_color = Color( 0.219608, 0.227451, 0.235294, 1 )
-sun_color = Color( 0, 0, 0, 1 )
-sun_latitude = 94.6
+[sub_resource type="PanoramaSky" id=1]
+radiance_size = 0
+panorama = ExtResource( 19 )
 
 [sub_resource type="Environment" id=2]
 background_mode = 2
 background_sky = SubResource( 1 )
-ambient_light_color = Color( 1, 1, 1, 1 )
-ambient_light_energy = 15.0
+ambient_light_color = Color( 0.694118, 1, 0.74902, 1 )
+ambient_light_energy = 0.5
+ambient_light_sky_contribution = 0.0
 fog_enabled = true
-fog_color = Color( 0.0470588, 0.101961, 0.156863, 1 )
+fog_color = Color( 0.0509804, 0.176471, 0.0784314, 1 )
+fog_sun_color = Color( 0.921569, 1, 0.701961, 1 )
 fog_depth_begin = 0.0
 fog_depth_end = 137.6
 fog_depth_curve = 1.36604
 tonemap_mode = 3
-tonemap_white = 0.47328
+auto_exposure_scale = 0.1
+ssao_radius = 49.46
 glow_enabled = true
+glow_bloom = 0.1
 glow_blend_mode = 0
+glow_hdr_threshold = 1.25
 
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=74]
 render_priority = -97
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.5
-shader_param/max_density = 20.0
+shader_param/max_density = 10.0
 shader_param/altitude = 1000.0
-shader_param/color = Color( 0.133333, 0.137255, 0.14902, 1 )
+shader_param/color = Color( 0.105882, 0.168627, 0.12549, 1 )
 shader_param/detail_noise = true
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=4]
+[sub_resource type="ShaderMaterial" id=75]
 render_priority = -98
-next_pass = SubResource( 3 )
+next_pass = SubResource( 74 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.475705
-shader_param/max_density = 19.3521
+shader_param/max_density = 10.162
 shader_param/altitude = 1016.52
-shader_param/color = Color( 0.142045, 0.145718, 0.157234, 1 )
+shader_param/color = Color( 0.112852, 0.178335, 0.131215, 1 )
 shader_param/detail_noise = true
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=5]
+[sub_resource type="ShaderMaterial" id=76]
 render_priority = -99
-next_pass = SubResource( 4 )
+next_pass = SubResource( 75 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.451569
-shader_param/max_density = 18.7085
+shader_param/max_density = 10.3229
 shader_param/altitude = 1033.03
-shader_param/color = Color( 0.150472, 0.153904, 0.16518, 1 )
+shader_param/color = Color( 0.119593, 0.187725, 0.136753, 1 )
 shader_param/detail_noise = true
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=6]
+[sub_resource type="ShaderMaterial" id=77]
 render_priority = -100
-next_pass = SubResource( 5 )
+next_pass = SubResource( 76 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.427751
-shader_param/max_density = 18.0734
+shader_param/max_density = 10.4817
 shader_param/altitude = 1049.55
-shader_param/color = Color( 0.158613, 0.161813, 0.172855, 1 )
+shader_param/color = Color( 0.126106, 0.196796, 0.142103, 1 )
 shader_param/detail_noise = true
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=7]
+[sub_resource type="ShaderMaterial" id=78]
 render_priority = -101
-next_pass = SubResource( 6 )
+next_pass = SubResource( 77 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.404408
-shader_param/max_density = 17.4509
+shader_param/max_density = 10.6373
 shader_param/altitude = 1066.06
-shader_param/color = Color( 0.166468, 0.169444, 0.180262, 1 )
+shader_param/color = Color( 0.13239, 0.20555, 0.147265, 1 )
 shader_param/detail_noise = true
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=8]
+[sub_resource type="ShaderMaterial" id=79]
 render_priority = -102
-next_pass = SubResource( 7 )
+next_pass = SubResource( 78 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.381693
-shader_param/max_density = 16.8452
+shader_param/max_density = 10.7887
 shader_param/altitude = 1082.58
-shader_param/color = Color( 0.174038, 0.176797, 0.187399, 1 )
+shader_param/color = Color( 0.138446, 0.213984, 0.152239, 1 )
 shader_param/detail_noise = true
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=9]
+[sub_resource type="ShaderMaterial" id=80]
 render_priority = -103
-next_pass = SubResource( 8 )
+next_pass = SubResource( 79 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.359755
-shader_param/max_density = 16.2601
+shader_param/max_density = 10.935
 shader_param/altitude = 1099.1
-shader_param/color = Color( 0.181322, 0.183873, 0.194267, 1 )
+shader_param/color = Color( 0.144273, 0.222101, 0.157026, 1 )
 shader_param/detail_noise = true
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=10]
+[sub_resource type="ShaderMaterial" id=81]
 render_priority = -104
-next_pass = SubResource( 9 )
+next_pass = SubResource( 80 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.338739
-shader_param/max_density = 15.6997
+shader_param/max_density = 11.0751
 shader_param/altitude = 1115.61
-shader_param/color = Color( 0.188321, 0.190671, 0.200865, 1 )
+shader_param/color = Color( 0.149872, 0.229899, 0.161625, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=11]
+[sub_resource type="ShaderMaterial" id=82]
 render_priority = -105
-next_pass = SubResource( 10 )
+next_pass = SubResource( 81 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.318782
-shader_param/max_density = 15.1675
+shader_param/max_density = 11.2081
 shader_param/altitude = 1132.13
-shader_param/color = Color( 0.195033, 0.197192, 0.207194, 1 )
+shader_param/color = Color( 0.155242, 0.237379, 0.166036, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=12]
+[sub_resource type="ShaderMaterial" id=83]
 render_priority = -106
-next_pass = SubResource( 11 )
+next_pass = SubResource( 82 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.300015
-shader_param/max_density = 14.6671
+shader_param/max_density = 11.3332
 shader_param/altitude = 1148.65
-shader_param/color = Color( 0.201461, 0.203436, 0.213254, 1 )
+shader_param/color = Color( 0.160384, 0.244541, 0.17026, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=13]
+[sub_resource type="ShaderMaterial" id=84]
 render_priority = -107
-next_pass = SubResource( 12 )
+next_pass = SubResource( 83 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.282562
-shader_param/max_density = 14.2017
+shader_param/max_density = 11.4496
 shader_param/altitude = 1165.16
-shader_param/color = Color( 0.207602, 0.209402, 0.219045, 1 )
+shader_param/color = Color( 0.165297, 0.251384, 0.174295, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=14]
+[sub_resource type="ShaderMaterial" id=85]
 render_priority = -108
-next_pass = SubResource( 13 )
+next_pass = SubResource( 84 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.266538
-shader_param/max_density = 13.7743
+shader_param/max_density = 11.5564
 shader_param/altitude = 1181.68
-shader_param/color = Color( 0.213458, 0.21509, 0.224566, 1 )
+shader_param/color = Color( 0.169982, 0.257909, 0.178143, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=15]
+[sub_resource type="ShaderMaterial" id=86]
 render_priority = -109
-next_pass = SubResource( 14 )
+next_pass = SubResource( 85 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.252047
-shader_param/max_density = 13.3879
+shader_param/max_density = 11.653
 shader_param/altitude = 1198.19
-shader_param/color = Color( 0.219028, 0.220501, 0.229818, 1 )
+shader_param/color = Color( 0.174438, 0.264116, 0.181804, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=16]
+[sub_resource type="ShaderMaterial" id=87]
 render_priority = -110
-next_pass = SubResource( 15 )
+next_pass = SubResource( 86 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.239185
-shader_param/max_density = 13.0449
+shader_param/max_density = 11.7388
 shader_param/altitude = 1214.71
-shader_param/color = Color( 0.224313, 0.225635, 0.2348, 1 )
+shader_param/color = Color( 0.178666, 0.270005, 0.185277, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=17]
+[sub_resource type="ShaderMaterial" id=88]
 render_priority = -111
-next_pass = SubResource( 16 )
+next_pass = SubResource( 87 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.228036
-shader_param/max_density = 12.7476
+shader_param/max_density = 11.8131
 shader_param/altitude = 1231.23
-shader_param/color = Color( 0.229312, 0.230491, 0.239513, 1 )
+shader_param/color = Color( 0.182665, 0.275575, 0.188561, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=18]
+[sub_resource type="ShaderMaterial" id=89]
 render_priority = -112
-next_pass = SubResource( 17 )
+next_pass = SubResource( 88 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.218674
-shader_param/max_density = 12.498
+shader_param/max_density = 11.8755
 shader_param/altitude = 1247.74
-shader_param/color = Color( 0.234025, 0.23507, 0.243957, 1 )
+shader_param/color = Color( 0.186435, 0.280827, 0.191659, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=19]
+[sub_resource type="ShaderMaterial" id=90]
 render_priority = -113
-next_pass = SubResource( 18 )
+next_pass = SubResource( 89 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.211161
-shader_param/max_density = 12.2976
+shader_param/max_density = 11.9256
 shader_param/altitude = 1264.26
-shader_param/color = Color( 0.238452, 0.239371, 0.248132, 1 )
+shader_param/color = Color( 0.189977, 0.285761, 0.194568, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=20]
+[sub_resource type="ShaderMaterial" id=91]
 render_priority = -114
-next_pass = SubResource( 19 )
+next_pass = SubResource( 90 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.205544
-shader_param/max_density = 12.1478
+shader_param/max_density = 11.963
 shader_param/altitude = 1280.77
-shader_param/color = Color( 0.242594, 0.243394, 0.252037, 1 )
+shader_param/color = Color( 0.193291, 0.290376, 0.19729, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=21]
+[sub_resource type="ShaderMaterial" id=92]
 render_priority = -115
-next_pass = SubResource( 20 )
+next_pass = SubResource( 91 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.201862
-shader_param/max_density = 12.0497
+shader_param/max_density = 11.9876
 shader_param/altitude = 1297.29
-shader_param/color = Color( 0.246451, 0.24714, 0.255673, 1 )
+shader_param/color = Color( 0.196376, 0.294673, 0.199824, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=22]
+[sub_resource type="ShaderMaterial" id=93]
 render_priority = -116
-next_pass = SubResource( 21 )
+next_pass = SubResource( 92 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.200139
-shader_param/max_density = 12.0037
+shader_param/max_density = 11.9991
 shader_param/altitude = 1313.81
-shader_param/color = Color( 0.250021, 0.250609, 0.25904, 1 )
+shader_param/color = Color( 0.199233, 0.298652, 0.202171, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=23]
+[sub_resource type="ShaderMaterial" id=94]
 render_priority = -117
-next_pass = SubResource( 22 )
+next_pass = SubResource( 93 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.200385
-shader_param/max_density = 12.0103
+shader_param/max_density = 11.9974
 shader_param/altitude = 1330.32
-shader_param/color = Color( 0.253306, 0.2538, 0.262137, 1 )
+shader_param/color = Color( 0.201861, 0.302312, 0.204329, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=24]
+[sub_resource type="ShaderMaterial" id=95]
 render_priority = -118
-next_pass = SubResource( 23 )
+next_pass = SubResource( 94 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.2026
-shader_param/max_density = 12.0693
+shader_param/max_density = 11.9827
 shader_param/altitude = 1346.84
-shader_param/color = Color( 0.256305, 0.256714, 0.264965, 1 )
+shader_param/color = Color( 0.20426, 0.305654, 0.2063, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=25]
+[sub_resource type="ShaderMaterial" id=96]
 render_priority = -119
-next_pass = SubResource( 24 )
+next_pass = SubResource( 95 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.206768
-shader_param/max_density = 12.1805
+shader_param/max_density = 11.9549
 shader_param/altitude = 1363.35
-shader_param/color = Color( 0.259019, 0.25935, 0.267523, 1 )
+shader_param/color = Color( 0.206431, 0.308678, 0.208084, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=26]
+[sub_resource type="ShaderMaterial" id=97]
 render_priority = -120
-next_pass = SubResource( 25 )
+next_pass = SubResource( 96 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.212863
-shader_param/max_density = 12.343
+shader_param/max_density = 11.9142
 shader_param/altitude = 1379.87
-shader_param/color = Color( 0.261447, 0.261708, 0.269813, 1 )
+shader_param/color = Color( 0.208373, 0.311383, 0.209679, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=27]
+[sub_resource type="ShaderMaterial" id=98]
 render_priority = -121
-next_pass = SubResource( 26 )
+next_pass = SubResource( 97 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.220844
-shader_param/max_density = 12.5558
+shader_param/max_density = 11.861
 shader_param/altitude = 1396.39
-shader_param/color = Color( 0.26359, 0.26379, 0.271833, 1 )
+shader_param/color = Color( 0.210087, 0.313771, 0.211087, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=28]
+[sub_resource type="ShaderMaterial" id=99]
 render_priority = -122
-next_pass = SubResource( 27 )
+next_pass = SubResource( 98 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.230659
-shader_param/max_density = 12.8176
+shader_param/max_density = 11.7956
 shader_param/altitude = 1412.9
-shader_param/color = Color( 0.265446, 0.265593, 0.273583, 1 )
+shader_param/color = Color( 0.211573, 0.31584, 0.212307, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=29]
+[sub_resource type="ShaderMaterial" id=100]
 render_priority = -123
-next_pass = SubResource( 28 )
+next_pass = SubResource( 99 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.242243
-shader_param/max_density = 13.1265
+shader_param/max_density = 11.7184
 shader_param/altitude = 1429.42
-shader_param/color = Color( 0.267017, 0.267119, 0.275064, 1 )
+shader_param/color = Color( 0.21283, 0.31759, 0.21334, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=30]
+[sub_resource type="ShaderMaterial" id=101]
 render_priority = -124
-next_pass = SubResource( 29 )
+next_pass = SubResource( 100 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.25552
-shader_param/max_density = 13.4805
+shader_param/max_density = 11.6299
 shader_param/altitude = 1445.94
-shader_param/color = Color( 0.268303, 0.268368, 0.276276, 1 )
+shader_param/color = Color( 0.213858, 0.319023, 0.214184, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=31]
+[sub_resource type="ShaderMaterial" id=102]
 render_priority = -125
-next_pass = SubResource( 30 )
+next_pass = SubResource( 101 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.270404
-shader_param/max_density = 13.8774
+shader_param/max_density = 11.5306
 shader_param/altitude = 1462.45
-shader_param/color = Color( 0.269303, 0.269339, 0.277219, 1 )
+shader_param/color = Color( 0.214658, 0.320137, 0.214841, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=32]
+[sub_resource type="ShaderMaterial" id=103]
 render_priority = -126
-next_pass = SubResource( 31 )
+next_pass = SubResource( 102 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.286796
-shader_param/max_density = 14.3146
+shader_param/max_density = 11.4214
 shader_param/altitude = 1478.97
-shader_param/color = Color( 0.270017, 0.270033, 0.277892, 1 )
+shader_param/color = Color( 0.215229, 0.320932, 0.215311, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=33]
+[sub_resource type="ShaderMaterial" id=104]
 render_priority = -127
-next_pass = SubResource( 32 )
+next_pass = SubResource( 103 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.304588
-shader_param/max_density = 14.789
+shader_param/max_density = 11.3027
 shader_param/altitude = 1495.48
-shader_param/color = Color( 0.270445, 0.270449, 0.278296, 1 )
+shader_param/color = Color( 0.215572, 0.32141, 0.215592, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
 
-[sub_resource type="ShaderMaterial" id=34]
+[sub_resource type="ShaderMaterial" id=105]
 render_priority = -128
-next_pass = SubResource( 33 )
+next_pass = SubResource( 104 )
 shader = ExtResource( 2 )
 shader_param/seed = 69.0
 shader_param/speed = Vector2( -200, 0 )
 shader_param/transform_speed = Vector2( 0, 1e-05 )
 shader_param/min_density = 0.323664
-shader_param/max_density = 15.2977
+shader_param/max_density = 11.1756
 shader_param/altitude = 1512.0
-shader_param/color = Color( 0.270588, 0.270588, 0.278431, 1 )
+shader_param/color = Color( 0.215686, 0.321569, 0.215686, 1 )
 shader_param/detail_noise = false
 shader_param/upper_enabled = true
 shader_param/lower_enabled = false
@@ -532,15 +542,521 @@ params_diffuse_mode = 4
 params_specular_mode = 3
 params_grow = true
 params_grow_amount = 0.0
-albedo_color = Color( 0, 0, 0, 1 )
-uv1_scale = Vector3( 5, 5, 1 )
+albedo_color = Color( 0, 1.25, 0.25, 1 )
+albedo_texture = ExtResource( 17 )
+depth_enabled = true
+depth_scale = 0.005
+depth_deep_parallax = false
+depth_flip_tangent = false
+depth_flip_binormal = false
+depth_texture = ExtResource( 14 )
+uv1_scale = Vector3( 10, 10, 10 )
 
 [sub_resource type="QuadMesh" id=38]
 material = SubResource( 37 )
 size = Vector2( 450, 450 )
 
 [sub_resource type="Animation" id=39]
-resource_name = "flash"
+resource_name = "dive"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Splash:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Splash2:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 3.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Splash3:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 3.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Splash4:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 3.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Splash5:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 3.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Rain:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 3.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("riverbed:mesh:material:albedo_color")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 3.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 1.25, 0.25, 1 ), Color( 0, 0.513726, 0.129412, 1 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("bubbles:translation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 10 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 6.49, -1.046 ), Vector3( 0, -70, -120 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("bubbles:emitting")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 3.1, 7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("barn:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 3.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/10/type = "bezier"
+tracks/10/path = NodePath("Camera:translation:x")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/11/type = "bezier"
+tracks/11/path = NodePath("Camera:translation:y")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"points": PoolRealArray( 6.49, -0.25, 0, 0.25, 0, -10, -0.25, 0, 0.25, 0, -30, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 5, 10 )
+}
+tracks/12/type = "bezier"
+tracks/12/path = NodePath("Camera:translation:z")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"points": PoolRealArray( -1.046, -0.25, 0, 0.25, 0, -60, -0.25, 0, 0.25, 0, -120, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 5, 10 )
+}
+tracks/13/type = "bezier"
+tracks/13/path = NodePath("Camera:rotation_degrees:x")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"points": PoolRealArray( -11.444, -0.25, 0, 1.66952, -0.0559998, -60, -1.6314, 0.5, 1.98836, 0.5, -20, -1.50463, -1.5, 0.25, 0 ),
+"times": PoolRealArray( 0, 5, 10 )
+}
+tracks/14/type = "bezier"
+tracks/14/path = NodePath("Camera:rotation_degrees:z")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.65008, -1.5, 10, -0.623632, -0.5, 0.499233, -0.5, -10, -0.77758, -0.5, 0.626002, 2.5, 0, -0.692034, -1.5, 0.25, 0 ),
+"times": PoolRealArray( 0, 2.5, 7.5, 10 )
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("water:visible")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0, 3.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("2d/warp:visible")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 0, 3.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/17/type = "value"
+tracks/17/path = NodePath("Spatial:visible")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/18/type = "value"
+tracks/18/path = NodePath("Rain:translation")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -40.388, 26.375, -276.171 ) ]
+}
+tracks/19/type = "value"
+tracks/19/path = NodePath("Cloud:cloud_speed")
+tracks/19/interp = 1
+tracks/19/loop_wrap = true
+tracks/19/imported = false
+tracks/19/enabled = true
+tracks/19/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( -200, 0 ) ]
+}
+
+[sub_resource type="Animation" id=40]
+resource_name = "enterbarn"
+length = 6.0
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Camera:translation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Camera:translation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -30, -0.25, 0, 0.66, -0.124874, -36, -0.61, 0.0844727, 0.25, 0 ),
+"times": PoolRealArray( 0, 2 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Camera:translation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( -120, -0.25, 0, 0.79, -0.522987, -150, -0.77, 0.729019, 0.25, 0 ),
+"times": PoolRealArray( 0, 2 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("Camera:rotation_degrees:z")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, -20, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 2, 2.4 )
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("2d/dark:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("2d/factory:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 1.3, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("2d/factory:rotation_degrees")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 1.3, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 45.0, 0.0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("2d/factory:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 1.3, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0.5, 0.5 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("riverbed:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("2d/warp:visible")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=41]
+resource_name = "exitbarn"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("2d/factory:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 500, 500 ), Vector2( 500, 2500 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("2d/factory:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("2d/dark:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 4, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("Camera:translation:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 4 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("Camera:translation:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( -36, -0.25, 0, 0.25, 0, 30, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 4, 6.5 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("Camera:translation:z")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( -150, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 4 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("Camera:rotation_degrees:x")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 90, -0.25, 0, 0.25, 0, 90, -0.25, 0, 1.05, -1.06252, 0, -1.24, 0.122543, 0.25, 0 ),
+"times": PoolRealArray( 4, 7, 10 )
+}
+tracks/7/type = "bezier"
+tracks/7/path = NodePath("Cloud:cloud_altitude")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"points": PoolRealArray( 1000, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, -2000, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 4, 6.5, 6.7 )
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Cloud:cloud_upper_enabled")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 6.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Cloud:cloud_lower_enabled")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Spatial:visible")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Rain:visible")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Cloud:cloud_speed")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 6.9, 7.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -200, 0 ), Vector2( -5000, 0 ) ]
+}
+
+[sub_resource type="Animation" id=42]
 length = 2.0
 tracks/0/type = "bezier"
 tracks/0/path = NodePath("Camera:environment:tonemap_white")
@@ -553,7 +1069,24 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5, 2 )
 }
 
-[sub_resource type="ParticlesMaterial" id=40]
+[sub_resource type="Animation" id=43]
+resource_name = "spin"
+length = 45.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Camera:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 45 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 360, 0 ) ]
+}
+
+[sub_resource type="ParticlesMaterial" id=44]
 emission_shape = 2
 emission_box_extents = Vector3( 75, 100, 200 )
 direction = Vector3( 0.3, -1, 0 )
@@ -563,7 +1096,7 @@ initial_velocity = 150.0
 initial_velocity_random = 0.5
 angle = 151.2
 
-[sub_resource type="SpatialMaterial" id=41]
+[sub_resource type="SpatialMaterial" id=45]
 flags_unshaded = true
 params_diffuse_mode = 4
 params_specular_mode = 3
@@ -572,46 +1105,24 @@ params_billboard_mode = 3
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
-albedo_color = Color( 0.709804, 0.709804, 0.709804, 1 )
+albedo_color = Color( 0.694118, 0.713726, 0.694118, 1 )
 albedo_texture = ExtResource( 3 )
 
-[sub_resource type="QuadMesh" id=42]
-material = SubResource( 41 )
+[sub_resource type="QuadMesh" id=46]
+material = SubResource( 45 )
 size = Vector2( 4, 4 )
 
-[sub_resource type="Curve" id=43]
+[sub_resource type="Curve" id=47]
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.292605, 1 ), 0.512638, 0.512638, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=44]
-curve = SubResource( 43 )
+[sub_resource type="CurveTexture" id=48]
+curve = SubResource( 47 )
 
-[sub_resource type="ParticlesMaterial" id=45]
+[sub_resource type="ParticlesMaterial" id=49]
 emission_shape = 2
 emission_box_extents = Vector3( -64, 0, 96 )
 gravity = Vector3( 0, 0, 0 )
-scale_curve = SubResource( 44 )
-
-[sub_resource type="SpatialMaterial" id=46]
-flags_transparent = true
-params_diffuse_mode = 4
-params_specular_mode = 3
-params_blend_mode = 1
-albedo_color = Color( 0.8, 0.8, 0.8, 1 )
-albedo_texture = ExtResource( 6 )
-
-[sub_resource type="QuadMesh" id=47]
-material = SubResource( 46 )
-
-[sub_resource type="SpatialMaterial" id=48]
-flags_transparent = true
-params_diffuse_mode = 4
-params_specular_mode = 3
-params_blend_mode = 1
-albedo_color = Color( 0.8, 0.8, 0.8, 1 )
-albedo_texture = ExtResource( 7 )
-
-[sub_resource type="QuadMesh" id=49]
-material = SubResource( 48 )
+scale_curve = SubResource( 48 )
 
 [sub_resource type="SpatialMaterial" id=50]
 flags_transparent = true
@@ -619,7 +1130,7 @@ params_diffuse_mode = 4
 params_specular_mode = 3
 params_blend_mode = 1
 albedo_color = Color( 0.8, 0.8, 0.8, 1 )
-albedo_texture = ExtResource( 8 )
+albedo_texture = ExtResource( 6 )
 
 [sub_resource type="QuadMesh" id=51]
 material = SubResource( 50 )
@@ -630,7 +1141,7 @@ params_diffuse_mode = 4
 params_specular_mode = 3
 params_blend_mode = 1
 albedo_color = Color( 0.8, 0.8, 0.8, 1 )
-albedo_texture = ExtResource( 9 )
+albedo_texture = ExtResource( 7 )
 
 [sub_resource type="QuadMesh" id=53]
 material = SubResource( 52 )
@@ -641,12 +1152,34 @@ params_diffuse_mode = 4
 params_specular_mode = 3
 params_blend_mode = 1
 albedo_color = Color( 0.8, 0.8, 0.8, 1 )
-albedo_texture = ExtResource( 10 )
+albedo_texture = ExtResource( 8 )
 
 [sub_resource type="QuadMesh" id=55]
 material = SubResource( 54 )
 
-[sub_resource type="Shader" id=56]
+[sub_resource type="SpatialMaterial" id=56]
+flags_transparent = true
+params_diffuse_mode = 4
+params_specular_mode = 3
+params_blend_mode = 1
+albedo_color = Color( 0.8, 0.8, 0.8, 1 )
+albedo_texture = ExtResource( 9 )
+
+[sub_resource type="QuadMesh" id=57]
+material = SubResource( 56 )
+
+[sub_resource type="SpatialMaterial" id=58]
+flags_transparent = true
+params_diffuse_mode = 4
+params_specular_mode = 3
+params_blend_mode = 1
+albedo_color = Color( 0.8, 0.8, 0.8, 1 )
+albedo_texture = ExtResource( 10 )
+
+[sub_resource type="QuadMesh" id=59]
+material = SubResource( 58 )
+
+[sub_resource type="Shader" id=60]
 code = "// From Hex3F, © 2021 hex3f Powered by Hexo | Freemind.386 Under Creative Commons
 
 shader_type spatial;
@@ -685,7 +1218,7 @@ void fragment(){
 	float pct;
 	float buffer = plot(uv,y,0.08);
 	color += pct * vec4(1.0,1.0,1.0,1.0);
-	color += buffer * vec4(0.2,0,0.8,0.0);
+	color += buffer * vec4(0.0,0.8,0.6,0.0);
 	
 	int lightning_number = 2;
 	for(int i = 0; i < lightning_number; i++){
@@ -694,7 +1227,7 @@ void fragment(){
 		pct = plot(uv,y,0.02);
 		buffer = plot(uv,y,0.08);
 		color += pct * vec4(1.0,1.0,1.0,1.0);
-		color += buffer * vec4(0.2,0,0.8,0.0);
+		color += buffer * vec4(0.0,0.8,0.6,0.0);
 	}
 	ALBEDO = color.rgb*1.5;
 	ALPHA = color.a;
@@ -704,28 +1237,117 @@ void fragment(){
 
 "
 
-[sub_resource type="ShaderMaterial" id=57]
-shader = SubResource( 56 )
+[sub_resource type="ShaderMaterial" id=61]
+shader = SubResource( 60 )
 
-[sub_resource type="QuadMesh" id=58]
-material = SubResource( 57 )
+[sub_resource type="QuadMesh" id=62]
+material = SubResource( 61 )
 size = Vector2( 20, 20 )
+
+[sub_resource type="Curve" id=63]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.189602, 0.990909 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=64]
+curve = SubResource( 63 )
+
+[sub_resource type="ParticlesMaterial" id=65]
+emission_shape = 2
+emission_box_extents = Vector3( 20, 20, 20 )
+gravity = Vector3( 0, 30, 0 )
+scale_curve = SubResource( 64 )
+
+[sub_resource type="SpatialMaterial" id=66]
+flags_transparent = true
+params_blend_mode = 1
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_color = Color( 0.5, 0.5, 0.5, 1 )
+albedo_texture = ExtResource( 13 )
+
+[sub_resource type="QuadMesh" id=67]
+material = SubResource( 66 )
+
+[sub_resource type="SpatialMaterial" id=68]
+flags_transparent = true
+albedo_texture = ExtResource( 15 )
+depth_enabled = true
+depth_scale = 0.01
+depth_deep_parallax = false
+depth_flip_tangent = false
+depth_flip_binormal = false
+depth_texture = ExtResource( 18 )
+
+[sub_resource type="QuadMesh" id=69]
+material = SubResource( 68 )
+size = Vector2( 16, 16 )
+
+[sub_resource type="Shader" id=70]
+code = "shader_type canvas_item;
+
+uniform float frequency = 60;
+uniform float depth = 0.005;
+
+void fragment() {
+	vec2 uv = SCREEN_UV;
+	uv.x += sin(uv.y * frequency + TIME) * depth;
+	uv.x = clamp(uv.x, 0.0, 1.0);
+	vec3 c = textureLod(SCREEN_TEXTURE, uv, 0.0).rgb;
+
+	COLOR.rgb = c;
+}"
+
+[sub_resource type="ShaderMaterial" id=71]
+shader = SubResource( 70 )
+shader_param/frequency = 60.0
+shader_param/depth = 4.045
+
+[sub_resource type="Shader" id=72]
+code = "shader_type canvas_item;
+
+uniform float frequency = 15;
+uniform float depth = 0.005;
+
+void fragment() {
+	vec2 uv = SCREEN_UV;
+	float uv_x = SCREEN_UV.x;
+	uv.x += sin(uv.y * frequency + TIME) * depth;
+	uv.x = clamp(uv.x, 0.0, 1.0);
+	uv.y += cos(uv_x * frequency + TIME) * depth;
+	uv.y = clamp(uv.y, 0.0, 1.0);
+	vec3 c = textureLod(SCREEN_TEXTURE, uv, 0.0).rgb;
+
+	COLOR.rgb = c;
+}"
+
+[sub_resource type="ShaderMaterial" id=73]
+shader = SubResource( 72 )
+shader_param/frequency = 15.0
+shader_param/depth = 0.008
 
 [node name="rainworld" type="Spatial"]
 script = ExtResource( 5 )
 
+[node name="temptimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 2 )
+
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.980119, 0.19841, 0, -0.19841, 0.980119, -5.977, 6.49, -1.046 )
+transform = Transform( 1, 0, 0, 0, 0.980119, 0.19841, 0, -0.19841, 0.980119, 0, 6.49, -1.046 )
 environment = SubResource( 2 )
 current = true
 fov = 50.0
 far = 450.0
 
 [node name="Cloud" parent="." instance=ExtResource( 1 )]
-transform = Transform( 225.025, 0, 0, 0, 225.025, 0, 0, 0, 225.025, -5.977, 6.49, -1.046 )
-material_override = SubResource( 34 )
-cloud_color = Color( 0.270588, 0.270588, 0.278431, 1 )
-shade_color = Color( 0.133333, 0.137255, 0.14902, 1 )
+transform = Transform( 225.025, 0, 0, 0, 225.025, 0, 0, 0, 225.025, 0, 6.49, -1.046 )
+material_override = SubResource( 105 )
+cloud_color = Color( 0.215686, 0.321569, 0.215686, 1 )
+shade_color = Color( 0.105882, 0.168627, 0.12549, 1 )
 draw_count = 32
 cloud_seed = 69.0
 cloud_speed = Vector2( -200, 0 )
@@ -733,7 +1355,7 @@ cloud_thickness = 512.0
 cloud_altitude = 1000.0
 cloud_min_density_low = 0.2
 cloud_min_density_high = 0.5
-cloud_max_density_high = 20.0
+cloud_max_density_high = 10.0
 
 [node name="Sprite3D" type="Sprite3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.999975, -0.00713831, 0, 0.00713831, 0.999975, 5.27279, 2.19568, -26.1648 )
@@ -750,106 +1372,147 @@ mesh = SubResource( 36 )
 material/0 = null
 
 [node name="riverbed" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.144563, 0.989496, 0, -0.989496, 0.144563, -8.075, -23.663, -250 )
+transform = Transform( 1, 0, 0, 0, 0.154452, 0.988001, 0, -0.988001, 0.154452, -8.075, -23.663, -250 )
 mesh = SubResource( 38 )
 material/0 = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/flash = SubResource( 39 )
+anims/dive = SubResource( 39 )
+anims/enterbarn = SubResource( 40 )
+anims/exitbarn = SubResource( 41 )
+anims/flash = SubResource( 42 )
+anims/spin = SubResource( 43 )
 
 [node name="Rain" type="Particles" parent="."]
-pause_mode = 2
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -40.388, 26.375, -276.171 )
-amount = 5000
+visible = false
+amount = 2500
 lifetime = 5.0
 draw_order = 2
-process_material = SubResource( 40 )
-draw_pass_1 = SubResource( 42 )
+process_material = SubResource( 44 )
+draw_pass_1 = SubResource( 46 )
 
 [node name="Splash" type="Particles" parent="."]
-pause_mode = 2
 transform = Transform( 1, 0, 0, 0, 0.990275, -0.139121, 0, 0.139121, 0.990275, 0, -6.723, -52.547 )
 amount = 300
 lifetime = 0.25
-process_material = SubResource( 45 )
-draw_pass_1 = SubResource( 47 )
-
-[node name="Splash2" type="Particles" parent="."]
-pause_mode = 2
-transform = Transform( 1, 0, 0, 0, 0.990275, -0.139121, 0, 0.139121, 0.990275, 0, -6.723, -52.547 )
-amount = 300
-lifetime = 0.25
-process_material = SubResource( 45 )
-draw_pass_1 = SubResource( 49 )
-
-[node name="Splash3" type="Particles" parent="."]
-pause_mode = 2
-transform = Transform( 1, 0, 0, 0, 0.990275, -0.139121, 0, 0.139121, 0.990275, 0, -6.723, -52.547 )
-amount = 300
-lifetime = 0.25
-process_material = SubResource( 45 )
+process_material = SubResource( 49 )
 draw_pass_1 = SubResource( 51 )
 
-[node name="Splash4" type="Particles" parent="."]
-pause_mode = 2
+[node name="Splash2" type="Particles" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.990275, -0.139121, 0, 0.139121, 0.990275, 0, -6.723, -52.547 )
 amount = 300
 lifetime = 0.25
-process_material = SubResource( 45 )
+process_material = SubResource( 49 )
 draw_pass_1 = SubResource( 53 )
 
-[node name="Splash5" type="Particles" parent="."]
-pause_mode = 2
+[node name="Splash3" type="Particles" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.990275, -0.139121, 0, 0.139121, 0.990275, 0, -6.723, -52.547 )
 amount = 300
 lifetime = 0.25
-process_material = SubResource( 45 )
+process_material = SubResource( 49 )
 draw_pass_1 = SubResource( 55 )
 
-[node name="Lightning" type="MeshInstance" parent="."]
-pause_mode = 2
+[node name="Splash4" type="Particles" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.990275, -0.139121, 0, 0.139121, 0.990275, 0, -6.723, -52.547 )
+amount = 300
+lifetime = 0.25
+process_material = SubResource( 49 )
+draw_pass_1 = SubResource( 57 )
+
+[node name="Splash5" type="Particles" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.990275, -0.139121, 0, 0.139121, 0.990275, 0, -6.723, -52.547 )
+amount = 300
+lifetime = 0.25
+process_material = SubResource( 49 )
+draw_pass_1 = SubResource( 59 )
+
+[node name="Spatial" type="Spatial" parent="."]
+
+[node name="Lightning" type="MeshInstance" parent="Spatial"]
 transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 17, -400 )
 visible = false
 cast_shadow = 0
-mesh = SubResource( 58 )
+mesh = SubResource( 62 )
 material/0 = null
 script = ExtResource( 11 )
 next_strike_timer = 0.1
 
-[node name="Lightning2" type="MeshInstance" parent="."]
-pause_mode = 2
+[node name="Lightning2" type="MeshInstance" parent="Spatial"]
 transform = Transform( -3.49691e-08, -0.8, 0, 0.8, -3.49691e-08, 0, 0, 0, 0.8, 0, 15, -400 )
 visible = false
 cast_shadow = 0
-mesh = SubResource( 58 )
+mesh = SubResource( 62 )
 material/0 = null
 script = ExtResource( 11 )
 
-[node name="Lightning3" type="MeshInstance" parent="."]
-pause_mode = 2
+[node name="Lightning3" type="MeshInstance" parent="Spatial"]
 transform = Transform( -5.24537e-08, -1.2, 0, 1.2, -5.24537e-08, 0, 0, 0, 1.2, 0, 18, -400 )
 visible = false
 cast_shadow = 0
-mesh = SubResource( 58 )
+mesh = SubResource( 62 )
 material/0 = null
 script = ExtResource( 11 )
 
-[node name="Lightning4" type="MeshInstance" parent="."]
-pause_mode = 2
+[node name="Lightning4" type="MeshInstance" parent="Spatial"]
 transform = Transform( -2.62268e-08, -0.6, 0, 0.6, -2.62268e-08, 0, 0, 0, 0.6, -16.417, 12, -400 )
 visible = false
 cast_shadow = 0
-mesh = SubResource( 58 )
+mesh = SubResource( 62 )
 material/0 = null
 script = ExtResource( 11 )
 
-[node name="Lightning5" type="MeshInstance" parent="."]
-pause_mode = 2
+[node name="Lightning5" type="MeshInstance" parent="Spatial"]
 transform = Transform( -8.74228e-08, -2, 0, 2, -8.74228e-08, 0, 0, 0, 2, 52.122, 24, -400 )
 visible = false
 cast_shadow = 0
-mesh = SubResource( 58 )
+mesh = SubResource( 62 )
 material/0 = null
 script = ExtResource( 11 )
 
 [node name="water" parent="." instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 0.999476, -0.0323702, 0, 0.0323702, 0.999476, 0, 1.466, -250 )
+
+[node name="bubbles" type="Particles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.49, -1.046 )
+emitting = false
+amount = 1000
+lifetime = 3.0
+visibility_aabb = AABB( -16, -16, -16, 32, 32, 32 )
+process_material = SubResource( 65 )
+draw_pass_1 = SubResource( 67 )
+
+[node name="barn" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -32.221, -139.863 )
+visible = false
+mesh = SubResource( 69 )
+material/0 = null
+
+[node name="2d" type="Control" parent="."]
+material = SubResource( 71 )
+script = ExtResource( 21 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="warp" type="Sprite" parent="2d"]
+visible = false
+material = SubResource( 73 )
+scale = Vector2( 1064, 1064 )
+texture = ExtResource( 16 )
+centered = false
+
+[node name="dark" type="Sprite" parent="2d"]
+modulate = Color( 0, 0, 0, 0 )
+position = Vector2( 500, 500 )
+scale = Vector2( 1200, 1200 )
+texture = ExtResource( 16 )
+
+[node name="factory" type="Sprite" parent="2d"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 500, 500 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 20 )
+
+[connection signal="timeout" from="temptimer" to="." method="_on_temptimer_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

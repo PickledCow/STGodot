@@ -1,0 +1,234 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://dummy.png" type="Texture" id=2]
+[ext_resource path="res://bg/Smoke30Frames.png" type="Texture" id=3]
+[ext_resource path="res://bg/trace_01.png" type="Texture" id=4]
+[ext_resource path="res://bullet/add.tres" type="Material" id=5]
+[ext_resource path="res://effect/unusual/suck.tscn" type="PackedScene" id=6]
+
+[sub_resource type="CanvasItemMaterial" id=94]
+particles_animation = true
+particles_anim_h_frames = 6
+particles_anim_v_frames = 5
+particles_anim_loop = true
+
+[sub_resource type="ParticlesMaterial" id=95]
+emission_shape = 1
+emission_sphere_radius = 80.0
+flag_align_y = true
+flag_disable_z = true
+spread = 0.0
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = 720.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.2
+orbit_velocity_random = 0.0
+angle = 360.0
+angle_random = 1.0
+scale = 0.2
+scale_random = 0.1
+color = Color( 1, 1, 1, 0.25098 )
+
+[sub_resource type="ParticlesMaterial" id=103]
+emission_shape = 1
+emission_sphere_radius = 80.0
+flag_align_y = true
+flag_disable_z = true
+spread = 0.0
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = 720.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 360.0
+angle_random = 1.0
+scale = 0.2
+scale_random = 0.1
+color = Color( 1, 1, 1, 0.25098 )
+
+[sub_resource type="CanvasItemMaterial" id=104]
+blend_mode = 1
+particles_animation = true
+particles_anim_h_frames = 6
+particles_anim_v_frames = 5
+particles_anim_loop = true
+
+[sub_resource type="Gradient" id=96]
+offsets = PoolRealArray( 0, 0.25, 0.289474, 0.335526, 0.997722, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 0.332031, 0.420746, 1, 1, 2.02, 1.16, 2.88, 0.99, 0.5, 0.601563, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=97]
+gradient = SubResource( 96 )
+
+[sub_resource type="Curve" id=92]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.223684, 1 ), 0.006643, 0.006643, 0, 0, Vector2( 1, 0.454545 ), -0.0921211, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=93]
+curve = SubResource( 92 )
+
+[sub_resource type="ParticlesMaterial" id=98]
+trail_divisor = 2
+emission_shape = 1
+emission_sphere_radius = 4.0
+flag_disable_z = true
+direction = Vector3( 0, 1, 0 )
+spread = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity_random = 0.1
+angular_velocity = 45.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 4.0
+linear_accel_random = 1.0
+angle = 720.0
+angle_random = 1.0
+scale = 0.4
+scale_random = 0.1
+scale_curve = SubResource( 93 )
+color_ramp = SubResource( 97 )
+hue_variation = 0.1
+hue_variation_random = 1.0
+anim_offset = 1.0
+anim_offset_random = 1.0
+
+[sub_resource type="ParticlesMaterial" id=102]
+emission_shape = 1
+emission_sphere_radius = 32.0
+flag_disable_z = true
+direction = Vector3( 0, 1, 0 )
+spread = 0.0
+initial_velocity = 500.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 180.0
+scale = 0.1
+
+[sub_resource type="Shader" id=100]
+code = "shader_type canvas_item;
+
+uniform int strikes = 1;
+uniform float thickness = 0.1;
+
+float plot(vec2 st, float pct,float half_width){
+  return  smoothstep( pct-half_width, pct, st.y) -
+          smoothstep( pct, pct+half_width, st.y);
+}
+
+float rand(vec2 n) {
+    return fract(sin(dot(n, vec2(12.9898, 4.1414))) * 43758.5453);
+}
+
+float noise(vec2 n) {
+    const vec2 d = vec2(0.0, 1.0);
+    vec2 b = floor(n), f = smoothstep(vec2(0.0), vec2(1.0), fract(n));
+    return mix(mix(rand(b), rand(b + d.yx), f.x), mix(rand(b + d.xy), rand(b + d.yy), f.x), f.y);
+}
+
+float fbm(vec2 n) {
+    float total = 0.0, amplitude = 1.0;
+    for (int i = 0; i < 7; i++) {
+        total += noise(n) * amplitude;
+        n += n;
+        amplitude *= 0.5;
+    }
+    return total;
+}
+
+void fragment(){
+	vec2 uv = UV;
+	vec4 color = vec4(0.0,0.0,0.0,0.0);
+	vec2 t;
+	float y;
+	float pct;
+	float buffer = plot(uv,y,0.08);
+	color += pct * vec4(1.0,1.0,1.0,1.0);
+	color += buffer * vec4(0.2,0,0.8,0.0);
+	
+	int lightning_number = strikes;
+	for(int i = 0; i < lightning_number; i++){
+		t = uv * vec2(2.0,1.0) + vec2(float(i)) - TIME*3.0; // + vec2(float(i))
+		y = fbm(t)*0.5;
+		pct = plot(uv,y,thickness);
+		buffer = plot(uv,y,0.08);
+		color += pct * vec4(1.0,1.0,1.0,1.0);
+		color += buffer * vec4(0.2,0,0.8,0.0);
+	}
+	
+	COLOR = color;
+}"
+
+[sub_resource type="ShaderMaterial" id=101]
+shader = SubResource( 100 )
+shader_param/strikes = 4
+shader_param/thickness = 0.05
+
+[node name="eyestorm" type="Node2D"]
+material = ExtResource( 5 )
+position = Vector2( 0, -16 )
+
+[node name="cloud ring" type="Particles2D" parent="."]
+material = SubResource( 94 )
+position = Vector2( 0, -132 )
+scale = Vector2( 1, 0.667 )
+z_index = 2
+amount = 192
+lifetime = 0.2
+process_material = SubResource( 95 )
+texture = ExtResource( 3 )
+
+[node name="cloud ring2" type="Particles2D" parent="."]
+material = SubResource( 94 )
+position = Vector2( 0, -116 )
+scale = Vector2( 1, 0.667 )
+z_index = 1
+amount = 192
+lifetime = 0.2
+process_material = SubResource( 95 )
+texture = ExtResource( 3 )
+
+[node name="cloud ring3" type="Particles2D" parent="."]
+material = SubResource( 94 )
+position = Vector2( 0, -120 )
+scale = Vector2( 1, 0.667 )
+z_index = 1
+amount = 64
+local_coords = false
+process_material = SubResource( 103 )
+texture = ExtResource( 3 )
+
+[node name="core" type="Particles2D" parent="."]
+material = SubResource( 104 )
+position = Vector2( 0, -128 )
+z_index = 1
+amount = 96
+lifetime = 0.1
+local_coords = false
+process_material = SubResource( 98 )
+texture = ExtResource( 3 )
+
+[node name="suck" parent="." instance=ExtResource( 6 )]
+modulate = Color( 1, 1, 1, 0.376471 )
+position = Vector2( 0, -128 )
+scale = Vector2( 1, 0.667 )
+z_index = 1
+amount = 256
+
+[node name="rain" type="Particles2D" parent="."]
+show_behind_parent = true
+material = ExtResource( 5 )
+position = Vector2( 0, -99.9068 )
+z_index = 1
+amount = 24
+lifetime = 0.2
+process_material = SubResource( 102 )
+texture = ExtResource( 4 )
+
+[node name="lightning" type="Sprite" parent="."]
+modulate = Color( 1.5, 1.5, 1.5, 1 )
+show_behind_parent = true
+material = SubResource( 101 )
+position = Vector2( 0, -70 )
+rotation = 1.5708
+scale = Vector2( 100, 56 )
+z_index = -1
+texture = ExtResource( 2 )

@@ -8,3 +8,4 @@ var player = null
 var root = null
 var Bullets = null
 
+export var TD_SCALE = 1

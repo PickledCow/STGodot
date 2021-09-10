@@ -12,159 +12,159 @@
 [ext_resource path="res://bg/SmokeGradient.tres" type="Gradient" id=10]
 [ext_resource path="res://bg/lavalow.tres" type="Material" id=12]
 
-[sub_resource type="VisualShaderNodeTransformVecMult" id=54]
+[sub_resource type="VisualShaderNodeTransformVecMult" id=19]
 
-[sub_resource type="VisualShaderNodeInput" id=55]
+[sub_resource type="VisualShaderNodeInput" id=20]
 input_name = "world"
 
-[sub_resource type="VisualShaderNodeTransformFunc" id=56]
+[sub_resource type="VisualShaderNodeTransformFunc" id=21]
 
-[sub_resource type="Gradient" id=92]
+[sub_resource type="Gradient" id=22]
 offsets = PoolRealArray( 0.498361, 1 )
 colors = PoolColorArray( 0.00828552, 0.011236, 0.0117188, 0.403922, 0.0735321, 0.192899, 0.308594, 0.600394 )
 
-[sub_resource type="GradientTexture" id=93]
-gradient = SubResource( 92 )
+[sub_resource type="GradientTexture" id=23]
+gradient = SubResource( 22 )
 
-[sub_resource type="VisualShaderNodeTexture" id=59]
-texture = SubResource( 93 )
+[sub_resource type="VisualShaderNodeTexture" id=24]
+texture = SubResource( 23 )
 
-[sub_resource type="OpenSimplexNoise" id=60]
+[sub_resource type="OpenSimplexNoise" id=25]
 seed = 420
 octaves = 1
 period = 2.0
 
-[sub_resource type="NoiseTexture" id=61]
+[sub_resource type="NoiseTexture" id=26]
 width = 1024
 height = 1024
 seamless = true
-noise = SubResource( 60 )
+noise = SubResource( 25 )
 
-[sub_resource type="VisualShaderNodeTexture" id=62]
-texture = SubResource( 61 )
+[sub_resource type="VisualShaderNodeTexture" id=27]
+texture = SubResource( 26 )
 
-[sub_resource type="VisualShaderNodeVectorCompose" id=63]
+[sub_resource type="VisualShaderNodeVectorCompose" id=28]
 
-[sub_resource type="VisualShaderNodeDotProduct" id=64]
+[sub_resource type="VisualShaderNodeDotProduct" id=29]
 default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 0.5, 0.5, 0 ) ]
 
-[sub_resource type="VisualShaderNodeVectorOp" id=65]
+[sub_resource type="VisualShaderNodeVectorOp" id=30]
 default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 0.0025, 0.0025, 0.0025 ) ]
 operator = 2
 
-[sub_resource type="VisualShaderNodeVectorOp" id=66]
+[sub_resource type="VisualShaderNodeVectorOp" id=31]
 default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 1.5, 1.5, 1.5 ) ]
 operator = 2
 
-[sub_resource type="VisualShaderNodeInput" id=67]
+[sub_resource type="VisualShaderNodeInput" id=32]
 input_name = "time"
 
-[sub_resource type="VisualShaderNodeDotProduct" id=68]
+[sub_resource type="VisualShaderNodeDotProduct" id=33]
 default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 0.005, 0, 0 ) ]
 
-[sub_resource type="VisualShaderNodeVectorOp" id=69]
+[sub_resource type="VisualShaderNodeVectorOp" id=34]
 
-[sub_resource type="VisualShaderNodeVectorCompose" id=70]
+[sub_resource type="VisualShaderNodeVectorCompose" id=35]
 
-[sub_resource type="VisualShaderNodeDotProduct" id=71]
+[sub_resource type="VisualShaderNodeDotProduct" id=36]
 default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( -0.001, -0.001, -0.001 ) ]
 
-[sub_resource type="VisualShaderNodeVectorOp" id=72]
+[sub_resource type="VisualShaderNodeVectorOp" id=37]
 
-[sub_resource type="VisualShaderNodeVectorCompose" id=73]
+[sub_resource type="VisualShaderNodeVectorCompose" id=38]
 
-[sub_resource type="VisualShaderNodeVectorDecompose" id=74]
-
-[sub_resource type="VisualShaderNodeVectorCompose" id=75]
-
-[sub_resource type="VisualShaderNodeVectorCompose" id=76]
-
-[sub_resource type="VisualShaderNodeVectorDecompose" id=77]
-
-[sub_resource type="OpenSimplexNoise" id=78]
-seed = 69
-period = 6.0
-
-[sub_resource type="NoiseTexture" id=79]
-width = 1024
-height = 1024
-seamless = true
-noise = SubResource( 78 )
-
-[sub_resource type="VisualShaderNodeTexture" id=80]
-texture = SubResource( 79 )
-
-[sub_resource type="VisualShaderNodeInput" id=81]
-input_name = "vertex"
-
-[sub_resource type="VisualShaderNodeInput" id=82]
-input_name = "camera"
-
-[sub_resource type="VisualShaderNodeTransformVecMult" id=83]
-
-[sub_resource type="VisualShaderNodeTexture" id=84]
-texture = SubResource( 61 )
-
-[sub_resource type="VisualShaderNodeVectorOp" id=85]
-default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( -0.001, -0.001, -0.001 ) ]
-operator = 2
-
-[sub_resource type="VisualShaderNodeInput" id=86]
-input_name = "time"
-
-[sub_resource type="VisualShaderNodeDotProduct" id=87]
-default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( -0.001, -0.001, -0.001 ) ]
-
-[sub_resource type="VisualShaderNodeVectorOp" id=88]
-
-[sub_resource type="VisualShaderNodeVectorCompose" id=89]
-
-[sub_resource type="VisualShaderNodeDotProduct" id=90]
-default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( -0.001, -0.001, -0.001 ) ]
-
-[sub_resource type="VisualShaderNodeVectorOp" id=91]
-
-[sub_resource type="VisualShaderNodeTexture" id=39]
-texture = SubResource( 79 )
+[sub_resource type="VisualShaderNodeVectorDecompose" id=39]
 
 [sub_resource type="VisualShaderNodeVectorCompose" id=40]
 
-[sub_resource type="VisualShaderNodeVectorOp" id=41]
+[sub_resource type="VisualShaderNodeVectorCompose" id=41]
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id=42]
+
+[sub_resource type="OpenSimplexNoise" id=43]
+seed = 69
+period = 6.0
+
+[sub_resource type="NoiseTexture" id=44]
+width = 1024
+height = 1024
+seamless = true
+noise = SubResource( 43 )
+
+[sub_resource type="VisualShaderNodeTexture" id=45]
+texture = SubResource( 44 )
+
+[sub_resource type="VisualShaderNodeInput" id=46]
+input_name = "vertex"
+
+[sub_resource type="VisualShaderNodeInput" id=47]
+input_name = "camera"
+
+[sub_resource type="VisualShaderNodeTransformVecMult" id=48]
+
+[sub_resource type="VisualShaderNodeTexture" id=49]
+texture = SubResource( 26 )
+
+[sub_resource type="VisualShaderNodeVectorOp" id=50]
+default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( -0.001, -0.001, -0.001 ) ]
+operator = 2
+
+[sub_resource type="VisualShaderNodeInput" id=51]
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeDotProduct" id=52]
+default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( -0.001, -0.001, -0.001 ) ]
+
+[sub_resource type="VisualShaderNodeVectorOp" id=53]
+
+[sub_resource type="VisualShaderNodeVectorCompose" id=54]
+
+[sub_resource type="VisualShaderNodeDotProduct" id=55]
+default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( -0.001, -0.001, -0.001 ) ]
+
+[sub_resource type="VisualShaderNodeVectorOp" id=56]
+
+[sub_resource type="VisualShaderNodeTexture" id=57]
+texture = SubResource( 44 )
+
+[sub_resource type="VisualShaderNodeVectorCompose" id=58]
+
+[sub_resource type="VisualShaderNodeVectorOp" id=59]
 default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 0, 3, 0 ) ]
 operator = 2
 
-[sub_resource type="VisualShaderNodeInput" id=42]
+[sub_resource type="VisualShaderNodeInput" id=60]
 input_name = "vertex"
 
-[sub_resource type="VisualShaderNodeVectorOp" id=43]
+[sub_resource type="VisualShaderNodeVectorOp" id=61]
 
-[sub_resource type="VisualShaderNodeVectorOp" id=44]
+[sub_resource type="VisualShaderNodeVectorOp" id=62]
 default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 0.3, 0.7, 0 ) ]
 operator = 2
 
-[sub_resource type="VisualShaderNodeVectorDecompose" id=45]
+[sub_resource type="VisualShaderNodeVectorDecompose" id=63]
 
-[sub_resource type="VisualShaderNodeVectorCompose" id=46]
+[sub_resource type="VisualShaderNodeVectorCompose" id=64]
 
-[sub_resource type="VisualShaderNodeVectorDecompose" id=47]
+[sub_resource type="VisualShaderNodeVectorDecompose" id=65]
 
-[sub_resource type="VisualShaderNodeVectorCompose" id=48]
+[sub_resource type="VisualShaderNodeVectorCompose" id=66]
 
-[sub_resource type="VisualShaderNodeVectorCompose" id=49]
+[sub_resource type="VisualShaderNodeVectorCompose" id=67]
 
-[sub_resource type="VisualShaderNodeInput" id=50]
+[sub_resource type="VisualShaderNodeInput" id=68]
 input_name = "vertex"
 
-[sub_resource type="Gradient" id=51]
+[sub_resource type="Gradient" id=69]
 offsets = PoolRealArray( 0.0788044, 0.76087 )
 
-[sub_resource type="GradientTexture" id=52]
-gradient = SubResource( 51 )
+[sub_resource type="GradientTexture" id=70]
+gradient = SubResource( 69 )
 
-[sub_resource type="VisualShaderNodeTexture" id=53]
-texture = SubResource( 52 )
+[sub_resource type="VisualShaderNodeTexture" id=71]
+texture = SubResource( 70 )
 
-[sub_resource type="VisualShader" id=94]
+[sub_resource type="VisualShader" id=72]
 code = "shader_type spatial;
 render_mode specular_schlick_ggx;
 
@@ -364,114 +364,114 @@ void light() {
 "
 graph_offset = Vector2( 884.426, -553.409 )
 nodes/vertex/0/position = Vector2( 1840, -900 )
-nodes/vertex/2/node = SubResource( 39 )
+nodes/vertex/2/node = SubResource( 57 )
 nodes/vertex/2/position = Vector2( 300, -780 )
-nodes/vertex/3/node = SubResource( 50 )
+nodes/vertex/3/node = SubResource( 68 )
 nodes/vertex/3/position = Vector2( -1320, -780 )
-nodes/vertex/9/node = SubResource( 53 )
+nodes/vertex/9/node = SubResource( 71 )
 nodes/vertex/9/position = Vector2( 980, -880 )
-nodes/vertex/10/node = SubResource( 84 )
+nodes/vertex/10/node = SubResource( 49 )
 nodes/vertex/10/position = Vector2( 300, -1020 )
-nodes/vertex/13/node = SubResource( 85 )
+nodes/vertex/13/node = SubResource( 50 )
 nodes/vertex/13/position = Vector2( -820, -820 )
-nodes/vertex/14/node = SubResource( 86 )
+nodes/vertex/14/node = SubResource( 51 )
 nodes/vertex/14/position = Vector2( -1300, -880 )
-nodes/vertex/15/node = SubResource( 87 )
+nodes/vertex/15/node = SubResource( 52 )
 nodes/vertex/15/position = Vector2( -1080, -600 )
-nodes/vertex/16/node = SubResource( 88 )
+nodes/vertex/16/node = SubResource( 53 )
 nodes/vertex/16/position = Vector2( -480, -720 )
-nodes/vertex/17/node = SubResource( 89 )
+nodes/vertex/17/node = SubResource( 54 )
 nodes/vertex/17/position = Vector2( -760, -620 )
-nodes/vertex/18/node = SubResource( 90 )
+nodes/vertex/18/node = SubResource( 55 )
 nodes/vertex/18/position = Vector2( -1040, -980 )
-nodes/vertex/19/node = SubResource( 91 )
+nodes/vertex/19/node = SubResource( 56 )
 nodes/vertex/19/position = Vector2( -480, -980 )
-nodes/vertex/20/node = SubResource( 40 )
+nodes/vertex/20/node = SubResource( 58 )
 nodes/vertex/20/position = Vector2( -760, -1000 )
-nodes/vertex/21/node = SubResource( 41 )
+nodes/vertex/21/node = SubResource( 59 )
 nodes/vertex/21/position = Vector2( 1260, -820 )
-nodes/vertex/22/node = SubResource( 42 )
+nodes/vertex/22/node = SubResource( 60 )
 nodes/vertex/22/position = Vector2( 1380, -940 )
-nodes/vertex/23/node = SubResource( 43 )
+nodes/vertex/23/node = SubResource( 61 )
 nodes/vertex/23/position = Vector2( 1640, -900 )
-nodes/vertex/24/node = SubResource( 44 )
+nodes/vertex/24/node = SubResource( 62 )
 nodes/vertex/24/position = Vector2( 760, -820 )
-nodes/vertex/25/node = SubResource( 45 )
+nodes/vertex/25/node = SubResource( 63 )
 nodes/vertex/25/position = Vector2( -220, -920 )
-nodes/vertex/26/node = SubResource( 46 )
+nodes/vertex/26/node = SubResource( 64 )
 nodes/vertex/26/position = Vector2( 40, -900 )
-nodes/vertex/27/node = SubResource( 47 )
+nodes/vertex/27/node = SubResource( 65 )
 nodes/vertex/27/position = Vector2( -200.894, -757.436 )
-nodes/vertex/28/node = SubResource( 48 )
+nodes/vertex/28/node = SubResource( 66 )
 nodes/vertex/28/position = Vector2( 59.1062, -737.436 )
-nodes/vertex/29/node = SubResource( 49 )
+nodes/vertex/29/node = SubResource( 67 )
 nodes/vertex/29/position = Vector2( 540, -880 )
 nodes/vertex/connections = PoolIntArray( 14, 0, 15, 0, 15, 0, 17, 1, 15, 0, 17, 2, 15, 0, 17, 0, 18, 0, 20, 1, 18, 0, 20, 2, 18, 0, 20, 0, 14, 0, 18, 0, 22, 0, 23, 0, 23, 0, 0, 0, 9, 0, 21, 0, 21, 0, 23, 1, 3, 0, 13, 0, 24, 0, 9, 0, 17, 0, 16, 1, 25, 0, 26, 0, 25, 2, 26, 1, 25, 1, 26, 2, 20, 0, 19, 0, 26, 0, 10, 0, 19, 0, 25, 0, 13, 0, 19, 1, 13, 0, 16, 0, 27, 0, 28, 0, 27, 2, 28, 1, 27, 1, 28, 2, 28, 0, 2, 0, 16, 0, 27, 0, 2, 0, 29, 1, 10, 0, 29, 0, 29, 0, 24, 0 )
 nodes/fragment/0/position = Vector2( 2000, -620 )
-nodes/fragment/5/node = SubResource( 80 )
+nodes/fragment/5/node = SubResource( 45 )
 nodes/fragment/5/position = Vector2( 720, -360 )
-nodes/fragment/7/node = SubResource( 81 )
+nodes/fragment/7/node = SubResource( 46 )
 nodes/fragment/7/position = Vector2( -860, 20 )
-nodes/fragment/8/node = SubResource( 82 )
+nodes/fragment/8/node = SubResource( 47 )
 nodes/fragment/8/position = Vector2( -820, -80 )
-nodes/fragment/9/node = SubResource( 83 )
+nodes/fragment/9/node = SubResource( 48 )
 nodes/fragment/9/position = Vector2( -620, -80 )
-nodes/fragment/10/node = SubResource( 54 )
+nodes/fragment/10/node = SubResource( 19 )
 nodes/fragment/10/position = Vector2( -320, -320 )
-nodes/fragment/11/node = SubResource( 55 )
+nodes/fragment/11/node = SubResource( 20 )
 nodes/fragment/11/position = Vector2( -860, -240 )
-nodes/fragment/12/node = SubResource( 56 )
+nodes/fragment/12/node = SubResource( 21 )
 nodes/fragment/12/position = Vector2( -640, -260 )
-nodes/fragment/13/node = SubResource( 59 )
+nodes/fragment/13/node = SubResource( 24 )
 nodes/fragment/13/position = Vector2( 1360, -480 )
-nodes/fragment/15/node = SubResource( 62 )
+nodes/fragment/15/node = SubResource( 27 )
 nodes/fragment/15/position = Vector2( 780, -720 )
-nodes/fragment/16/node = SubResource( 63 )
+nodes/fragment/16/node = SubResource( 28 )
 nodes/fragment/16/position = Vector2( 940, -460 )
-nodes/fragment/17/node = SubResource( 64 )
+nodes/fragment/17/node = SubResource( 29 )
 nodes/fragment/17/position = Vector2( 1160, -460 )
-nodes/fragment/18/node = SubResource( 65 )
+nodes/fragment/18/node = SubResource( 30 )
 nodes/fragment/18/position = Vector2( -340, -140 )
-nodes/fragment/19/node = SubResource( 66 )
+nodes/fragment/19/node = SubResource( 31 )
 nodes/fragment/19/position = Vector2( 1620, -360 )
-nodes/fragment/20/node = SubResource( 67 )
+nodes/fragment/20/node = SubResource( 32 )
 nodes/fragment/20/position = Vector2( -840, -660 )
-nodes/fragment/23/node = SubResource( 68 )
+nodes/fragment/23/node = SubResource( 33 )
 nodes/fragment/23/position = Vector2( -480, -680 )
-nodes/fragment/24/node = SubResource( 69 )
+nodes/fragment/24/node = SubResource( 34 )
 nodes/fragment/24/position = Vector2( 20, -520 )
-nodes/fragment/25/node = SubResource( 70 )
+nodes/fragment/25/node = SubResource( 35 )
 nodes/fragment/25/position = Vector2( -220, -680 )
-nodes/fragment/26/node = SubResource( 71 )
+nodes/fragment/26/node = SubResource( 36 )
 nodes/fragment/26/position = Vector2( -660, -540 )
-nodes/fragment/27/node = SubResource( 72 )
+nodes/fragment/27/node = SubResource( 37 )
 nodes/fragment/27/position = Vector2( 20, -300 )
-nodes/fragment/28/node = SubResource( 73 )
+nodes/fragment/28/node = SubResource( 38 )
 nodes/fragment/28/position = Vector2( -380, -540 )
-nodes/fragment/29/node = SubResource( 74 )
+nodes/fragment/29/node = SubResource( 39 )
 nodes/fragment/29/position = Vector2( 200, -520 )
-nodes/fragment/30/node = SubResource( 75 )
+nodes/fragment/30/node = SubResource( 40 )
 nodes/fragment/30/position = Vector2( 440, -520 )
-nodes/fragment/31/node = SubResource( 76 )
+nodes/fragment/31/node = SubResource( 41 )
 nodes/fragment/31/position = Vector2( 480, -340 )
-nodes/fragment/32/node = SubResource( 77 )
+nodes/fragment/32/node = SubResource( 42 )
 nodes/fragment/32/position = Vector2( 240, -340 )
 nodes/fragment/connections = PoolIntArray( 7, 0, 9, 1, 8, 0, 9, 0, 11, 0, 12, 0, 5, 0, 16, 1, 16, 0, 17, 0, 15, 0, 16, 0, 12, 0, 10, 0, 9, 0, 18, 0, 18, 0, 10, 1, 13, 0, 19, 0, 20, 0, 23, 0, 10, 0, 24, 1, 23, 0, 25, 1, 23, 0, 25, 2, 23, 0, 25, 0, 25, 0, 24, 0, 26, 0, 28, 1, 26, 0, 28, 2, 26, 0, 28, 0, 28, 0, 27, 0, 20, 0, 26, 0, 10, 0, 27, 1, 17, 0, 13, 0, 13, 0, 0, 0, 24, 0, 29, 0, 29, 0, 30, 0, 29, 1, 30, 2, 29, 2, 30, 1, 30, 0, 15, 0, 32, 0, 31, 0, 32, 1, 31, 2, 32, 2, 31, 1, 27, 0, 32, 0, 31, 0, 5, 0, 19, 0, 0, 5 )
 
-[sub_resource type="ShaderMaterial" id=95]
-shader = SubResource( 94 )
+[sub_resource type="ShaderMaterial" id=73]
+shader = SubResource( 72 )
 
-[sub_resource type="PlaneMesh" id=96]
-material = SubResource( 95 )
+[sub_resource type="PlaneMesh" id=74]
+material = SubResource( 73 )
 size = Vector2( 500, 500 )
 subdivide_width = 512
 subdivide_depth = 512
 
-[sub_resource type="PlaneMesh" id=97]
+[sub_resource type="PlaneMesh" id=75]
 material = ExtResource( 12 )
 size = Vector2( 500, 500 )
 
-[sub_resource type="SpatialMaterial" id=98]
+[sub_resource type="SpatialMaterial" id=76]
 albedo_color = Color( 0.345098, 0, 0.0627451, 1 )
 albedo_texture = ExtResource( 4 )
 depth_enabled = true
@@ -480,44 +480,43 @@ depth_deep_parallax = false
 depth_flip_tangent = false
 depth_flip_binormal = false
 
-[sub_resource type="CubeMesh" id=99]
-material = SubResource( 98 )
+[sub_resource type="CubeMesh" id=77]
+material = SubResource( 76 )
 
-[sub_resource type="GradientTexture" id=100]
+[sub_resource type="GradientTexture" id=15]
 gradient = ExtResource( 6 )
 
-[sub_resource type="Curve" id=101]
-_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.138158, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.123864 ), 0.0, 0.0, 0, 0 ]
+[sub_resource type="Curve" id=16]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.138158, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.454545 ), -0.0921211, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=102]
-curve = SubResource( 101 )
+[sub_resource type="CurveTexture" id=17]
+curve = SubResource( 16 )
 
-[sub_resource type="ParticlesMaterial" id=103]
+[sub_resource type="ParticlesMaterial" id=18]
 trail_divisor = 5
 emission_shape = 1
-emission_sphere_radius = 1.0
+emission_sphere_radius = 2.0
 direction = Vector3( 0, 1, 0 )
 spread = 0.0
-gravity = Vector3( 0, 0, 0 )
+gravity = Vector3( 0, -200, 0 )
 initial_velocity = 10.0
 initial_velocity_random = 0.1
-angular_velocity = 40.0
+angular_velocity = 720.0
 angular_velocity_random = 1.0
 linear_accel = 4.0
 linear_accel_random = 1.0
-angle = 360.0
+angle = 720.0
 angle_random = 1.0
-scale = 2.0
+scale = 0.5
 scale_random = 0.8
-scale_curve = SubResource( 102 )
-color_ramp = SubResource( 100 )
+scale_curve = SubResource( 17 )
+color_ramp = SubResource( 15 )
 hue_variation = -0.25
 hue_variation_random = 1.0
-anim_speed = 1.0
 anim_offset = 1.0
 anim_offset_random = 1.0
 
-[sub_resource type="SpatialMaterial" id=104]
+[sub_resource type="SpatialMaterial" id=78]
 flags_transparent = true
 flags_unshaded = true
 vertex_color_use_as_albedo = true
@@ -528,19 +527,19 @@ particles_anim_v_frames = 5
 particles_anim_loop = true
 albedo_texture = ExtResource( 5 )
 
-[sub_resource type="QuadMesh" id=105]
-material = SubResource( 104 )
+[sub_resource type="QuadMesh" id=79]
+material = SubResource( 78 )
 
-[sub_resource type="GradientTexture" id=106]
+[sub_resource type="GradientTexture" id=80]
 gradient = ExtResource( 10 )
 
-[sub_resource type="Curve" id=107]
+[sub_resource type="Curve" id=81]
 _data = [ Vector2( 0, 0.495454 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=108]
-curve = SubResource( 107 )
+[sub_resource type="CurveTexture" id=82]
+curve = SubResource( 81 )
 
-[sub_resource type="ParticlesMaterial" id=109]
+[sub_resource type="ParticlesMaterial" id=83]
 emission_shape = 1
 emission_sphere_radius = 0.5
 direction = Vector3( 0, 1, 0 )
@@ -558,13 +557,13 @@ angle = 360.0
 angle_random = 1.0
 scale = 4.0
 scale_random = 1.0
-scale_curve = SubResource( 108 )
-color_ramp = SubResource( 106 )
+scale_curve = SubResource( 82 )
+color_ramp = SubResource( 80 )
 anim_speed = 1.0
 anim_offset = 1.0
 anim_offset_random = 1.0
 
-[sub_resource type="SpatialMaterial" id=110]
+[sub_resource type="SpatialMaterial" id=84]
 flags_transparent = true
 flags_unshaded = true
 vertex_color_use_as_albedo = true
@@ -574,40 +573,39 @@ particles_anim_v_frames = 5
 particles_anim_loop = true
 albedo_texture = ExtResource( 7 )
 
-[sub_resource type="QuadMesh" id=111]
-material = SubResource( 110 )
+[sub_resource type="QuadMesh" id=85]
+material = SubResource( 84 )
 
-[sub_resource type="GradientTexture" id=112]
+[sub_resource type="GradientTexture" id=86]
 gradient = ExtResource( 9 )
 
-[sub_resource type="Curve" id=113]
-_data = [ Vector2( 0, 0.345455 ), 0.0, 0.0, 0, 0, Vector2( 0.480263, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+[sub_resource type="Curve" id=87]
+_data = [ Vector2( 0, 0.345455 ), 0.0, 0.0, 0, 0, Vector2( 0.486842, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=114]
-curve = SubResource( 113 )
+[sub_resource type="CurveTexture" id=88]
+curve = SubResource( 87 )
 
-[sub_resource type="ParticlesMaterial" id=115]
-trail_divisor = 5
+[sub_resource type="ParticlesMaterial" id=89]
 emission_shape = 1
-emission_sphere_radius = 1.2
+emission_sphere_radius = 96.0
 direction = Vector3( 0, 1, 0 )
-flatness = 0.24
+spread = 180.0
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 3.0
+initial_velocity = 100.0
 initial_velocity_random = 1.0
 linear_accel = 10.0
 linear_accel_random = 1.0
 tangential_accel = 10.0
 tangential_accel_random = 1.0
-damping = 2.0
+damping = 2.43
 damping_random = 1.0
 angle = 360.0
 angle_random = 1.0
-scale_random = 0.3
-scale_curve = SubResource( 114 )
-color_ramp = SubResource( 112 )
+scale = 0.1
+scale_curve = SubResource( 88 )
+color_ramp = SubResource( 86 )
 
-[sub_resource type="SpatialMaterial" id=116]
+[sub_resource type="SpatialMaterial" id=90]
 flags_transparent = true
 flags_unshaded = true
 vertex_color_use_as_albedo = true
@@ -618,14 +616,14 @@ particles_anim_v_frames = 1
 particles_anim_loop = false
 albedo_texture = ExtResource( 8 )
 
-[sub_resource type="QuadMesh" id=117]
-material = SubResource( 116 )
+[sub_resource type="QuadMesh" id=91]
+material = SubResource( 90 )
 size = Vector2( 0.2, 0.2 )
 
-[sub_resource type="CubeMesh" id=118]
-material = SubResource( 98 )
+[sub_resource type="CubeMesh" id=92]
+material = SubResource( 76 )
 
-[sub_resource type="Animation" id=119]
+[sub_resource type="Animation" id=93]
 resource_name = "main"
 length = 15.0
 step = 0.5
@@ -727,38 +725,38 @@ far = 250.0
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0 )
 
 [node name="Lava" type="MeshInstance" parent="random container"]
-mesh = SubResource( 96 )
+mesh = SubResource( 74 )
 skeleton = NodePath("")
 material/0 = null
 
 [node name="LavaFar" type="MeshInstance" parent="random container"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 500, 0, 0 )
-mesh = SubResource( 97 )
+mesh = SubResource( 75 )
 skeleton = NodePath("")
 material/0 = null
 
 [node name="LavaFar2" type="MeshInstance" parent="random container"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -500, 0, 0 )
-mesh = SubResource( 97 )
+mesh = SubResource( 75 )
 skeleton = NodePath("")
 material/0 = null
 
 [node name="LavaFar3" type="MeshInstance" parent="random container"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 500 )
-mesh = SubResource( 97 )
+mesh = SubResource( 75 )
 skeleton = NodePath("")
 material/0 = null
 
 [node name="LavaFar4" type="MeshInstance" parent="random container"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -500 )
-mesh = SubResource( 97 )
+mesh = SubResource( 75 )
 skeleton = NodePath("")
 material/0 = null
 
 [node name="MeshInstance2" type="MeshInstance" parent="random container"]
 transform = Transform( 2.12132, 0, 2.12132, 0, 10, 0, -2.12132, 0, 2.12132, 16, 10, 0 )
 layers = 3
-mesh = SubResource( 99 )
+mesh = SubResource( 77 )
 material/0 = null
 
 [node name="Fire" type="Particles" parent="random container/MeshInstance2"]
@@ -767,8 +765,8 @@ amount = 500
 lifetime = 0.5
 randomness = 1.0
 draw_order = 2
-process_material = SubResource( 103 )
-draw_pass_1 = SubResource( 105 )
+process_material = SubResource( 18 )
+draw_pass_1 = SubResource( 79 )
 
 [node name="Smoke" type="Particles" parent="random container/MeshInstance2/Fire"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
@@ -776,8 +774,8 @@ amount = 100
 lifetime = 2.0
 randomness = 1.0
 draw_order = 2
-process_material = SubResource( 109 )
-draw_pass_1 = SubResource( 111 )
+process_material = SubResource( 83 )
+draw_pass_1 = SubResource( 85 )
 
 [node name="Particles" type="Particles" parent="random container/MeshInstance2/Fire"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
@@ -785,8 +783,8 @@ amount = 150
 lifetime = 0.5
 randomness = 1.0
 draw_order = 2
-process_material = SubResource( 115 )
-draw_pass_1 = SubResource( 117 )
+process_material = SubResource( 89 )
+draw_pass_1 = SubResource( 91 )
 
 [node name="OmniLight" type="OmniLight" parent="random container/MeshInstance2/Fire"]
 transform = Transform( 1, 0, -4.47037e-08, 0, 1, 0, 4.47037e-08, 0, 1, 0, 0.5, 0 )
@@ -809,7 +807,7 @@ omni_attenuation = 4.28709
 [node name="MeshInstance3" type="MeshInstance" parent="random container"]
 transform = Transform( 2.12132, 0, 2.12132, 0, 10, 0, -2.12132, 0, 2.12132, -16, 10, 0 )
 layers = 3
-mesh = SubResource( 99 )
+mesh = SubResource( 77 )
 material/0 = null
 
 [node name="Fire" type="Particles" parent="random container/MeshInstance3"]
@@ -818,8 +816,8 @@ amount = 500
 lifetime = 0.5
 randomness = 1.0
 draw_order = 2
-process_material = SubResource( 103 )
-draw_pass_1 = SubResource( 105 )
+process_material = SubResource( 18 )
+draw_pass_1 = SubResource( 79 )
 
 [node name="Smoke" type="Particles" parent="random container/MeshInstance3/Fire"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
@@ -827,8 +825,8 @@ amount = 100
 lifetime = 2.0
 randomness = 1.0
 draw_order = 2
-process_material = SubResource( 109 )
-draw_pass_1 = SubResource( 111 )
+process_material = SubResource( 83 )
+draw_pass_1 = SubResource( 85 )
 
 [node name="Particles" type="Particles" parent="random container/MeshInstance3/Fire"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
@@ -836,8 +834,8 @@ amount = 150
 lifetime = 0.5
 randomness = 1.0
 draw_order = 2
-process_material = SubResource( 115 )
-draw_pass_1 = SubResource( 117 )
+process_material = SubResource( 89 )
+draw_pass_1 = SubResource( 91 )
 
 [node name="OmniLight" type="OmniLight" parent="random container/MeshInstance3/Fire"]
 transform = Transform( 0.333333, 0, 0, 0, 0.1, 0, 1.49012e-08, 0, 0.333333, 0, 0.5, 0 )
@@ -860,7 +858,7 @@ omni_attenuation = 4.28709
 [node name="MeshInstance5" type="MeshInstance" parent="random container"]
 transform = Transform( 2.12132, 0, 2.12132, 0, 10, 0, -2.12132, 0, 2.12132, 0, 10, 16 )
 layers = 3
-mesh = SubResource( 99 )
+mesh = SubResource( 77 )
 material/0 = null
 
 [node name="Fire" type="Particles" parent="random container/MeshInstance5"]
@@ -869,8 +867,8 @@ amount = 500
 lifetime = 0.5
 randomness = 1.0
 draw_order = 2
-process_material = SubResource( 103 )
-draw_pass_1 = SubResource( 105 )
+process_material = SubResource( 18 )
+draw_pass_1 = SubResource( 79 )
 
 [node name="Smoke" type="Particles" parent="random container/MeshInstance5/Fire"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
@@ -878,8 +876,8 @@ amount = 100
 lifetime = 2.0
 randomness = 1.0
 draw_order = 2
-process_material = SubResource( 109 )
-draw_pass_1 = SubResource( 111 )
+process_material = SubResource( 83 )
+draw_pass_1 = SubResource( 85 )
 
 [node name="Particles" type="Particles" parent="random container/MeshInstance5/Fire"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
@@ -887,8 +885,8 @@ amount = 150
 lifetime = 0.5
 randomness = 1.0
 draw_order = 2
-process_material = SubResource( 115 )
-draw_pass_1 = SubResource( 117 )
+process_material = SubResource( 89 )
+draw_pass_1 = SubResource( 91 )
 
 [node name="OmniLight" type="OmniLight" parent="random container/MeshInstance5/Fire"]
 transform = Transform( 0.333333, 0, 0, 0, 0.1, 0, 1.49012e-08, 0, 0.333333, 0, 0.5, 0 )
@@ -911,7 +909,7 @@ omni_attenuation = 4.28709
 [node name="MeshInstance4" type="MeshInstance" parent="random container"]
 transform = Transform( 2.12132, 0, 2.12132, 0, 10, 0, -2.12132, 0, 2.12132, 0, 10, -16 )
 layers = 3
-mesh = SubResource( 118 )
+mesh = SubResource( 92 )
 material/0 = null
 
 [node name="Fire" type="Particles" parent="random container/MeshInstance4"]
@@ -920,8 +918,8 @@ amount = 500
 lifetime = 0.5
 randomness = 1.0
 draw_order = 2
-process_material = SubResource( 103 )
-draw_pass_1 = SubResource( 105 )
+process_material = SubResource( 18 )
+draw_pass_1 = SubResource( 79 )
 
 [node name="Smoke" type="Particles" parent="random container/MeshInstance4/Fire"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
@@ -929,8 +927,8 @@ amount = 100
 lifetime = 2.0
 randomness = 1.0
 draw_order = 2
-process_material = SubResource( 109 )
-draw_pass_1 = SubResource( 111 )
+process_material = SubResource( 83 )
+draw_pass_1 = SubResource( 85 )
 
 [node name="Particles" type="Particles" parent="random container/MeshInstance4/Fire"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
@@ -938,8 +936,8 @@ amount = 150
 lifetime = 0.5
 randomness = 1.0
 draw_order = 2
-process_material = SubResource( 115 )
-draw_pass_1 = SubResource( 117 )
+process_material = SubResource( 89 )
+draw_pass_1 = SubResource( 91 )
 
 [node name="OmniLight" type="OmniLight" parent="random container/MeshInstance4/Fire"]
 transform = Transform( 0.333333, 0, 0, 0, 0.1, 0, 1.49012e-08, 0, 0.333333, 0, 0.5, 0 )
@@ -968,5 +966,5 @@ light_cull_mask = 4294967294
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_speed = 0.5
-anims/main = SubResource( 119 )
+anims/main = SubResource( 93 )
 script = ExtResource( 3 )

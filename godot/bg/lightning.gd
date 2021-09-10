@@ -1,6 +1,5 @@
 extends MeshInstance
 
-
 func _ready():
 	hide()
 
@@ -16,7 +15,7 @@ func _process(delta):
 		show()
 		translation.x = -200.0 + randf()*400.0
 		strike_timer = STRIKE_TIME
-		next_strike_timer = randf()*5.0 + 2.0
+		next_strike_timer = randf()*3.0 + 1.0
 	
 	strike_timer -= delta
 	if strike_timer <= 0:

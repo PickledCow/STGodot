@@ -4,6 +4,8 @@
 #include "BulletManager.h"
 #include "Bullet.h"
 #include "CurveLaser.h"
+#include "PlayerBulletManager.h"
+#include "PlayerBullet.h"
 #include "Item.h"
 
 extern "C" void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options * o) {
@@ -21,5 +23,7 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void* handle) {
 	godot::register_class<BulletManager>();
 	godot::register_class<Bullet>();
 	godot::register_class<CurveLaser>();
+	godot::register_class<PlayerBulletManager>();
+	godot::register_class<PlayerBullet>();
 	godot::register_class<Item>();
 }

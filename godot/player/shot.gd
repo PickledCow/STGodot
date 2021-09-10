@@ -63,7 +63,7 @@ func _process(delta):
 				var enemy = enemy_hitbox.get_parent()
 				if enemy in damaged_enemies:
 					continue
-				enemy.health -= damage
+				enemy.hit(damage)
 				damaged_enemies.append(enemy)
 				
 			

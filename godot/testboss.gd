@@ -1,7 +1,8 @@
 extends Node2D
 
 var t = 0
-var health = 20000
+var health = 10000
+var invincible = true
 
 var phase = 0
 
@@ -9,16 +10,15 @@ onready var root = get_node('../')
 onready var Bullets = root.get_node("BulletHandler")
 
 func _ready():
-	weight = 30
-	dest = Vector2(Constants.FIELD_SIZE.x * 0.5, Constants.FIELD_SIZE.y * 0.3)
-	position = dest
 	$Healthbar.max_value = health
 
 
 #create_bullet(position, speed, angle, accel, max_speed, type, colour, fade, w_vel, spin, blend)
 
+var start = position
 var dest = position
-var weight = 30
+var move_timer = 30
+var move_time = 30
 
 
 var c_offset = 0
@@ -28,6 +28,7 @@ func bowap():
 	var DENSITY = 14.0
 	var u = t - 180
 	if u >= 0:
+		invincible = false
 # warning-ignore:shadowed_variable
 		var lr = -1 if u % 1200 >= 600 else 1
 # warning-ignore:shadowed_variable
@@ -88,8 +89,7 @@ func misdirection():
 				Bullets.queue_update_bullet(b, Constants.TRANSFORM_COND.BOUNCE, null, null, null, null, null, null, Constants.COLOURS.BLUE)
 		
 		if u % 180 == 60:
-			weight = 30
-			dest = Vector2(Constants.FIELD_SIZE.x * x[(u%960)/180], Constants.FIELD_SIZE.y*0.3)
+			dest = Vector2(Constants.FIELD_SIZE.x * x[(u%720)/180], Constants.FIELD_SIZE.y*0.3)
 		
 func qed():
 	if t % 120 == 0:
@@ -165,7 +165,6 @@ func fire():
 				lr *= -1
 func firewily():
 	var colours = [Constants.COLOURS_LARGE.RED, Constants.COLOURS_LARGE.ORANGE]
-	var difficulty = 3
 	var u = t - 120
 	var CYCLE_TIME = 600
 	var CYCLE_TIME2 = 540
@@ -189,7 +188,6 @@ var a3 = 0.0
 var a4 = 0.0
 
 func shark():
-	weight = 20
 	var u = (t-60) % 720
 	if u >= 0 && u < 360:
 		if (u) % 90 == 0:
@@ -320,13 +318,16 @@ func chimata():
 	var COLOURS = [Constants.COLOURS.RED, Constants.COLOURS.ORANGE, Constants.COLOURS.YELLOW, Constants.COLOURS.GREEN, Constants.COLOURS.CYAN, Constants.COLOURS.BLUE, Constants.COLOURS.PURPLE]
 	var u = t - 180
 	if u >= 0:
-		if u % 900 == 899:
+		if u % 720 == 719:
 			lr *= -1
 		a += 0.7 * lr
-		if u % 8 == 0:
+		if u % 5 == 0:
+			root.shoot1.play()
 			for i in 7:
 				var angle = a + i * 360.0 / 8.0 + rand_range(-2, 2) - 80
-				Bullets.create_bullet(position + Vector2(-512, 0).rotated(deg2rad(angle)), 3.0, angle, 0.0, 0.0, Constants.BULLET_TYPE.DROPLET, COLOURS[i%7])
+				var b = Bullets.create_bullet(position + Vector2(-750, 0).rotated(deg2rad(angle)), 3.0, angle, 0.0, 0.0, Constants.BULLET_TYPE.DROPLET, COLOURS[i%7])
+				b.auto_delete = false
+				Bullets.queue_autodelete(b, 120, true)
 
 func meek():
 	for _i in 20:
@@ -381,8 +382,8 @@ func rainbarf():
 		#Bullets.create_loose_laser(position + Vector2(randf()*Constants.FIELD_SIZE.x, rand_range(-0.1,0.3) * Constants.FIELD_SIZE.y), rand_range(70,110), 90, 320, 32, 0.0, 0.0, Constants.BULLET_TYPE.LASER, Constants.COLOURS.RED)
 	
 func bullet_test():
-	if t % 30 == 0:
-		Bullets.create_bullet(position, 2.0, 90, 0.0, 0.0, Constants.BULLET_TYPE.NOTE, Constants.COLOURS_LARGE.GREY, true, 0.0, 0.2)
+	if t % 120 == 0:
+		Bullets.create_bullet(position, 2.0, 90, 0.0, 0.0, Constants.BULLET_TYPE.KNIFE, Constants.COLOURS.RED, true, 0.0, 0.0, BLEND_MODE_ADD)
 		#Bullets.create_loose_laser(position, 5, 90, 320, 32, 0.0, 0.0, Constants.BULLET_TYPE.LEGACY_LASER, Constants.COLOURS.RED)
 		#Bullets.create_curve_laser(position, 7, 90, 75, 32, -0.01, 0.0, Constants.BULLET_TYPE.LASER, Constants.COLOURS.RED, true, 0.0, BLEND_MODE_ADD)
 
@@ -685,8 +686,8 @@ func tsukasa2():
 
 
 func mek():
-	for i in range(-25, 26):
-		Bullets.create_bullet(position, rand_range(6,12), -90 + 18 * sin(t*0.01) + 0* rad2deg(root.player.position.angle_to_point(position)) + i*8.9 + rand_range(-4, 4), 0.0, 0.0, Constants.BULLET_TYPE.BALL, Constants.COLOURS.RED_D, true, 0.0, 0.1)
+	for i in range(-15, 16):
+		Bullets.create_bullet(position, rand_range(6,12), randf()*360.0, 0.0, 0.0, Constants.BULLET_TYPE.BALL, Constants.COLOURS.TEAL_D, true, 0.0, 0.1)
 
 var p = Vector2()
 
@@ -701,7 +702,7 @@ func wraparound():
 			p = root.player.position
 			
 		var r = (u % CYCLE_TIME) * 1 + 300
-		var density = (u % CYCLE_TIME) / 8 + 10
+		var density = (u % CYCLE_TIME) / 8 + 10 * 3
 # warning-ignore:shadowed_variable
 		var a = 4 * lr * (u % CYCLE_TIME)
 		
@@ -718,6 +719,7 @@ func speen():
 	var COLOURS = [Constants.COLOURS.RED, Constants.COLOURS.ORANGE, Constants.COLOURS.YELLOW, Constants.COLOURS.GREEN, Constants.COLOURS.CYAN, Constants.COLOURS.BLUE, Constants.COLOURS.PURPLE]
 	var u = t - 180
 	if u >= 0:
+		invincible = false
 		var CYCLE_TIME = 60*6
 		var BUFFER_TIME = 60*0.5
 		var DENSITY = 24
@@ -748,8 +750,8 @@ func speen():
 func war_of_the_roses():
 	var u = t - 180
 	if u >= 0:
-		var RATE1 = 50
-		var RATE2 = 60
+		var RATE1 = [150, 100, 75, 60]
+		var RATE2 = [180, 120, 80, 70]
 		var CYCLE_TIME = 60*1
 		var SPEED = 3.0
 		var SPEED2 = 2.0
@@ -757,8 +759,9 @@ func war_of_the_roses():
 		var R2 = 48
 		var DELAY = 45
 		var DELAY2 = 20
-		var DENSITY = 21
-		if u % RATE1 == 0:
+		var DENSITY = [12, 15, 18, 21]
+		
+		if u % RATE1[difficulty] == 0:
 			root.warning1.play()
 			#var c = Constants.COLOURS_LARGE.RED if u % 24 == 0 else Constants.COLOURS_LARGE.GREY
 # warning-ignore:shadowed_variable
@@ -773,17 +776,17 @@ func war_of_the_roses():
 				var angle = a + i * 360 / 5
 				var b = Bullets.create_bullet(p + Vector2(R1, 0).rotated(deg2rad(angle)), 0, angle+180, 0.0, SPEED, Constants.BULLET_TYPE.HEART, Constants.COLOURS_LARGE.RED )
 				Bullets.queue_update_bullet(b, 60, null, null, null, 0.1)
-			for i in DENSITY:
-				var angle = a + i * 360.0 / DENSITY
+			for i in DENSITY[difficulty]:
+				var angle = a + i * 360.0 / DENSITY[difficulty]
 				var b = Bullets.create_bullet(p, 0, angle, 0.0, SPEED2, Constants.BULLET_TYPE.BALL, Constants.COLOURS.GREY)
 				Bullets.queue_update_bullet(b, 60+DELAY2, null, null, null, 0.1)
-				b.layer = 1
+				if b: b.layer = 1
 
 			var b = Bullets.create_bullet(p, 0, 0.0, 0.0, 0.0, Constants.BULLET_TYPE.MENTOS, Constants.COLOURS_LARGE.GREY)
 			Bullets.queue_delete(b, 60+DELAY)
-			b.layer = 1
+			if b: b.layer = 1
 				
-		if u % RATE1 == RATE1/2:
+		if u % RATE1[difficulty] == RATE1[difficulty]/2:
 			root.warning1.play()
 			#var c = Constants.COLOURS_LARGE.RED if u % 24 == 0 else Constants.COLOURS_LARGE.GREY
 # warning-ignore:shadowed_variable
@@ -798,17 +801,18 @@ func war_of_the_roses():
 				var angle = a + i * 360 / 5
 				var b = Bullets.create_bullet(p + Vector2(R1, 0).rotated(deg2rad(angle)), 0, angle+180, 0.0, SPEED, Constants.BULLET_TYPE.HEART, Constants.COLOURS_LARGE.GREY)
 				Bullets.queue_update_bullet(b, 60, null, null, null, 0.1)
-			for i in DENSITY:
-				var angle = a + i * 360.0 / DENSITY
+			for i in DENSITY[difficulty]:
+				var angle = a + i * 360.0 / DENSITY[difficulty]
 				var b = Bullets.create_bullet(p, 0, angle, 0.0, SPEED2, Constants.BULLET_TYPE.BALL, Constants.COLOURS.YELLOW)
 				Bullets.queue_update_bullet(b, 60+DELAY2, null, null, null, 0.1)
-				b.layer = 1
+				if b: b.layer = 1
 
 				
 			var b = Bullets.create_bullet(p, 0, 0.0, 0.0, SPEED, Constants.BULLET_TYPE.MENTOS, Constants.COLOURS_LARGE.YELLOW)
 			Bullets.queue_delete(b, 60+DELAY)
-			b.layer = 1
-		if u % RATE2 == 0:
+			if b: b.layer = 1
+		
+		if u % RATE2[difficulty] == 0:
 			#root.shoot1.play()
 			#var c = Constants.COLOURS_LARGE.RED if u % 24 == 0 else Constants.COLOURS_LARGE.GREY
 # warning-ignore:shadowed_variable
@@ -823,17 +827,18 @@ func war_of_the_roses():
 				var angle = a + i * 360 / 5
 				var b = Bullets.create_bullet(p + Vector2(R1, 0).rotated(deg2rad(angle)), 0, angle+180, 0.0, SPEED, Constants.BULLET_TYPE.HEART, Constants.COLOURS_LARGE.RED )
 				Bullets.queue_update_bullet(b, 60, null, null, null, 0.1)
-			for i in DENSITY:
-				var angle = a + i * 360.0 / DENSITY
+			for i in DENSITY[difficulty]:
+				var angle = a + i * 360.0 / DENSITY[difficulty]
 				var b = Bullets.create_bullet(p, 0, angle, 0.0, SPEED2, Constants.BULLET_TYPE.BALL, Constants.COLOURS.GREY)
 				Bullets.queue_update_bullet(b, 60+DELAY2, null, null, null, 0.1)
-				b.layer = 1
+				if b: b.layer = 1
 
 				
 			var b = Bullets.create_bullet(p, 0, 0.0, 0.0, SPEED, Constants.BULLET_TYPE.MENTOS, Constants.COLOURS_LARGE.GREY)
 			Bullets.queue_delete(b, 60+DELAY)
-			b.layer = 1
-		if u % RATE2 == RATE2/2:
+			if b: b.layer = 1
+		
+		if u % RATE2[difficulty] == RATE2[difficulty]/2:
 			#root.shoot1.play()
 			#var c = Constants.COLOURS_LARGE.RED if u % 24 == 0 else Constants.COLOURS_LARGE.GREY
 # warning-ignore:shadowed_variable
@@ -848,16 +853,16 @@ func war_of_the_roses():
 				var angle = a + i * 360 / 5
 				var b = Bullets.create_bullet(p + Vector2(R1, 0).rotated(deg2rad(angle)), 0, angle+180, 0.0, SPEED, Constants.BULLET_TYPE.HEART, Constants.COLOURS_LARGE.GREY)
 				Bullets.queue_update_bullet(b, 60, null, null, null, 0.1)
-			for i in DENSITY:
-				var angle = a + i * 360.0 / DENSITY
+			for i in DENSITY[difficulty]:
+				var angle = a + i * 360.0 / DENSITY[difficulty]
 				var b = Bullets.create_bullet(p, 0, angle, 0.0, SPEED2, Constants.BULLET_TYPE.BALL, Constants.COLOURS.YELLOW)
 				Bullets.queue_update_bullet(b, 60+DELAY2, null, null, null, 0.1)
-				b.layer = 1
+				if b: b.layer = 1
 
 				
 			var b = Bullets.create_bullet(p, 0, 0.0, 0.0, SPEED, Constants.BULLET_TYPE.MENTOS, Constants.COLOURS_LARGE.YELLOW)
 			Bullets.queue_delete(b, 60+DELAY)
-			b.layer = 1
+			if b: b.layer = 1
 				
 
 func crossfire():
@@ -1154,9 +1159,15 @@ func gears_of_war():
 			dest = Vector2(x, y) 
 			
 func warsaw():
-	var DENSITY = 30
-	var DENSITY2 = 60
+	# Killing Floor, Machined Cow
+	var DENSITY = 27
+	var DENSITY2 = 52
 	var u = t - 60
+	if t == 0:
+		health = 20000
+		$Healthbar.max_value = health
+	if u == 0:
+		invincible = false
 	if u >= 0:
 		if u % 60 == 0:
 			root.shoot1.play()
@@ -1171,7 +1182,7 @@ func warsaw():
 			root.shoot1.play()
 			var o = randf() * 360.0
 			for i in DENSITY2:
-				var b = Bullets.create_bullet(position, 12.0, o + i * 360.0 / DENSITY2, -1, 5.0, Constants.BULLET_TYPE.SAW_SMALL, Constants.COLOURS_SAW.BLOOD, true, 0.0, lr*3)
+				var b = Bullets.create_bullet(position, 12.0, o + i * 360.0 / DENSITY2, -1, 5.0, Constants.BULLET_TYPE.SAW_SMALL, Constants.COLOURS_SAW.BLOOD, true, 0.0, lr*4)
 				b.bounce_count = 2
 				b.layer = 1
 				if lr == 1:
@@ -1180,7 +1191,8 @@ func warsaw():
 		if u % 180 == 90:
 			var x = rand_range( max(Constants.FIELD_SIZE.x*0.3, position.x - 200 * (position.x / Constants.FIELD_SIZE.x)), min(Constants.FIELD_SIZE.x*0.7, position.x + 200 * (1 - position.x / Constants.FIELD_SIZE.x))  )
 			var y = rand_range(0.2, 0.35) * Constants.FIELD_SIZE.y
-			dest = Vector2(x, y) 
+			#dest = Vector2(x, y) 
+			set_dest(Vector2(x, y), 45)
 		
 
 func backstab():
@@ -1249,6 +1261,7 @@ func lasagnacode():
 	var u = t - 180
 	if u >= 0:
 		if u % 40 == 0:
+			root.shoot1.play()
 			var s = max(27 - u * 0.005, 12)
 			var DENSITY = int(s*2.25+5)
 			var n = 9 if u >= 3000 else int(min(1+u * 0.00175, 6))
@@ -1312,7 +1325,6 @@ func himemushi():
 		if u % 180 == 160:
 			var x = rand_range( max(Constants.FIELD_SIZE.x*0.3, position.x - 200 * (position.x / Constants.FIELD_SIZE.x)), min(Constants.FIELD_SIZE.x*0.7, position.x + 200 * (1 - position.x / Constants.FIELD_SIZE.x))  )
 			var y = (0.25 - lr * 0.05) * Constants.FIELD_SIZE.y
-			weight = 60
 			dest = Vector2(x, y) 
 			lr *= -1
 		
@@ -1449,35 +1461,36 @@ func wrasse ():
 			
 			
 func tss():
-	var density = 90
-	if t % 30 == 0:
+	var density = 50
+	if t % 6 == 0:
 		root.shoot1.play()
+		var o = randf()*360.0
 		for i in density:
-			Bullets.create_bullet(position, 2.5, i * 360.0 / density, 0.0, 0.0, Constants.BULLET_TYPE.BALL, Constants.COLOURS.BLUE, true, -0.0, 0.0, BLEND_MODE_ADD)
-	if t % 30 == 20:
+			Bullets.create_bullet(position, 25, o + i * 360.0 / density, 0.0, 0.0, Constants.BULLET_TYPE.DIVINE_SPIRIT, Constants.COLOURS_DIVINE_SPIRIT.BLUE, true, -0.0, 0.0, BLEND_MODE_ADD)
+	if t % 30 == 30:
 		root.shoot1.play()
 		var o = randf() * 360.0
 		for i in density:
 			Bullets.create_bullet(position, 2.5, (i + 0.5) * 360 / density, 0.0, 0.0, Constants.BULLET_TYPE.BALL, Constants.COLOURS.BLUE, true, 0.0, 0.0, BLEND_MODE_ADD)
 
 func tss2():
-	var density = 90
+	var density = 101
 	var u = t - 60
 	if u >= 0:
 		if u % 300 == 0:
 			lr *= -1
 		if u % 300 < 210:
 			if u % 30 == 0:
-				a += lr
+				#a += lr
 				root.shoot1.play()
 				for i in density:
-					Bullets.create_bullet(position, 2.5, a + i * 360.0 / density, 0.0, 0.0, Constants.BULLET_TYPE.BALL, Constants.COLOURS.BLUE, true, -lr*0.2, 0.0, BLEND_MODE_ADD)
+					Bullets.create_bullet(position, 2.5, a + i * 360.0 / density, 0.0, 0.0, Constants.BULLET_TYPE.BALL, Constants.COLOURS.BLUE, true, -lr*0, 0.0, BLEND_MODE_ADD)
 			if u % 30 == 15:
-				a += lr
+				#a += lr
 				root.shoot1.play()
 				var o = randf() * 360.0
 				for i in density:
-					Bullets.create_bullet(position, 2.5, a + (i + 0.5) * 360 / density, 0.0, 0.0, Constants.BULLET_TYPE.BALL, Constants.COLOURS.BLUE, true, lr*0.2, 0.0, BLEND_MODE_ADD)
+					Bullets.create_bullet(position, 2.5, a + (i + 0.5) * 360 / density, 0.0, 0.0, Constants.BULLET_TYPE.BALL, Constants.COLOURS.BLUE, true, lr*0, 0.0, BLEND_MODE_ADD)
 			
 func waterdance():
 	var u = t - 120
@@ -1629,7 +1642,6 @@ func shapeattack4():
 
 func firesaber():
 	var u = t - 120
-	var difficulty = 3
 	var densities = [2 if u % 3 == 0 else 1, 2, 2, 3]
 	var max_speeds = [4.0, 4.0, 6.0, 6.0]
 	var sp_range = [90, 90, 120, 150]
@@ -1705,15 +1717,15 @@ func scaline():
 			a = 0
 		
 		root.shoot1.play()
-		Bullets.create_bullet(position, 4.0, a, 0.0, 0.0, Constants.BULLET_TYPE.ARROWHEAD, Constants.COLOURS.BLUE)
-		Bullets.create_bullet(position, 4.0, 180+a, 0.0, 0.0, Constants.BULLET_TYPE.ARROWHEAD, Constants.COLOURS.BLUE)
+		Bullets.create_bullet(position, 4.0, a, 0.0, 0.0, Constants.BULLET_TYPE.ARROWHEAD, Constants.COLOURS.CYAN)
+		Bullets.create_bullet(position, 4.0, 180+a, 0.0, 0.0, Constants.BULLET_TYPE.ARROWHEAD, Constants.COLOURS.CYAN)
 		a += 43
-		if u >= 120:
-			Bullets.create_bullet(position, 5.0, -a, 0.0, 0.0, Constants.BULLET_TYPE.ARROWHEAD, Constants.COLOURS.CYAN)
-			Bullets.create_bullet(position, 5.0, 180-a, 0.0, 0.0, Constants.BULLET_TYPE.ARROWHEAD, Constants.COLOURS.CYAN)
-		if u >= 240:
-			Bullets.create_bullet(position, 6.0, 72+a, 0.0, 0.0, Constants.BULLET_TYPE.ARROWHEAD, Constants.COLOURS.TEAL)
-			Bullets.create_bullet(position, 6.0, 180+72+a, 0.0, 0.0, Constants.BULLET_TYPE.ARROWHEAD, Constants.COLOURS.TEAL)
+		if u >= 120 && u % 2 == 0:
+			Bullets.create_bullet(position, 5.0, -2*a, 0.0, 0.0, Constants.BULLET_TYPE.ARROWHEAD, Constants.COLOURS.BLUE)
+			Bullets.create_bullet(position, 5.0, 180-2*a, 0.0, 0.0, Constants.BULLET_TYPE.ARROWHEAD, Constants.COLOURS.BLUE)
+		if u >= 240 && u % 3 == 0:
+			Bullets.create_bullet(position, 6.0, 72+3*a, 0.0, 0.0, Constants.BULLET_TYPE.ARROWHEAD, Constants.COLOURS.TEAL)
+			Bullets.create_bullet(position, 6.0, 180+72+3*a, 0.0, 0.0, Constants.BULLET_TYPE.ARROWHEAD, Constants.COLOURS.TEAL)
 			
 			
 		if (u + 1) % 180 == 0:
@@ -1723,12 +1735,11 @@ func scaline():
 func kana():
 	var CYCLE_TIME = 300
 	var u = t - 60
-	var difficulty = 3
 	var arms = [3, 5, 7, 7]
 	var step = [0.9, 0.7, 0.8, 1]
-	var step2 = 0.2 if difficulty == 3 else 0.0666
+	var step2 = 0.1 if difficulty == 3 else 0.0666
 	var rate = 2 if difficulty == 3 else 3
-	var mspeed = 1.25
+	var mspeed = 1.5 if difficulty >= 2 else 1.0
 	if u >= 0:
 		if u % CYCLE_TIME == 0:
 			a = -90.0
@@ -1783,11 +1794,331 @@ func godot():
 			for i in 17:
 				godot_piece(position, -3, a + (i)*360/17)
 
+
+func kanako_op():
+	var DENSITY = 60
+	var u = t - 60
+	if u >= 0:
+		if u % 10 == 0:
+			var o = randf()*360.0
+			for i in DENSITY:
+				Bullets.create_bullet(position - Vector2(-200, 0), 8, o + i * 360.0 / DENSITY, 0.0, 0.0, Constants.BULLET_TYPE.RICE, Constants.COLOURS.BLUE)
+		if u % 10 == 5:
+			var o = randf()*360.0
+			for i in DENSITY:
+				Bullets.create_bullet(position - Vector2(200, 0), 8, o + i * 360.0 / DENSITY, 0.0, 0.0, Constants.BULLET_TYPE.RICE, Constants.COLOURS.RED)
+
+
+func waternon1():
+	var DENSITY = [3, 4, 5, 6]
+	var degree = [360, 520, 360, 360]
+	var u = t - 120
+	
+	if t == 0:
+		a = 90
+		a2 = 0
+		dest = Vector2(500, 300)
+		
+	if u >= 0:
+		a += 3
+		a2+= -2
+		if u % 3 == 0:
+			for i in DENSITY[difficulty]:
+				var o = i * 360.0 / DENSITY[difficulty] + 90
+				var pos = position + Vector2(150, 0).rotated(deg2rad(a + o))
+				Bullets.create_bullet(pos, 5.0, a2 + o, 0.0, 0.0, Constants.BULLET_TYPE.FIREBALL, Constants.COLOURS_LARGE.BLUE, true, 0.0, 0.0, BLEND_MODE_ADD)
+				#Bullets.create_bullet(pos, 3.5, a2 + o, 0.0, 0.0, Constants.BULLET_TYPE.FIREBALL, Constants.COLOURS_LARGE.BLUE, true, 0.0, 0.0, BLEND_MODE_ADD)
+		
+		if (u+1) % (60*3) == 0:
+			var x = rand_range( max(Constants.FIELD_SIZE.x*0.3, position.x - 200 * (position.x / Constants.FIELD_SIZE.x)), min(Constants.FIELD_SIZE.x*0.7, position.x + 200 * (1 - position.x / Constants.FIELD_SIZE.x))  )
+			var y = rand_range( max(Constants.FIELD_SIZE.y*0.15, position.y - 150 * (position.y / Constants.FIELD_SIZE.y)), min(Constants.FIELD_SIZE.y*0.3, position.y + 150 * (1 - position.y / Constants.FIELD_SIZE.y))  )
+			dest = Vector2(x, 300)
+
+
+func waternon2():
+	var DENSITY = [2, 3, 3, 4]
+	var degree = [360, 360, 450, 360]
+	var u = t - 120
+	
+	if t == 0:
+		a = 0
+		a2 = 0
+		dest = Vector2(500, 300)
+	
+	if u >= 0:
+		a += PI / 600.0
+		a2 += PI / 120.0
+		if u % 3 == 0:
+			for i in DENSITY[difficulty]:
+				var o = i * 360.0 / DENSITY[difficulty]
+				var pos = position + Vector2(150, 0).rotated(deg2rad(degree[difficulty]*sin(a) + o))
+				for j in 3:
+					Bullets.create_bullet(pos, 5.0, 90*sin(a2) + o + j * 360.0/DENSITY[difficulty], 0.0, 0.0, Constants.BULLET_TYPE.FIREBALL, Constants.COLOURS_LARGE.BLUE, true, 0.0, 0.0, BLEND_MODE_ADD)
+					#Bullets.create_bullet(pos, 3.5, a2 + o + 45 + j * 180, 0.0, 0.0, Constants.BULLET_TYPE.FIREBALL, Constants.COLOURS_LARGE.BLUE, true, 0.0, 0.0, BLEND_MODE_ADD)
+
+func waternon3():
+	var DENSITY = [3, 4, 6, 8]
+	var degree = [360, 520, 360, 360]
+	var u = t - 60
+	
+	if t == 0:
+		a = 0
+		a2 = 0
+		dest = Vector2(500, 300)
+		
+	if u >= 0:
+		a += PI / 450.0
+		a2 += PI / 90.0
+		if u % 2 == 0:
+			for i in DENSITY[difficulty]:
+				var o = i * 360.0 / DENSITY[difficulty] + 90
+				var pos = position + Vector2(150, 0).rotated(deg2rad(degree[difficulty]*sin(a) + o))
+				Bullets.create_bullet(pos, 5.0, 90*sin(a2) + o, 0.0, 0.0, Constants.BULLET_TYPE.FIREBALL, Constants.COLOURS_LARGE.BLUE, true, 0.0, 0.0, BLEND_MODE_ADD)
+				#Bullets.create_bullet(pos, 3.5, 90*sin(a2) + o, 0.0, 0.0, Constants.BULLET_TYPE.FIREBALL, Constants.COLOURS_LARGE.BLUE, true, 0.0, 0.0, BLEND_MODE_ADD)
+
+
+func wobble():
+	var CYCLE_TIME = 15
+	var u = t - 120
+	if u >= 0:
+		if u % CYCLE_TIME == 0:
+			lr *= -1
+			var o = rad2deg(position.angle_to_point(Globals.player.position))
+			for i in 60:
+				var b = Bullets.create_bullet(position, 6.0, 360*i / 60.0 + o + 45, 0.0, 0.0, Constants.BULLET_TYPE.BALL, Constants.COLOURS.GREEN, true, lr * 0.75)
+				Bullets.queue_update_bullet(b, 60.0, null, null, null, null, null, null, null, true, 0.0)
+
+func lotus():
+	var DENSITY = 9
+	var CYCLE_TIME = 12 * 60
+	var u = t - 180
+	if t == 1:
+		dest = Vector2(500, 500)
+	if u >= 0:
+		var r = max(600 - u*0.75, 380)
+		for i in 5:
+			var angle = 360 * sin(u * PI / CYCLE_TIME) + i * 72 - 90
+			var p = position + Vector2(r,0).rotated(deg2rad(angle))
+			if u % 2 == 0:
+				if (u+CYCLE_TIME/2) % (CYCLE_TIME) < CYCLE_TIME - 20 && (u+CYCLE_TIME/2) % (CYCLE_TIME) > 160:
+					Bullets.create_bullet(p, 4, angle - 90, 0.0, 0.0, Constants.BULLET_TYPE.JELLYBEAN, Constants.COLOURS_LARGE.BLUE)
+				if (u+CYCLE_TIME/2) % (CYCLE_TIME) < CYCLE_TIME - 20 && (u+CYCLE_TIME/2) % (CYCLE_TIME) > 150:
+					Bullets.create_bullet(p, 4, angle + 90, 0.0, 0.0, Constants.BULLET_TYPE.JELLYBEAN, Constants.COLOURS_LARGE.BLUE)
+			#if u % CYCLE_TIME > 60:
+			if u % 2 == 0:
+				Bullets.create_bullet(p, 4.5, angle + 185, 0.0, 0.0, Constants.BULLET_TYPE.JELLYBEAN, Constants.COLOURS_LARGE.BLUE)
+		if u >= 180:
+			if u % 120 == 0:
+				var o = randf()*360.0
+				for i in DENSITY:
+					var b = Bullets.create_bullet(position, 3, o + i * 360.0/DENSITY, 0.0, 0.0, Constants.BULLET_TYPE.DIVINE_SPIRIT, Constants.COLOURS_DIVINE_SPIRIT.PURPLE_D, true, 0.0, 0.0)
+					if b: b.layer = 1
+
+func picklenon1():
+	var DENSITY = [6, 10, 12, 12]
+	var SPACING = [20.0, 16.0, 13.0, 12.0]
+	var SPEED = [4.0, 5.0, 5.5, 6.5]
+	var RATE = [24, 18, 12, 10]
+	var u = t - 120
+	if t == 0:
+		health = 7500
+		$Healthbar.max_value = health
+	if u == 0:
+		invincible = false
+	if u >= 0:
+		if u % RATE[difficulty] == 0:
+			var o2 = randf()*360.0
+			root.shoot1.play()
+			lr *= -1
+			var o = rand_range(-0.5, 0.5) * SPACING[difficulty]
+			for i in range(1,DENSITY[difficulty]):
+				for leftright in range(-1, 2, 2):
+					var b = Bullets.create_bullet(position, 10.0, leftright*i*SPACING[difficulty] - 90 + o, 0.0, 0.0, Constants.BULLET_TYPE.JELLYBEAN, Constants.COLOURS_LARGE.GREEN, true, lr*4.0)
+					Bullets.queue_update_bullet(b, 45, null, null, null, -0.25, SPEED[difficulty], null, null, null, 0.0)
+				var b = Bullets.create_bullet(position, 10.0, -90 + o, 0.0, 0.0, Constants.BULLET_TYPE.JELLYBEAN, Constants.COLOURS_LARGE.GREEN, true, lr*4.0)
+				Bullets.queue_update_bullet(b, 45, null, null, null, -0.25, SPEED[difficulty], null, null, null, 0.0)
+				#Bullets.queue_update_bullet(b, 135, null, null, null, null, null, null, null, null, lr*6.0)
+				#Bullets.queue_update_bullet(b, 150, null, null, null, null, null, null, null, null, -lr*0.5)
+		if u % 30 == 0:
+			if Globals.player.position.y < 500:
+				var o = randf()*360.0
+				for i in 120:
+					Bullets.create_bullet(position, 2.0, o + i * 3.0, 0.0, 0.0, Constants.BULLET_TYPE.RICE, Constants.COLOURS.TEAL_D)
+
+func picklenon2():
+	var CYCLE_TIME = 60 * 3
+	var CYCLE_TIME2 = 60 * 4
+	var DENSITY = [16, 20, 24, 30, 50]
+	var DENSITY2 = [30, 60, 80, 95, 150]
+	var SPEED = [3.0, 3.5, 4.0, 5.0, 5.0]
+	var RATE = [15, 13, 12, 10, 5]
+	var RATE2 = [30, 24, 20, 16, 8]
+	var TIMINGS = [[90, 180, 270], [80, 160, 240], [80, 160, 240], [75, 150, 225], [75, 150, 225]]
+	var u = t - 240
+	if t == 0:
+		lr = 1
+		health = 12000
+		$Healthbar.max_value = health
+	if u == 0:
+		invincible = false
+	if u >= 0:
+		if u % CYCLE_TIME2 == 0:
+			a = 90.0
+		if u % CYCLE_TIME2 < CYCLE_TIME:
+			if u % RATE[difficulty] == 0:
+				var o = a + rand_range(-1, 1)
+				a += lr * 1.0
+				root.shoot1.play()
+				for i in DENSITY[difficulty]:
+					var b = Bullets.create_bullet(position, 8.0, o + i * 360.0/DENSITY[difficulty], 0.0, 0.0, Constants.BULLET_TYPE.JELLYBEAN, Constants.COLOURS_LARGE.GREEN, true, lr * 2)
+					Bullets.queue_update_bullet(b, TIMINGS[difficulty][0], null, null, null, null, null, null, null, null, -lr*2)
+					Bullets.queue_update_bullet(b, TIMINGS[difficulty][1], null, null, null, null, null, null, null, null, lr*1)
+					Bullets.queue_update_bullet(b, TIMINGS[difficulty][2], null, null, null, null, null, null, null, null, -lr*1)
+			if u % RATE2[difficulty] == 0:
+				if u % CYCLE_TIME2 < CYCLE_TIME - 90:
+					a2 = randf()*360.0
+				else:
+					a2 += 180.0 / DENSITY2[difficulty]
+				for i in DENSITY2[difficulty]:
+					var b = Bullets.create_bullet(position, 4.0, a2 + i * 360.0 / DENSITY2[difficulty], 0.0, 0.0, Constants.BULLET_TYPE.RICE, Constants.COLOURS.TEAL_D)
+					if b: b.layer = 1
+	
+		if u % CYCLE_TIME2 == CYCLE_TIME: lr *= -1
+	
+func picklenon3():
+	var CYCLE_TIME = 60 * 3
+	var DENSITY = [16, 20, 24, 28]
+	var SPEED = [5.0, 6.0, 7.0, 8.0]
+	var RATE = [10, 8, 6, 5]
+	var u = t - 240
+	if t == 0:
+		health = 12000
+		$Healthbar.max_value = health
+	if u == 0:
+		invincible = false
+	if u >= 0:
+		if u == 0:
+			a2 = 0.0
+			a = 0.0
+		if u % RATE[difficulty] == 0:
+			a2 += 1
+			a += a2*0.6
+			root.shoot1.play()
+			for i in DENSITY[difficulty]:
+				var ang = a + i * 360.0/DENSITY[difficulty]
+				var rot = a2 * 3 - 30.0
+				var oset = 50 * Vector2(4 * cos(deg2rad(ang)), sin(deg2rad(ang))).rotated(deg2rad(rot))
+				var b = Bullets.create_bullet(position + oset, SPEED[difficulty], ang + rot, 0.0, 0.0, Constants.BULLET_TYPE.JELLYBEAN, Constants.COLOURS_LARGE.GREEN)
+				#Bullets.queue_update_bullet(b, TIMINGS[difficulty][0], null, null, null, null, null, null, null, null, -1)
+		
+		if (u+1) % CYCLE_TIME == 0:
+			var x = rand_range( max(Constants.FIELD_SIZE.x*0.4, position.x - 150 * (position.x / Constants.FIELD_SIZE.x)), min(Constants.FIELD_SIZE.x*0.8, position.x + 200 * (1 - position.x / Constants.FIELD_SIZE.x))  )
+			var y = rand_range( max(Constants.FIELD_SIZE.y*0.25, position.y - 150 * (position.y / Constants.FIELD_SIZE.y)), min(Constants.FIELD_SIZE.y*0.3, position.y + 150 * (1 - position.y / Constants.FIELD_SIZE.y))  )
+			#dest = Vector2(x, 300)
+			set_dest(Vector2(x, y), 60)
+	
+				
+func picklenon4():
+	var CYCLE_TIME = 210
+	var CYCLE_TIME_2 = 120
+	var CYCLE_TIME_3 = 120
+	var DENSITY = [12, 20, 26, 30]
+	var SPEED = [3.0, 4.0, 4.0, 4.0]
+	var SPEED_2 = [4.0, 4.5, 5.0, 6.0]
+	var SPEED_3 = [3.0, 4.0, 4.0, 4.0]
+	var RATE = [20, 15, 12, 10]
+	var RATE_2 = [36, 36, 30, 30]
+	var u = t - 240
+	if t == 0:
+		health = 20000
+		$Healthbar.max_value = health
+	if u == 0:
+		invincible = false
+	if u >= 0:
+		if u % CYCLE_TIME == 0:
+			a = rand_range(-1, 1) * 0
+		if u % CYCLE_TIME < CYCLE_TIME_2:
+			if u % RATE[difficulty] == 0:
+				root.shoot1.play()
+				for i in DENSITY[difficulty]:
+						var b = Bullets.create_bullet(position, SPEED[difficulty], (i+0.5) * 360.0/DENSITY[difficulty] - 90.0 + a, 0.0, 0.0, Constants.BULLET_TYPE.RICE, Constants.COLOURS.TEAL_D)
+						Bullets.queue_update_bullet(b, Bullets.TRANSFORM_COND.BOUNCE, null, SPEED_2[difficulty])
+						if b:
+							b.layer = 1
+							b.bounce_count = 2
+			if (u % CYCLE_TIME) % RATE_2[difficulty] == 15:
+				var o = rand_range(-1, 1) * 20 + rad2deg(position.angle_to_point(root.player.position)) + 180.0
+				for i in DENSITY[difficulty]:
+					Bullets.create_bullet(position, SPEED_3[difficulty], (i) * 360.0/DENSITY[difficulty] - 90.0, 0.0, 0.0, Constants.BULLET_TYPE.DIVINE_SPIRIT, Constants.COLOURS_DIVINE_SPIRIT.GREEN, true, 0.0, 0.0, BLEND_MODE_ADD)
+					Bullets.create_bullet(position, SPEED_3[difficulty], (i) * 360.0/DENSITY[difficulty] - 90.0, 0.0, 0.0, Constants.BULLET_TYPE.MENTOS, Constants.COLOURS_LARGE.GREEN)
+					
+					
+		if (u+1) % CYCLE_TIME == CYCLE_TIME_3+30:
+			var x = rand_range( max(Constants.FIELD_SIZE.x*0.3, position.x - 400 * (position.x / Constants.FIELD_SIZE.x)), min(Constants.FIELD_SIZE.x*0.7, position.x + 400 * (1 - position.x / Constants.FIELD_SIZE.x))  )
+			var y = rand_range( max(Constants.FIELD_SIZE.y*0.25, position.y - 200 * (position.y / Constants.FIELD_SIZE.y)), min(Constants.FIELD_SIZE.y*0.3, position.y + 200 * (1 - position.y / Constants.FIELD_SIZE.y))  )
+			#dest = Vector2(x, y)
+			set_dest(Vector2(x, y), 60)
+
+
+func flower():
+	if t == 0:
+		position.y = 400
+	var DENSITY = 200
+	var r = 0.9
+	var COLOURS = [Constants.COLOURS.RED, Constants.COLOURS.YELLOW, Constants.COLOURS.GREEN, Constants.COLOURS.BLUE, Constants.COLOURS.RED, Constants.COLOURS.YELLOW, Constants.COLOURS.GREEN, Constants.COLOURS.BLUE]
+	var u = t - 60
+	if u >= 0:
+		if u % 360 == 0:
+			var o = a + 0*randf()*360.0
+			a2 = o
+			a += 0.0 + 45.0
+			for j in [3, 2, 1, 0]:
+				var b = j * 30.0 + o
+				var c = COLOURS[j]
+				for i in DENSITY:
+					var a = i * 360.0 / DENSITY - b*0.5 + 31.5
+					var p = position + 200 * Vector2( cos(deg2rad(a + 1.5*b-90)) + 0.8*sin(deg2rad(2*a - 90)), sin(deg2rad(a + 1.5*b-90)) + 0.8*cos(deg2rad(2*a - 90)) )
+					var interp = float(i) / DENSITY / 3.0
+					
+					#var s = b + int(i * 360.0 / DENSITY / 120) * 120
+					var sft = deg2rad(3*(i * 360.0 / DENSITY) + b + int(i * 360.0 / DENSITY / 120) * 120)
+					var q = position + Vector2(250, 0).rotated(deg2rad(b + int(i * 360.0 / DENSITY / 120) * 120)) + Vector2(36*0, 0.0).rotated(sft)
+					var s = rad2deg(atan2(p.y - q.y, p.x - q.x))
+					var dist = (q - p).length() * -0.01
+					#var dir = (p - q).normalized() * 2
+					#var s = rad2deg(atan2(dir.y, dir.x))
+					
+					var bullet = Bullets.create_bullet(p, .0, s, 0.0, 0.0, Constants.BULLET_TYPE.BALL, c)
+					if bullet:
+						Bullets.queue_update_bullet(bullet, 60, null, dist)
+						Bullets.queue_update_bullet(bullet, 160, Vector2(2000, 0))
+						#Bullets.queue_delete(bullet, 145)
+		if u % 360 == 160:
+			for j in [3, 2, 1, 0]:
+				var b = j * 30.0 + a2
+				var c = COLOURS[j]
+				for i in DENSITY:
+					var a = i * 360.0 / DENSITY - b*0.5 + 31.5
+
+					#var s = b + int(i * 360.0 / DENSITY / 120) * 120
+					var sft = deg2rad(3*(i * 360.0 / DENSITY) + b + int(i * 360.0 / DENSITY / 120) * 120)
+					var q = position + Vector2(250, 0).rotated(deg2rad(b + int(i * 360.0 / DENSITY / 120) * 120)) + Vector2(36*0, 0.0).rotated(sft)
+					var dir = Vector2(cos(deg2rad(3*(i * 360.0 / DENSITY))), 1.6*sin(deg2rad(3*(i * 360.0 / DENSITY)))).rotated(deg2rad(b + int(i * 360.0 / DENSITY / 120) * 120))
+					
+					Bullets.create_bullet(q, dir.length()*2.1, rad2deg(atan2(dir.y, dir.x)), -dir.length() * 0.01, 0.0, Constants.BULLET_TYPE.BALL, c, false)
+
+
+
 var fade_radius = 0
 var FADE_RAD_MAX = 1000
 
+var difficulty = 3
+
 func _process(delta):
 	
+	for i in range(4):
+		if Input.is_action_just_pressed("debug_" + str(i+1) + "p"):
+			difficulty = i
 	#misdirection()
 	#bowap()
 	#bowap2()
@@ -1808,8 +2139,23 @@ func _process(delta):
 	#rainbarf()
 	#ds()
 	if phase == 0:
+		if false:
+			if t == 1:
+				$AnimationPlayer.play("death")
+				var o = randf()*TAU
+				for i in range(1, 9):
+					get_node("Explosion/beam" + str(i)).rotation = o
+					o += deg2rad(rand_range(117, 157))
+			$Sprite.position = Vector2(randf()*min(t*0.1, 8), 0).rotated(randf()*TAU)
 		#godot()
+		#picklenon1()
+		#wobble()
+		#flower()
+		#waternon1()
 		#bhe()
+		#lotus()
+		#war_of_the_roses()
+		#kanako_op()
 		#kana()
 		#scaline()
 		#mek()
@@ -1817,11 +2163,12 @@ func _process(delta):
 		#firesaber()
 		#firesaber2()
 		#funny_junko2()
-		#shapeattack3()
+		#shapeattack2()
 		#shapeattack4()
 		#current()
-		super_laser_piss()
+		#super_laser_piss()
 		#tss2()
+		#tss()
 		#waterdance()
 		#firewily()
 		#wrasse()
@@ -1864,37 +2211,44 @@ func _process(delta):
 		#thunder2()
 		#bullet_test()
 		#gears_of_war()
-		#warsaw()
+		warsaw()
+		#bowap()
 		pass
 		
 	elif phase == 1:
-		pass
+		picklenon2()
+		#waternon2()
 		#ds()
 		#fire()
 		#test_ndl()
 		#bowap2()
 		#water()
 		#funny_junko2()
-		megumu()
+		#megumu()
 		#satorinon1()
 		#mandrill2()
 	elif phase == 2:
+		picklenon3()
 		#test_ndl()
 		#bowap2()
 		#water()
-		mandrill3()
+		#waternon3()
+		#mandrill3()
 		#funny_junko2()
 		#satorinon1()
 	elif phase == 3:
+		picklenon4()
 		#t = 0
-		dest = Vector2(Constants.FIELD_SIZE.x * 0.5, Constants.FIELD_SIZE.y * 0.3)
-		position = dest
-		thunder2()
+		#dest = Vector2(Constants.FIELD_SIZE.x * 0.5, Constants.FIELD_SIZE.y * 0.3)
+		#position = dest
+		#thunder2()
+		pass
 		#satorinon2()
 	elif phase == 4:
-		dest = Vector2(Constants.FIELD_SIZE.x * 0.5, Constants.FIELD_SIZE.y * 0.3)
+		#dest = Vector2(Constants.FIELD_SIZE.x * 0.5, Constants.FIELD_SIZE.y * 0.3)
 		#t = 0
-		fire()
+		#fire()
+		pass
 	elif phase == 5:
 		bowap()
 	elif phase == 6:
@@ -1912,39 +2266,53 @@ func _process(delta):
 		$Healthbar.value += delta * $Healthbar.max_value
 	
 	if health <= 0:
+		invincible = true
 		#Bullets.clear_screen()
-		fade_radius = FADE_RAD_MAX
-		t = 0
-		phase += 1
-		health = 15000
-		if phase == 6:
-			a = 0
-		if phase == 7:
-			a = 0
-			health = 60000
+		health = 1
 		$Healthbar.max_value = health
+		fade_radius = FADE_RAD_MAX
+		t = -1
+		phase += 1
 		root.warp.warp(position, 16)
 		root.blast.play()
 		Bullets.deactivate_screen()
 		#queue_free()	
-		for _i in 50:
-			Bullets.create_item(position, Constants.ITEM.POINT, true, randf()*360.0, rand_range(12.0, 20.0))
-			Bullets.create_item(position, Constants.ITEM.POWER, true, randf()*360.0, rand_range(12.0, 20.0))
-		Bullets.create_item(position, Constants.ITEM.BOMB_FRAGMENT, true, 180.0, 5.0)
-		Bullets.create_item(position, Constants.ITEM.LIFE_FRAGMENT, true, 0.0, 5.0)
+		for _i in 100:
+			Bullets.create_item(position, Constants.ITEM.LIFE, true, randf()*360.0, rand_range(12.0, 20.0))
+			#Bullets.create_item(position, Constants.ITEM.POWER, true, randf()*360.0, rand_range(12.0, 20.0))
+		#Bullets.create_item(position, Constants.ITEM.BOMB_FRAGMENT, true, 180.0, 5.0)
+		#Bullets.create_item(position, Constants.ITEM.LIFE_FRAGMENT, true, 0.0, 5.0)
 		#Bullets.create_item(position, Constants.ITEM.LIFE_FRAGMENT, true, 0.0, 0.0)
 	if fade_radius > 0:
 		Bullets.clear_screen_fade(position, FADE_RAD_MAX - fade_radius, true)
 		fade_radius -= 16
-	position += (dest - position) / weight
+	#position += (dest - position) / weight
+	
+	if move_timer < move_time:
+		move_timer += 1
+		var prog = (float(move_timer) / float(move_time))
+		var interp = 1 - (prog - 1.0) * (prog - 1.0)
+		#var interp = prog / (prog * (prog - 1) + 1)
+		
+		position = lerp(start, dest, interp)
+
 	
 	t += 1
 
+func set_dest(destination, time):
+	start = position
+	dest = destination
+	move_time = time
+	move_timer = 0
+
 func hit(damage):
-	health -= damage
-	root.score += 10
-	if health > 3000:
-		Globals.root.hit.play()
+	if !invincible:
+		health -= damage
+		root.score += 10
+		if health > 2000:
+			Globals.root.hit.play()
+		else:
+			Globals.root.hit2.play()
 	else:
-		Globals.root.hit2.play()
+		Globals.root.hit.play()
 

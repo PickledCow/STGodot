@@ -12,6 +12,7 @@ onready var root = get_parent()
 onready var player = get_node('../player')
 
 onready var Bullet = preload("res://Bullet.gdns")
+onready var PlayerBullet = preload("res://playerbullet.gdns")
 onready var CurveLaser = preload("res://CurveLaser.gdns")
 onready var Item = preload("res://Item.gdns")
 
@@ -49,6 +50,9 @@ func _ready():
 		var new_item = Item.new()
 		reset_item(new_item)
 		free_items.append(new_item)
+	
+	var new_playerbullet = PlayerBullet.new()
+	get_node("../PlayerBulletManager").bullets.append(new_playerbullet)
 		
 	
 var curve_lasers = []
