@@ -9,7 +9,7 @@ void Item::_register_methods()
 	register_property("DAMP", &Item::DAMP, 0.9f);
 	register_property("up_speed", &Item::up_speed, 24.0f);
 	register_property("speed", &Item::speed, 2.0f);
-	register_property("type", &Item::type, 0.0f);
+	register_property("type", &Item::type, 0);
 	register_property("size", &Item::size, 64.0f);
 	register_property("poc_size", &Item::poc_size, 128.0f);
 	register_property("scale", &Item::scale, 64.0f);

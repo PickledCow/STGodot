@@ -24,6 +24,7 @@ const unfinished_bombs = Color('#001a00')
 const finished_bombs = Color('#00ab00')
 onready var bombs = get_node("bombs")
 
+onready var difficulty_display = get_node("difficultytext")
 
 
 func _ready():
@@ -33,6 +34,27 @@ func _ready():
 		
 	for bomb_icon in bombs.get_children():
 		bomb_icon.max_value = player.bomb_requirement
+	
+	var difficulty_font = difficulty_display.get_font("normal_font")
+	match Globals.DIFFICULTY:
+		0:
+			difficulty_display.bbcode_text = "[center]EASY"
+			difficulty_font.outline_color = Color("#00902c")
+		1:
+			difficulty_display.bbcode_text = "[center]NORMAL"
+			difficulty_font.outline_color = Color("#0054b2")
+		2:
+			difficulty_display.bbcode_text = "[center]HARD"
+			difficulty_font.outline_color = Color("#0009c5")
+		3:
+			difficulty_display.bbcode_text = "[center]LUNATIC"
+			difficulty_font.outline_color = Color("#9700a0")
+		4:
+			difficulty_display.bbcode_text = "[center]EXTRA"
+			difficulty_font.outline_color = Color("#bd0000")
+		5:
+			difficulty_display.bbcode_text = "[center]OVERDRIVE"
+			difficulty_font.outline_color = Color("#bd0000")
 
 func _process(delta):
 	t += delta

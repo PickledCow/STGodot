@@ -23,6 +23,7 @@ onready var charge1 = get_node("charge1")
 onready var charge2 = get_node("charge2")
 onready var rumble1 = get_node("rumble1")
 onready var rumble2 = get_node("rumble2")
+onready var cardget = get_node("cardget")
 
 onready var hit = get_node("hit")
 onready var hit2 = get_node("hit2")
@@ -31,6 +32,13 @@ var fast_forward = false
 
 var shake_frames = 0
 var shake_intensity = 64
+
+var bg_flag = 0
+
+var dialogue = true
+
+var scb_failed = false
+
 
 func _ready():
 	Globals.root = self

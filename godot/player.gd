@@ -2,6 +2,9 @@ extends Node2D
 
 export var pid = 0
 
+export var death_effect_path: NodePath
+onready var death_effect = get_node(death_effect_path)
+
 var add_material = preload('res://bullet/add.tres')
 
 onready var Constants = get_node('/root/Constants')
@@ -66,8 +69,6 @@ onready var graze_sound = get_node("Graze")
 onready var bomb_sound = get_node("bomb")
 
 onready var graze_particles = get_node("GrazeParticles")
-
-onready var death_effect = get_node("DeathEffect")
 
 onready var option_sprites = [get_node("options/option0"),get_node("options/option1"),get_node("options/option2"),get_node("options/option3")]
 
@@ -240,6 +241,7 @@ func graze():
 
 func hit():
 	hurt_sound.play()
+	root.scb_failed = true
 	#Bullets.clear_screen_fade(position, 128, true)
 	if false:
 		deathbomb_timer = deathbomb_window
@@ -413,7 +415,6 @@ func _process(delta):
 		option_interp -= option_travel_speed
 		if option_interp < 0.0:
 			option_interp = 0.0
-	death_effect.position = -position
 	death_effect.material.set_shader_param("position", position)
 	
 	if dead:
@@ -428,7 +429,8 @@ func _process(delta):
 	
 	if !got_hit:
 		move()
-		shoot()
+		if !root.dialogue:
+			shoot()
 		if position.y < 350:
 			Bullets.poc_items()
 		if i_frame_timer > 0:
@@ -444,7 +446,7 @@ func _process(delta):
 			Sprite.hide()
 			if !respawning:
 				lives -= 1
-				power_decimal -= 50
+				#power_decimal -= 50
 				bombs = 3
 				death_wave_radius = -300
 				respawn_timer = respawn_time
@@ -465,7 +467,8 @@ func _process(delta):
 		power_decimal = 0
 			
 	if !dead:
-		bomb()
+		pass
+		#bomb()
 	else:
 		if respawn_timer > 0:
 			respawn_timer -= 1

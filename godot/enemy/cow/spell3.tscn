@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://enemy/cow/spell3.gd" type="Script" id=1]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 1 )
+type = 2
+attack_name = "Pickle Sign[b]「[/b]Cucumber Fermentation[b]」[/b]"
+attack_time = 4100
+start_pos = Vector2( 500, 250 )
+start_delay = 180
+timeout = true
+scb = 15000000

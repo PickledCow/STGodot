@@ -1,15 +1,22 @@
 extends Node2D
 
 func _ready():
-		get_tree().paused = true
+	get_tree().paused = false
 
 export var bg_path: NodePath
+export var pause_path: NodePath
+onready var pause_sfx = get_node(pause_path)
+export var pause_menu_path: NodePath
+onready var pause_menu = get_node(pause_menu_path)
 
 func _process(_delta):
 	if true:
 		update()
 	if Input.is_action_just_pressed("pause"):
 		get_tree().paused = !get_tree().paused
+		pause_menu.visible = get_tree().paused
+		if get_tree().paused:
+			pause_sfx.play()
 	if Input.is_action_just_pressed("debug_disable_bg"):
 		get_node(bg_path).hide()
 

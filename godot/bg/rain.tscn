@@ -542,7 +542,7 @@ params_diffuse_mode = 4
 params_specular_mode = 3
 params_grow = true
 params_grow_amount = 0.0
-albedo_color = Color( 0, 1.25, 0.25, 1 )
+albedo_color = Color( 0, 1.22625, 0.24611, 1 )
 albedo_texture = ExtResource( 17 )
 depth_enabled = true
 depth_scale = 0.005
@@ -558,7 +558,7 @@ size = Vector2( 450, 450 )
 
 [sub_resource type="Animation" id=39]
 resource_name = "dive"
-length = 10.0
+length = 12.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Splash:emitting")
 tracks/0/interp = 1
@@ -566,10 +566,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 3.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 2, 5.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, false ]
+"values": [ true, true, false ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Splash2:emitting")
@@ -578,10 +578,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 3.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 2, 5.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, false ]
+"values": [ true, true, false ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Splash3:emitting")
@@ -590,10 +590,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 3.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 2, 5.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, false ]
+"values": [ true, true, false ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Splash4:emitting")
@@ -602,10 +602,10 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 3.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 2, 5.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, false ]
+"values": [ true, true, false ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("Splash5:emitting")
@@ -614,10 +614,10 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 3.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 2, 5.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, false ]
+"values": [ true, true, false ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("Rain:emitting")
@@ -626,10 +626,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 3.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 2, 5.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, false ]
+"values": [ true, true, false ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("riverbed:mesh:material:albedo_color")
@@ -638,10 +638,10 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 3.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 2, 5.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0, 1.25, 0.25, 1 ), Color( 0, 0.513726, 0.129412, 1 ) ]
+"values": [ Color( 0, 1.25, 0.25, 1 ), Color( 0, 1.25, 0.25, 1 ), Color( 0, 0.513726, 0.129412, 1 ) ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("bubbles:translation")
@@ -650,10 +650,10 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 10 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 2, 12 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector3( 0, 6.49, -1.046 ), Vector3( 0, -70, -120 ) ]
+"values": [ Vector3( 0, 6.49, -1.046 ), Vector3( 0, 6.49, -1.046 ), Vector3( 0, -70, -120 ) ]
 }
 tracks/8/type = "value"
 tracks/8/path = NodePath("bubbles:emitting")
@@ -662,10 +662,10 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 3.1, 7 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 2, 5.1, 9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, true, false ]
+"values": [ false, false, true, false ]
 }
 tracks/9/type = "value"
 tracks/9/path = NodePath("barn:visible")
@@ -674,10 +674,10 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 3.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 2, 5.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false, true ]
+"values": [ false, false, true ]
 }
 tracks/10/type = "bezier"
 tracks/10/path = NodePath("Camera:translation:x")
@@ -686,8 +686,8 @@ tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 2 )
 }
 tracks/11/type = "bezier"
 tracks/11/path = NodePath("Camera:translation:y")
@@ -696,8 +696,8 @@ tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
-"points": PoolRealArray( 6.49, -0.25, 0, 0.25, 0, -10, -0.25, 0, 0.25, 0, -30, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 5, 10 )
+"points": PoolRealArray( 6.49, -0.25, 0, 0.25, 0, 6.49, -0.25, 0, 0.25, 0, -10, -0.25, 0, 0.25, 0, -30, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 2, 7, 12 )
 }
 tracks/12/type = "bezier"
 tracks/12/path = NodePath("Camera:translation:z")
@@ -706,8 +706,8 @@ tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"points": PoolRealArray( -1.046, -0.25, 0, 0.25, 0, -60, -0.25, 0, 0.25, 0, -120, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 5, 10 )
+"points": PoolRealArray( -1.046, -0.25, 0, 0.25, 0, -1.046, -0.25, 0, 0.25, 0, -60, -0.25, 0, 0.25, 0, -120, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 2, 7, 12 )
 }
 tracks/13/type = "bezier"
 tracks/13/path = NodePath("Camera:rotation_degrees:x")
@@ -716,8 +716,8 @@ tracks/13/loop_wrap = true
 tracks/13/imported = false
 tracks/13/enabled = true
 tracks/13/keys = {
-"points": PoolRealArray( -11.444, -0.25, 0, 1.66952, -0.0559998, -60, -1.6314, 0.5, 1.98836, 0.5, -20, -1.50463, -1.5, 0.25, 0 ),
-"times": PoolRealArray( 0, 5, 10 )
+"points": PoolRealArray( -11.444, -0.25, 0, 1.66952, -0.0559998, -11.444, -0.25, 0, 1.66952, -0.0559998, -60, -1.6314, 0.5, 1.98836, 0.5, -20, -1.50463, -1.5, 0.25, 0 ),
+"times": PoolRealArray( 0, 2, 7, 12 )
 }
 tracks/14/type = "bezier"
 tracks/14/path = NodePath("Camera:rotation_degrees:z")
@@ -726,8 +726,8 @@ tracks/14/loop_wrap = true
 tracks/14/imported = false
 tracks/14/enabled = true
 tracks/14/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.65008, -1.5, 10, -0.623632, -0.5, 0.499233, -0.5, -10, -0.77758, -0.5, 0.626002, 2.5, 0, -0.692034, -1.5, 0.25, 0 ),
-"times": PoolRealArray( 0, 2.5, 7.5, 10 )
+"points": PoolRealArray( 0, -0.25, 0, 0.65008, -1.5, 0, -0.25, 0, 0.65008, -1.5, 10, -0.623632, -0.5, 0.499233, -0.5, -10, -0.77758, -0.5, 0.626002, 2.5, 0, -0.692034, -1.5, 0.25, 0 ),
+"times": PoolRealArray( 0, 2, 4.5, 9.5, 12 )
 }
 tracks/15/type = "value"
 tracks/15/path = NodePath("water:visible")
@@ -736,10 +736,10 @@ tracks/15/loop_wrap = true
 tracks/15/imported = false
 tracks/15/enabled = true
 tracks/15/keys = {
-"times": PoolRealArray( 0, 3.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 2, 5.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, false ]
+"values": [ true, true, false ]
 }
 tracks/16/type = "value"
 tracks/16/path = NodePath("2d/warp:visible")
@@ -748,10 +748,10 @@ tracks/16/loop_wrap = true
 tracks/16/imported = false
 tracks/16/enabled = true
 tracks/16/keys = {
-"times": PoolRealArray( 0, 3.1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 2, 5.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false, true ]
+"values": [ false, false, true ]
 }
 tracks/17/type = "value"
 tracks/17/path = NodePath("Spatial:visible")
@@ -760,10 +760,10 @@ tracks/17/loop_wrap = true
 tracks/17/imported = false
 tracks/17/enabled = true
 tracks/17/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ true ]
+"values": [ true, true ]
 }
 tracks/18/type = "value"
 tracks/18/path = NodePath("Rain:translation")
@@ -772,10 +772,10 @@ tracks/18/loop_wrap = true
 tracks/18/imported = false
 tracks/18/enabled = true
 tracks/18/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector3( -40.388, 26.375, -276.171 ) ]
+"values": [ Vector3( -40.388, 26.375, -276.171 ), Vector3( -40.388, 26.375, -276.171 ) ]
 }
 tracks/19/type = "value"
 tracks/19/path = NodePath("Cloud:cloud_speed")
@@ -784,10 +784,10 @@ tracks/19/loop_wrap = true
 tracks/19/imported = false
 tracks/19/enabled = true
 tracks/19/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( -200, 0 ) ]
+"values": [ Vector2( -200, 0 ), Vector2( -200, 0 ) ]
 }
 
 [sub_resource type="Animation" id=40]
@@ -800,8 +800,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 2.1 )
 }
 tracks/1/type = "bezier"
 tracks/1/path = NodePath("Camera:translation:y")
@@ -810,8 +810,8 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"points": PoolRealArray( -30, -0.25, 0, 0.66, -0.124874, -36, -0.61, 0.0844727, 0.25, 0 ),
-"times": PoolRealArray( 0, 2 )
+"points": PoolRealArray( -30, -0.25, 0, 0.66, -0.124874, -30, -0.25, 0, 0.66, -0.124874, -36, -0.61, 0.0844727, 0.25, 0 ),
+"times": PoolRealArray( 0, 2.1, 4.1 )
 }
 tracks/2/type = "bezier"
 tracks/2/path = NodePath("Camera:translation:z")
@@ -820,8 +820,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"points": PoolRealArray( -120, -0.25, 0, 0.79, -0.522987, -150, -0.77, 0.729019, 0.25, 0 ),
-"times": PoolRealArray( 0, 2 )
+"points": PoolRealArray( -120, -0.25, 0, 0.79, -0.522987, -120, -0.25, 0, 0.79, -0.522987, -150, -0.77, 0.729019, 0.25, 0 ),
+"times": PoolRealArray( 0, 2.1, 4.1 )
 }
 tracks/3/type = "bezier"
 tracks/3/path = NodePath("Camera:rotation_degrees:z")
@@ -830,8 +830,8 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, -20, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 2, 2.4 )
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, -20, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 2.1, 4.1, 4.5 )
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("2d/dark:modulate")
@@ -840,10 +840,10 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 1.2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 2.1, 3.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("2d/factory:modulate")
@@ -852,10 +852,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 1.3, 3 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 2.1, 3.4, 5.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("2d/factory:rotation_degrees")
@@ -864,7 +864,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 1.3, 3 ),
+"times": PoolRealArray( 3.4, 5.1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 45.0, 0.0 ]
@@ -876,7 +876,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 1.3, 3 ),
+"times": PoolRealArray( 3.4, 5.1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0.5, 0.5 ) ]
@@ -888,10 +888,10 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 3 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 2.1, 5.1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ true, false ]
+"values": [ true, true, false ]
 }
 tracks/9/type = "value"
 tracks/9/path = NodePath("2d/warp:visible")
@@ -900,7 +900,7 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 2 ),
+"times": PoolRealArray( 4.1 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
@@ -1329,10 +1329,6 @@ shader_param/depth = 0.008
 [node name="rainworld" type="Spatial"]
 script = ExtResource( 5 )
 
-[node name="temptimer" type="Timer" parent="."]
-wait_time = 3.0
-one_shot = true
-
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 2 )
 
@@ -1474,7 +1470,7 @@ script = ExtResource( 11 )
 transform = Transform( 1, 0, 0, 0, 0.999476, -0.0323702, 0, 0.0323702, 0.999476, 0, 1.466, -250 )
 
 [node name="bubbles" type="Particles" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.49, -1.046 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.7251, -2.23554 )
 emitting = false
 amount = 1000
 lifetime = 3.0
@@ -1503,16 +1499,13 @@ texture = ExtResource( 16 )
 centered = false
 
 [node name="dark" type="Sprite" parent="2d"]
-modulate = Color( 0, 0, 0, 0 )
+modulate = Color( 0, 0, 0, 1.98682e-07 )
 position = Vector2( 500, 500 )
 scale = Vector2( 1200, 1200 )
 texture = ExtResource( 16 )
 
 [node name="factory" type="Sprite" parent="2d"]
-modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 500, 500 )
-scale = Vector2( 0.5, 0.5 )
+rotation = 0.785398
+scale = Vector2( 1e-05, 1e-05 )
 texture = ExtResource( 20 )
-
-[connection signal="timeout" from="temptimer" to="." method="_on_temptimer_timeout"]
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]

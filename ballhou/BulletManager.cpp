@@ -96,14 +96,14 @@ void BulletManager::aim_at_player(Bullet* b)
 {
 	if (b) {
 		float angle = Player->get_position().angle_to_point(b->position);
-		update_bullet(b, "", "", 57.2957795131 * angle, "", "", "", "", "", "", "", "", "");
+		update_bullet(b, "", "", 57.2957795131f * angle, "", "", "", "", "", "", "", "", "");
 	}
 }
 
 void BulletManager::offset_angle(Bullet* b, float w)
 {
 	if (b) {
-		update_bullet(b, "", "", 57.2957795131 * b->angle + w, "", "", "", "", "", "", "", "", "");
+		update_bullet(b, "", "", 57.2957795131f * b->angle + w, "", "", "", "", "", "", "", "", "");
 	}
 }
 
@@ -191,74 +191,74 @@ void BulletManager::_process(float delta)
 Array BulletManager::get_uvs(int type, int colour)
 {
 	Rect2 srect;
-	float offset = 0.0;
-	float scale = 1.0;
+	float offset = 0.0f;
+	float scale = 1.0f;
 	int tex = 1;
 	bool animated = false;
-	float anim_width = 64.0;
+	float anim_width = 64.0f;
 	int b_col = colour;
 	Color uv = Color();
-	float anim_step = 0.3334;
+	float anim_step = 0.3334f;
 
 	// Sheet 1
 	if (type <= 11) { // Regular bullets
-		srect = Rect2(16 * colour, 16 * type, 16, 16);
+		srect = Rect2(16.0f * colour, 16.0f * type, 16.0f, 16.0f);
 		if (type == 1) { // Kunai and arrowheads on spritesheet aren't centered on the tip
-			offset = -6.5 / 32.0;
+			offset = -6.5f / 32.0f;
 		}
 		else if (type == 5) {
-			offset = 5.0 / 32.0;
+			offset = 5.0f / 32.0f;
 		}
 	} 
 	else if (type <= 13) { // Popcorn and small rice
-		srect = Rect2(8 * (colour % 8) + 64 * (type - 12), 192 + 8 * floor(colour * 0.125), 8, 8);
+		srect = Rect2(8.0f * (colour % 8) + 64.0f * (type - 12), 192.0f + 8.0f * floor(colour * 0.125f), 8.0f, 8.0f);
 		scale = 0.5;
 	} 
 	else if (type == 14) { // Coin
-		srect = Rect2(128 + 16 * colour, 192, 16, 16);
+		srect = Rect2(128.0f + 16.0f * colour, 192.0f, 16.0f, 16.0f);
 	} 
 	else if (type == 15) { // Snowball
-		srect = Rect2(8 * (colour % 8), 240 + 8 * floor(colour * 0.125), 8, 8);
+		srect = Rect2(8.0f * (colour % 8), 240.0f + 8.0f * floor(colour * 0.125f), 8.0f, 8.0f);
 		scale = 0.5;
 	} else if (type <= 21) { // Large Star to buffer
 		tex = 2;
-		scale = 2.0;
+		scale = 2.0f;
 		if (type == 19) {
-			offset = 9.0 / 64.0;
+			offset = 9.0f / 64.0f;
 		}
-		srect = Rect2(256 + 32 * colour, 32 * (type - 16), 32, 32);
+		srect = Rect2(256.0f + 32.0f * colour, 32.0f * (type - 16), 32.0f, 32.0f);
 	}
 	// Sheet 3 (bubbles)
 	else if (type == 22) {
 		tex = 3;
-		scale = 4.0;
-		srect = Rect2(64 * floor(colour / 2), 256 + 64 * (colour % 2), 64, 64);
+		scale = 4.0f;
+		srect = Rect2(64.0f * floor(colour / 2), 256.0f + 64.0f * (colour % 2), 64.0f, 64.0f);
 	}
 	// Sheet 4 (special)
 	else if (type <= 26) {
 		tex = 4;
-		scale = 2.0;
+		scale = 2.0f;
 		if (type == 24){ // Arrows on spritesheet aren't centered on the tip
-			offset = 18.0 / 64.0;
+			offset = 18.0f / 64.0f;
 		}
-		srect = Rect2(256 + 32 * colour, 256 + 32 * (type - 23), 32, 32);
+		srect = Rect2(256.0f + 32.0f * colour, 256.0f + 32.0f * (type - 23), 32.0f, 32.0f);
 	}
 	else if (type == 27) {
 		tex = 4;
-		scale = 2.0;
-		offset = 4.0 / 64.0;
+		scale = 2.0f;
+		offset = 4.0f / 64.0f;
 		Vector2 oset = FIREBALL_OFFSETS[colour];
 		srect = Rect2(256 + 4 * 32 * oset.x, 256 + 128 + 32 * oset.y, 32, 32);
 		animated = true;
 	}
 	else if (type == 28) {
 		tex = 5;
-		scale = 4.0;
-		srect = Rect2(64 * (colour % 4), 256 + 128 + 64 * floor(colour / 4), 64, 64);
+		scale = 4.0f;
+		srect = Rect2(64.0f * (colour % 4), 256.0f + 128.0f + 64.0f * floor(colour * 0.25f), 64.0f, 64.0f);
 	}
 // Lasers, don't use them as bullets please 
 	else if (type == 29) {
-		srect = Rect2(16 * colour, 640, 16, 256);
+		srect = Rect2(16.0f * colour, 640.0f, 16.0f, 256.0f);
 	}
 	else if (type == 30) {
 		srect = Rect2(128, 640, 32, 256);
@@ -268,37 +268,37 @@ Array BulletManager::get_uvs(int type, int colour)
 	else if (type == 31) {
 		srect = Rect2(256, 192, 64, 64);
 		b_col = 0;
-		scale = 4.0;
+		scale = 4.0f;
 	}
 	else if (type == 32) {
-		srect = Rect2(320 + colour * 64 * (rand() % 2 + 1), 192, 64, 64);
-		scale = 4.0;
+		srect = Rect2(320.0f + colour * 64.0f * (rand() % 2 + 1), 192.0f, 64.0f, 64.0f);
+		scale = 4.0f;
 	}
 	else if (type == 33) {
 		srect = Rect2(256, 160, 32, 32);
 		b_col = 0;
-		scale = 2.0;
+		scale = 2.0f;
 	}
 	else if (type == 34) {
-		srect = Rect2(288 + colour * 32 * (rand() % 2 + 1), 160, 32, 32);
-		scale = 2.0;
+		srect = Rect2(288.0f + colour * 32.0f * (rand() % 2 + 1), 160.0f, 32.0f, 32.0f);
+		scale = 2.0f;
 	}
 	else if (type == 35) {
-		srect = Rect2(384, 160, 32, 32);
-		scale = 2.0;
+		srect = Rect2(384.0f, 160.0f, 32.0f, 32.0f);
+		scale = 2.0f;
 	}
 	else if (type == 36) {
-		scale = 2.0;
-		offset = 20.0 / 64.0;
-		srect = Rect2(128 * (colour % 2), 896 + 32 * (colour / 2), 32, 32);
+		scale = 2.0f;
+		offset = 20.0f / 64.0f;
+		srect = Rect2(128.0f * (colour % 2), 896.0f + 32.0f * (colour / 2), 32.0f, 32.0f);
 		animated = true;
-		anim_step = 0.08334;
+		anim_step = 0.08334f;
 	}
 
-	scale *= 40.0;
-
+	scale *= 40.0f;
+	/*
 	switch (tex) {
-	}
+	}*/
 	uv = Color(srect.position.x * UV_PIXEL.x, srect.position.y * UV_PIXEL.y, srect.size.x * UV_PIXEL.x, srect.size.y * UV_PIXEL.y);
 
 	// return[offset, scale, animated, anim_step, anim_width, b_col, uv]
@@ -324,15 +324,15 @@ void BulletManager::update_bullet(Variant b, Variant position, Variant speed, Va
 	if (speed.get_type() == Variant::REAL || speed.get_type() == Variant::INT) bullet->speed = (float)speed;
 
 	if (angle.get_type() == Variant::REAL || angle.get_type() == Variant::INT) {
-		float true_angle = (float)angle * 0.01745329251;
+		float true_angle = (float)angle * 0.01745329251f;
 		bullet->angle = true_angle;
 		bullet->sprite_angle = true_angle;
 		bullet->direction = Vector2(cos(true_angle), sin(true_angle));
 	}
 	if (accel.get_type() == Variant::REAL || accel.get_type() == Variant::INT) bullet->accel = (float)accel;
 	if (max_speed.get_type() == Variant::REAL || max_speed.get_type() == Variant::INT) bullet->max_speed = (float)max_speed;
-	if (w_vel.get_type() == Variant::REAL || w_vel.get_type() == Variant::INT) bullet->w_vel = (float)w_vel * 0.01745329251;
-	if (spin.get_type() == Variant::REAL || spin.get_type() == Variant::INT) bullet->spin = (float)spin * 0.01745329251;
+	if (w_vel.get_type() == Variant::REAL || w_vel.get_type() == Variant::INT) bullet->w_vel = (float)w_vel * 0.01745329251f;
+	if (spin.get_type() == Variant::REAL || spin.get_type() == Variant::INT) bullet->spin = (float)spin * 0.01745329251f;
 	if (blend.get_type() == Variant::INT || blend.get_type() == Variant::REAL) bullet->blend = (int)blend;
 
 
@@ -362,7 +362,7 @@ void BulletManager::update_bullet(Variant b, Variant position, Variant speed, Va
 		bullet->colour = values[5];
 		bullet->uv = values[6];
 
-		Color laser_spawn_uv = Color(0.0, 416.0 / 2048.0, 64.0 / 1024.0, 64.0 / 2048.0);
+		Color laser_spawn_uv = Color(0.0f, 416.0f / 2048.0f, 64.0f / 1024.0f, 64.0f / 2048.0f);
 		laser_spawn_uv.r += laser_spawn_uv.b * get_large_colour(bullet);
 		bullet->laser_spawn_uv = laser_spawn_uv;
 		if (laser.get_type() == Variant::INT || laser.get_type() == Variant::REAL) {
@@ -372,7 +372,7 @@ void BulletManager::update_bullet(Variant b, Variant position, Variant speed, Va
 			}
 
 			else {
-				bullet->size = (LASER_SIZES[type].x * (float)laser_width * 0.5);
+				bullet->size = (LASER_SIZES[type].x * (float)laser_width * 0.5f);
 			}
 
 
@@ -405,7 +405,7 @@ void BulletManager::update_bullet(Variant b, Variant position, Variant speed, Va
 			}
 		}
 		if (bullet->animated) {
-			bullet->anim_frame = rand() % bullet->anim_frame_max;
+			bullet->anim_frame = (float)(rand() % bullet->anim_frame_max);
 		}
 	}
 }
@@ -441,7 +441,7 @@ Array BulletManager::player_collision(Vector2 pos, float r1, float r2, bool focu
 		Vector2 p1 = b->position;
 		Vector2 p2 = p1 - b->direction * b->length;
 		float min_x = p1.x + (p2.x - p1.x) * b->clearance_front;
-		float max_x = p1.x + (p2.x - p1.x) * (1.0 - b->clearance_back - Math::max(float(b->fade_frames - 1) / b->fade_time, 0.0f));
+		float max_x = p1.x + (p2.x - p1.x) * (1.0f - b->clearance_back - Math::max(float(b->fade_frames - 1) / b->fade_time, 0.0f));
 		if (min_x > max_x) {
 			float temp = min_x;
 			min_x = max_x;
@@ -455,7 +455,7 @@ Array BulletManager::player_collision(Vector2 pos, float r1, float r2, bool focu
 		}
 
 		float min_y = p1.y + (p2.y - p1.y) * b->clearance_front;
-		float max_y = p1.y + (p2.y - p1.y) * (1.0 - b->clearance_back - Math::max(float(b->fade_frames - 1) / b->fade_time, 0.0f));
+		float max_y = p1.y + (p2.y - p1.y) * (1.0f - b->clearance_back - Math::max(float(b->fade_frames - 1) / b->fade_time, 0.0f));
 		if (min_y > max_y) {
 			float temp = min_y;
 			min_y = max_y;
@@ -494,7 +494,7 @@ Array BulletManager::player_collision(Vector2 pos, float r1, float r2, bool focu
 		Vector2 p1 = b->position;
 		Vector2 p2 = p1 + b->direction * b->length;
 		float min_x = p1.x + (p2.x - p1.x) * b->clearance_front;
-		float max_x = p1.x + (p2.x - p1.x) * (1.0 - b->clearance_back - Math::max(float(b->fade_frames - 1) / b->fade_time, 0.0f));
+		float max_x = p1.x + (p2.x - p1.x) * (1.0f - b->clearance_back - Math::max(float(b->fade_frames - 1) / b->fade_time, 0.0f));
 		if (min_x > max_x) {
 			float temp = min_x;
 			min_x = max_x;
@@ -508,7 +508,7 @@ Array BulletManager::player_collision(Vector2 pos, float r1, float r2, bool focu
 		}
 
 		float min_y = p1.y + (p2.y - p1.y) * b->clearance_front;
-		float max_y = p1.y + (p2.y - p1.y) * (1.0 - b->clearance_back - Math::max(float(b->fade_frames - 1) / b->fade_time, 0.0f));
+		float max_y = p1.y + (p2.y - p1.y) * (1.0f - b->clearance_back - Math::max(float(b->fade_frames - 1) / b->fade_time, 0.0f));
 		if (min_y > max_y) {
 			float temp = min_y;
 			min_y = max_y;
@@ -547,18 +547,18 @@ Array BulletManager::player_collision(Vector2 pos, float r1, float r2, bool focu
 			items_collected.set(i->type, items_collected[i->type] + 1);
 			i->collect_position = i->position;
 			if (i->type == 7) {//Point item
-				if (i->max_value || pos.y < 350.0) {
+				if (i->max_value || pos.y < 350.0f) {
 					i->point = piv;
 				}
 				else {
-					i->point = 10.0 * floor(0.1 * piv * ((pos.y - 350.0) / -1300.0 + 1.0));
+					i->point = 10.0f * floor(0.1f * piv * ((pos.y - 350.0f) / -1300.0f + 1.0f));
 				}
 
-				if (i->max_value || pos.y < 350.0) {
-					i->max_value_float = 1.0;
+				if (i->max_value || pos.y < 350.0f) {
+					i->max_value_float = 1.0f;
 				}
 				else {
-					i->max_value_float = 0.0;
+					i->max_value_float = 0.0f;
 				}
 
 			}

@@ -1,16 +1,19 @@
 extends Node2D
 
-var t = 0
-var health = 10000
-var invincible = true
-
-var phase = 0
 
 onready var root = get_node('../')
 onready var Bullets = root.get_node("BulletHandler")
 
+
 func _ready():
-	$Healthbar.max_value = health
+	$Healthbar.max_value = 1
+	$Healthbar.value = 0
+	$Healthbar.hide()
+	difficulty = Globals.DIFFICULTY
+	
+	for attack in attack_prefabs:
+		attacks.append(attack.instance())
+	order_attack_icons()
 
 
 #create_bullet(position, speed, angle, accel, max_speed, type, colour, fade, w_vel, spin, blend)
@@ -1159,30 +1162,33 @@ func gears_of_war():
 			dest = Vector2(x, y) 
 			
 func warsaw():
+	var CYCLE_TIME = [270, 240, 210, 180]
 	# Killing Floor, Machined Cow
-	var DENSITY = 27
-	var DENSITY2 = 52
-	var u = t - 60
+	var DENSITY = [12,15,20,28]
+	var DENSITY2 = [30,36,40,52]
+	var SPEED = [2.0, 2.0, 2.5, 3.0]
+	var SPEED2 = [3.0, 3.0, 4.5, 5.0]
+	var u = t - 240
 	if t == 0:
 		health = 20000
 		$Healthbar.max_value = health
 	if u == 0:
 		invincible = false
 	if u >= 0:
-		if u % 60 == 0:
+		if u % (CYCLE_TIME[difficulty] / 3) == 0:
 			root.shoot1.play()
 			lr *= -1
 			var o = randf() * 360.0
-			for i in DENSITY:
-				var b = Bullets.create_bullet(position, 15.0, o + i * 360.0 / DENSITY, -0.5, 3.0, Constants.BULLET_TYPE.SAW, Constants.COLOURS_SAW.BLOOD, true, 0.0, lr*2)
+			for i in DENSITY[difficulty]:
+				var b = Bullets.create_bullet(position, 15.0, o + i * 360.0 / DENSITY[difficulty], -0.5, SPEED[difficulty], Constants.BULLET_TYPE.SAW, Constants.COLOURS_SAW.BLOOD, true, 0.0, lr*2)
 				if lr == 1:
 					b.sprite_angle = randf()*360.0
 				lr *= -1
-		if u % 180 == 75:
+		if u % CYCLE_TIME[difficulty] == CYCLE_TIME[difficulty]*75/180:
 			root.shoot1.play()
 			var o = randf() * 360.0
-			for i in DENSITY2:
-				var b = Bullets.create_bullet(position, 12.0, o + i * 360.0 / DENSITY2, -1, 5.0, Constants.BULLET_TYPE.SAW_SMALL, Constants.COLOURS_SAW.BLOOD, true, 0.0, lr*4)
+			for i in DENSITY2[difficulty]:
+				var b = Bullets.create_bullet(position, 12.0, o + i * 360.0 / DENSITY2[difficulty], -1, SPEED2[difficulty], Constants.BULLET_TYPE.SAW_SMALL, Constants.COLOURS_SAW.BLOOD, true, 0.0, lr*4)
 				b.bounce_count = 2
 				b.layer = 1
 				if lr == 1:
@@ -1190,7 +1196,7 @@ func warsaw():
 				lr *= -1
 		if u % 180 == 90:
 			var x = rand_range( max(Constants.FIELD_SIZE.x*0.3, position.x - 200 * (position.x / Constants.FIELD_SIZE.x)), min(Constants.FIELD_SIZE.x*0.7, position.x + 200 * (1 - position.x / Constants.FIELD_SIZE.x))  )
-			var y = rand_range(0.2, 0.35) * Constants.FIELD_SIZE.y
+			var y = rand_range(0.25, 0.35) * Constants.FIELD_SIZE.y
 			#dest = Vector2(x, y) 
 			set_dest(Vector2(x, y), 45)
 		
@@ -1917,25 +1923,27 @@ func lotus():
 func picklenon1():
 	var DENSITY = [6, 10, 12, 12]
 	var SPACING = [20.0, 16.0, 13.0, 12.0]
-	var SPEED = [4.0, 5.0, 5.5, 6.5]
-	var RATE = [24, 18, 12, 10]
+	var SPEED = [4.0, 5.0, 5.5, 7.0]
+	var RATE = [24, 18, 12, 9]
 	var u = t - 120
 	if t == 0:
 		health = 7500
 		$Healthbar.max_value = health
+		set_dest(Vector2(500, 300), 60)
 	if u == 0:
 		invincible = false
 	if u >= 0:
 		if u % RATE[difficulty] == 0:
+			a += 0.15
 			var o2 = randf()*360.0
 			root.shoot1.play()
 			lr *= -1
-			var o = rand_range(-0.5, 0.5) * SPACING[difficulty]
+			var o = (fmod(a, 1.0) - 0.5) * SPACING[difficulty]
 			for i in range(1,DENSITY[difficulty]):
 				for leftright in range(-1, 2, 2):
-					var b = Bullets.create_bullet(position, 10.0, leftright*i*SPACING[difficulty] - 90 + o, 0.0, 0.0, Constants.BULLET_TYPE.JELLYBEAN, Constants.COLOURS_LARGE.GREEN, true, lr*4.0)
+					var b = Bullets.create_bullet(position, 10.0, leftright*i*SPACING[difficulty] - 90 + o*lr, 0.0, 0.0, Constants.BULLET_TYPE.JELLYBEAN, Constants.COLOURS_LARGE.GREEN, true, lr*4.0)
 					Bullets.queue_update_bullet(b, 45, null, null, null, -0.25, SPEED[difficulty], null, null, null, 0.0)
-				var b = Bullets.create_bullet(position, 10.0, -90 + o, 0.0, 0.0, Constants.BULLET_TYPE.JELLYBEAN, Constants.COLOURS_LARGE.GREEN, true, lr*4.0)
+				var b = Bullets.create_bullet(position, 10.0, -90 + o*lr, 0.0, 0.0, Constants.BULLET_TYPE.JELLYBEAN, Constants.COLOURS_LARGE.GREEN, true, lr*4.0)
 				Bullets.queue_update_bullet(b, 45, null, null, null, -0.25, SPEED[difficulty], null, null, null, 0.0)
 				#Bullets.queue_update_bullet(b, 135, null, null, null, null, null, null, null, null, lr*6.0)
 				#Bullets.queue_update_bullet(b, 150, null, null, null, null, null, null, null, null, -lr*0.5)
@@ -1949,16 +1957,17 @@ func picklenon2():
 	var CYCLE_TIME = 60 * 3
 	var CYCLE_TIME2 = 60 * 4
 	var DENSITY = [16, 20, 24, 30, 50]
-	var DENSITY2 = [30, 60, 80, 95, 150]
+	var DENSITY2 = [30, 60, 80, 95, 120]
 	var SPEED = [3.0, 3.5, 4.0, 5.0, 5.0]
-	var RATE = [15, 13, 12, 10, 5]
-	var RATE2 = [30, 24, 20, 16, 8]
+	var RATE = [15, 13, 12, 10, 8]
+	var RATE2 = [30, 24, 20, 16, 12]
 	var TIMINGS = [[90, 180, 270], [80, 160, 240], [80, 160, 240], [75, 150, 225], [75, 150, 225]]
 	var u = t - 240
 	if t == 0:
 		lr = 1
 		health = 12000
 		$Healthbar.max_value = health
+		set_dest(Vector2(500, 300), 60)
 	if u == 0:
 		invincible = false
 	if u >= 0:
@@ -2030,7 +2039,7 @@ func picklenon4():
 	var RATE_2 = [36, 36, 30, 30]
 	var u = t - 240
 	if t == 0:
-		health = 20000
+		health = 16000
 		$Healthbar.max_value = health
 	if u == 0:
 		invincible = false
@@ -2109,195 +2118,444 @@ func flower():
 
 
 
+func picklelaser():
+	var u = t - 180
+	if u >= 0:
+		if u % 30 == 0:
+			root.laser1.play()
+# warning-ignore:shadowed_variable
+			a += 15 + rand_range(-1,1) * 5#rad2deg(root.player.position.angle_to_point(position)) + rand_range(-30, 30)*0.1
+			for i in 5:
+				var l = Bullets.create_curve_laser(position, 7, a-90 - i * 20, 60, 128, -0.01, 0.0, Constants.BULLET_TYPE.LASER, Constants.COLOURS_LARGE.GREEN, true, 0.5, BLEND_MODE_ADD, 4)
+				Bullets.queue_update_curve_laser(l, 65, null, null, null, 0.1, 20, null, null, null, 3.0 + i*0.6)
+				Bullets.queue_update_curve_laser(l, 100, null, null, null, null, null, null, null, null, 0.5)
+				l = Bullets.create_curve_laser(position, 7, a+90 + i * 20, 60, 128, -0.01, 0.0, Constants.BULLET_TYPE.LASER, Constants.COLOURS_LARGE.GREEN, true, -0.5, BLEND_MODE_ADD, 4)
+				Bullets.queue_update_curve_laser(l, 65, null, null, null, 0.1, 20, null, null, null, -3.0 - i*0.6)
+				Bullets.queue_update_curve_laser(l, 100, null, null, null, null, null, null, null, null, -0.5)
+
+		if u % 30 == 15:	
+			dest = Vector2(Constants.FIELD_SIZE.x * (0.2+randf()*0.6), Constants.FIELD_SIZE.y * (0.2+randf()*0.1))
+
+func picklesurround():
+	var u = t - 120
+	if u >= 0:
+		var CYCLE_TIME = 60*6
+		var BUFFER_TIME = 60*4
+		
+		if u % CYCLE_TIME == 0:
+			lr *= -1
+			p = root.player.position
+		p.y = clamp(p.y, 200, 900)
+		var r = (u % CYCLE_TIME) * 1 + 300
+		var density = 0*(u % CYCLE_TIME) / 8 + 36
+# warning-ignore:shadowed_variable
+		var a = 4 * lr * (u % CYCLE_TIME)
+		
+		if u % 3 == 0 && u % CYCLE_TIME < CYCLE_TIME - BUFFER_TIME:
+			root.shoot1.play()
+			for i in density:
+				var b = Bullets.create_bullet(p + Vector2(r, 0).rotated(deg2rad(a)), 1, a + 360 * i / float(density), 0.0, 0.0, Constants.BULLET_TYPE.BACTERIA, Constants.COLOURS.TEAL)
+				if b: b.auto_delete = false
+				Bullets.queue_autodelete(b, 120, true)
+				b = Bullets.create_bullet(p + Vector2(r, 0).rotated(deg2rad(a) + PI), 1, a + 360 * i / float(density), 0.0, 0.0, Constants.BULLET_TYPE.BACTERIA, Constants.COLOURS.TEAL)
+				if b: b.auto_delete = false
+				Bullets.queue_autodelete(b, 120, true)
+				
+	
+func monstercucumber():
+	# Pickle Leviathan
+	var CYCLE_RATE = [120, 120, 100, 90]
+	var DENSITY = [24, 30, 45, 48]
+	var SPEED = [7.5, 10.0, 13.0, 15.0]
+	var SPEED2 = [3, 4, 4.5, 5]
+	var RATE = [12, 10, 8, 8]
+	var RATE2 = [60, 45, 40, 36]
+	var u = t - 240
+	if t == 0:
+		health = 20000
+		$Healthbar.max_value = health
+		set_dest(Vector2(500, 300), 60)
+	if u == 0:
+		invincible = false
+	if u >= 0:
+		if u % CYCLE_RATE[difficulty] == 0:
+			lr *= -1
+			set_dest(Vector2(500 + lr * rand_range(50, 100), rand_range(250,325)), 90)
+			a = -90
+		if u % CYCLE_RATE[difficulty] < 90:
+			root.laser1.play()
+			a += 2.3 * lr
+			if u % RATE[difficulty] == 0:
+				#Bullets.create_loose_laser(position + 150*Vector2(1, 0).rotated(deg2rad(a)), 16.0, a+60*lr, 1000, 60, 0.0, 0.0, Constants.BULLET_TYPE.LASER, Constants.COLOURS_LARGE.GREEN, true, 0.0, 0.0, BLEND_MODE_ADD)
+				#Bullets.create_loose_laser(position + 150*Vector2(1, 0).rotated(deg2rad(a+180)), 16.0, a-60*lr+180, 1000, 60, 0.0, 0.0, Constants.BULLET_TYPE.LASER, Constants.COLOURS_LARGE.GREEN, true, 0.0, 0.0, BLEND_MODE_ADD)
+				Bullets.create_curve_laser(position + 150*Vector2(1, 0).rotated(deg2rad(a)), SPEED[difficulty], a+60*lr, 72, 72, 0.0, 0.0, Constants.BULLET_TYPE.LASER, Constants.COLOURS_LARGE.GREEN, true, SPEED[difficulty]/16.0*lr, BLEND_MODE_ADD, 4)
+				Bullets.create_curve_laser(position + 150*Vector2(1, 0).rotated(deg2rad(a+180)), SPEED[difficulty], a-60*lr+180, 72, 72, 0.0, 0.0, Constants.BULLET_TYPE.LASER, Constants.COLOURS_LARGE.GREEN, true, SPEED[difficulty]/16.0*-lr, BLEND_MODE_ADD, 4)
+				
+		if u >= CYCLE_RATE[difficulty]:
+			if u % RATE2[difficulty] == 0:
+				root.shoot1.play()
+				for i in DENSITY[difficulty]:
+					Bullets.create_bullet(position, SPEED2[difficulty], (i+1) * 360.0/DENSITY[difficulty] + 90, 0.0, 0.0, Constants.BULLET_TYPE.RICE, Constants.COLOURS.TEAL_D)
+
+
 var fade_radius = 0
 var FADE_RAD_MAX = 1000
 
 var difficulty = 3
 
+var t = 0
+var health = 0
+var invincible = true
+
+var phase = 0
+var attack_prefabs = [	
+						preload("res://enemy/cow/non1.tscn"), preload("res://enemy/cow/spell1.tscn"), 
+						preload("res://enemy/cow/non2.tscn"),
+						preload("res://enemy/cow/non3.tscn"), preload("res://enemy/cow/spell3.tscn"),  
+						preload("res://enemy/cow/non4.tscn"), preload("res://enemy/cow/spell4.tscn"),  
+						
+						
+						]
+var attacks = []
+
+var current_attack: Node2D
+var time = 0
+var start_delay = 0
+
+var attack_time = 0
+
+export var spell_bg_path: NodePath
+onready var spell_bg = get_node(spell_bg_path)
+
+export var attack_name_path: NodePath
+onready var attack_name = get_node(attack_name_path)
+
+export var attack_name_anim_path: NodePath
+onready var attack_name_anim = get_node(attack_name_anim_path)
+
+export var attack_timer_path: NodePath
+onready var attack_timer = get_node(attack_timer_path)
+
+export var attack_icons_path: NodePath
+onready var attack_icons = get_node(attack_icons_path)
+var current_attack_icon: Node
+
+export var dialogue_path: NodePath
+onready var dialogue_node = get_node(dialogue_path)
+
+func order_attack_icons():
+	var attack = len(attacks) - 1
+	for icon in attack_icons.get_children():
+		if attack >= phase:
+			icon.frame = attacks[attack].type + 1
+			attack -= 1
+			icon_fade_timer = icon_fade_time
+			icon.scale = Vector2(0.375, 0.375)
+			icon.modulate = Color(1.0, 1.0, 1.0, 1.0)
+			if attack == phase-1:
+				current_attack_icon = icon
+		else:
+			icon.frame = 0
+			
+var icon_fade_time = 0.5
+var icon_fade_timer = 0.0
+var icon_hidden = false
+
+export var scb_text_path: NodePath
+onready var scb_text = get_node(scb_text_path)
+var scb = 0
+var to = false
+
+var icons_started = false
+
 func _process(delta):
 	
+	# debug difficulty change
 	for i in range(4):
 		if Input.is_action_just_pressed("debug_" + str(i+1) + "p"):
-			difficulty = i
+			Globals.DIFFICULTY = i
 	#misdirection()
-	#bowap()
-	#bowap2()
-	#qed()
-	#qed2()
-	#water()
-	#fire()
-	#test_ndl()
-	#shark()
-	#spark()
-	#dbdb()
-	#bls()
-	#kanko()
-	#chimata()
-	#meek()
-	#bullet_test()
-	#funny_junko2()
-	#rainbarf()
-	#ds()
-	if phase == 0:
+		
+	
+	# rotate sprite
+	$Sprite.rotation_degrees = -8 + 8*sin(time*0.01)
+	time += 1
+	# Assign new attack
+	if !root.dialogue:
+		# Make icons visible now
+		if !icons_started:
+			icons_started = true
+			$Healthbar.show()
+			attack_timer.get_node("AnimationPlayer").play("main")
+		
+		
+		
+		if (t == 0 && phase < len(attacks)):
+			order_attack_icons()
+			root.scb_failed = false
+			icon_hidden = false
+			current_attack = attacks[phase]
+			add_child(current_attack)
+			start_delay = current_attack.start_delay
+			health = current_attack.health
+			attack_time = current_attack.attack_time
+			$Healthbar.max_value = health
+			$Healthbar.show()
+			set_dest(current_attack.start_pos, 60)
+			scb = current_attack.scb
+			scb_text.bbcode_text = '[right]' + str(scb).replace("0", "O")
+			root.bg_flag = current_attack.bg_flag
+			to = false
+			match current_attack.type:
+				Globals.ATTACK_TYPE.NON:
+					attack_name.visible = false
+					spell_bg.visible = false
+				Globals.ATTACK_TYPE.SPELL:
+					attack_name.visible = true
+					spell_bg.visible = true
+					spell_bg.get_node("AnimationPlayer").play("fade")
+					attack_name.bbcode_text = "[right]" + current_attack.attack_name
+					attack_name_anim.play("spawn")
+				Globals.ATTACK_TYPE.TO:
+					attack_name.visible = true
+					spell_bg.visible = true
+					spell_bg.get_node("AnimationPlayer").play("fade")
+					attack_name.bbcode_text = "[right]" + current_attack.attack_name
+					attack_name_anim.play("spawn")
+					$Sprite.modulate = Color(0.5, 0.5, 0.5, 1.0)
+					$Healthbar.hide()
+					to = true
+			
+			if current_attack.type != Globals.ATTACK_TYPE.NON:
+				fade_radius = FADE_RAD_MAX
+				root.warp.warp(position, 16)
+				root.blast.play()
+				Bullets.deactivate_screen()
+			else:
+				Bullets.clear_screen_fade(Vector2(500, 500), 1000, true)
+		elif t == 0:
+			Bullets.clear_screen_fade(Vector2(500, 500), 1000, true)
+		if t == start_delay && current_attack.type != Globals.ATTACK_TYPE.TO:
+			invincible = false
+		if t >= start_delay:
+			attack_time -= 1
+			if !to:
+				scb = max(scb - 1000, 0)
+			scb_text.bbcode_text = "[right]FAILED" if root.scb_failed else '[right]' + str(scb).replace("0", "O")
+		# "[center]" + str(attack_time / 60).replace("0", "O") + "[b]." + str((attack_time % 60) * 100 / 60).replace("0", "O")
+		attack_timer.bbcode_text = ("[center]%02d[b].%02d" % [attack_time / 60, (attack_time % 60) * 100 / 60]).replace("0", "O")
+		
+		# Healthbar buildup
+		if $Healthbar.value >= health:
+			$Healthbar.value = health
+		else:
+			$Healthbar.value += delta * $Healthbar.max_value
+		
+		# Fade out the current attack icon
+		if icon_fade_timer > 0:
+			icon_fade_timer -= delta
+			var interp = 1.0 - float(icon_fade_timer) / icon_fade_time
+			current_attack_icon.scale = Vector2(0.375, 0.375) * (1.0 + interp)
+			current_attack_icon.modulate = Color(1.0, 1.0, 1.0, 1.0 - interp)
+		elif !icon_hidden:
+			icon_hidden = true
+			current_attack.hide()
+		
+		
+		# old behaviour
 		if false:
-			if t == 1:
-				$AnimationPlayer.play("death")
-				var o = randf()*TAU
-				for i in range(1, 9):
-					get_node("Explosion/beam" + str(i)).rotation = o
-					o += deg2rad(rand_range(117, 157))
-			$Sprite.position = Vector2(randf()*min(t*0.1, 8), 0).rotated(randf()*TAU)
-		#godot()
-		#picklenon1()
-		#wobble()
-		#flower()
-		#waternon1()
-		#bhe()
-		#lotus()
-		#war_of_the_roses()
-		#kanako_op()
-		#kana()
-		#scaline()
-		#mek()
-		#incinerate()
-		#firesaber()
-		#firesaber2()
-		#funny_junko2()
-		#shapeattack2()
-		#shapeattack4()
-		#current()
-		#super_laser_piss()
-		#tss2()
-		#tss()
-		#waterdance()
-		#firewily()
-		#wrasse()
-		#shark()
-		#flick()
-		#lasagnacode()
-		#backstab()
-		#losemoney()
-		#position.y = Constants.FIELD_SIZE.y * 0.35
-		#dest.y = Constants.FIELD_SIZE.y * 0.35
-		#ds()
-		#pass
-		#pl2()
-		#fire()
-		#test_ndl()
-		#bowap()
-		#water()
-		#funny_junko2()
-		#satorinon1()
-		#satorinon2()
-		#mek()
-		#tsukasa()
-		#tsukasa2()
-		#wraparound()
-		#himemushi()
-		#war_of_the_roses()
-		#futo()
-		#mandrill()
-		#mandrill2()
-		#mandrill3()
-		#mandrill4()
-		#fake_guze()
-		#overflow()
-		#crossfire()
-		#mike()
-		#speen()
-		#megumu()
-		#satorinon1()
-		#clownnon()
-		#thunder2()
-		#bullet_test()
-		#gears_of_war()
-		warsaw()
-		#bowap()
-		pass
+			
+			#bowap()
+			#bowap2()
+			#qed()
+			#qed2()
+			#water()
+			#fire()
+			#test_ndl()
+			#shark()
+			#spark()
+			#dbdb()
+			#bls()
+			#kanko()
+			#chimata()
+			#meek()
+			#bullet_test()
+			#funny_junko2()
+			#rainbarf()
+			#ds()
+			if phase == 0:
+				if false:
+					if t == 1:
+						$AnimationPlayer.play("death")
+						var o = randf()*TAU
+						for i in range(1, 9):
+							get_node("Explosion/beam" + str(i)).rotation = o
+							o += deg2rad(rand_range(117, 157))
+					$Sprite.position = Vector2(randf()*min(t*0.1, 8), 0).rotated(randf()*TAU)
+				#godot()
+				#monstercucumber()
+				#picklesurround()
+				#picklenon1()
+				#picklenon2()
+				#picklelaser()
+				#wobble()
+				#flower()
+				#waternon1()
+				#bhe()
+				#lotus()
+				#war_of_the_roses()
+				#kanako_op()
+				#kana()
+				#scaline()
+				#mek()
+				#incinerate()
+				#firesaber()
+				#firesaber2()
+				#funny_junko2()
+				#shapeattack2()
+				#shapeattack4()
+				#current()
+				#super_laser_piss()
+				#tss2()
+				#tss()
+				#waterdance()
+				#firewily()
+				#wrasse()
+				#shark()
+				#flick()
+				#lasagnacode()
+				#backstab()
+				#losemoney()
+				#position.y = Constants.FIELD_SIZE.y * 0.35
+				#dest.y = Constants.FIELD_SIZE.y * 0.35
+				#ds()
+				#pass
+				#pl2()
+				#fire()
+				#test_ndl()
+				#bowap()
+				#water()
+				#funny_junko2()
+				#satorinon1()
+				#satorinon2()
+				#mek()
+				#tsukasa()
+				#tsukasa2()
+				#wraparound()
+				#himemushi()
+				#war_of_the_roses()
+				#futo()
+				#mandrill()
+				#mandrill2()
+				#mandrill3()
+				#mandrill4()
+				#fake_guze()
+				#overflow()
+				#crossfire()
+				#mike()
+				#speen()
+				#megumu()
+				#satorinon1()
+				#clownnon()
+				#thunder2()
+				#bullet_test()
+				#gears_of_war()
+				#warsaw()
+				#bowap()
+				pass
+				
+			elif phase == 1:
+				monstercucumber()
+				#picklenon2()
+				#waternon2()
+				#ds()
+				#fire()
+				#test_ndl()
+				#bowap2()
+				#water()
+				#funny_junko2()
+				#megumu()
+				#satorinon1()
+				#mandrill2()
+			elif phase == 2:
+				picklenon2()
+				#test_ndl()
+				#bowap2()
+				#water()
+				#waternon3()
+				#mandrill3()
+				#funny_junko2()
+				#satorinon1()
+			elif phase == 3:
+				picklenon3()
+				#t = 0
+				#dest = Vector2(Constants.FIELD_SIZE.x * 0.5, Constants.FIELD_SIZE.y * 0.3)
+				#position = dest
+				#thunder2()
+				pass
+				#satorinon2()
+			elif phase == 4:
+				picklenon4()
+				#dest = Vector2(Constants.FIELD_SIZE.x * 0.5, Constants.FIELD_SIZE.y * 0.3)
+				#t = 0
+				#fire()
+				pass
+			elif phase == 5:
+				warsaw()
+				#bowap()
+			elif phase == 6:
+				#megumu()
+				pass
+			elif phase == 7:
+				#t = 0
+				dest.x = Constants.FIELD_SIZE.x * 0.5
+				dest.y = Constants.FIELD_SIZE.y * 0.2
+				
+				funny_junko2()
 		
-	elif phase == 1:
-		picklenon2()
-		#waternon2()
-		#ds()
-		#fire()
-		#test_ndl()
-		#bowap2()
-		#water()
-		#funny_junko2()
-		#megumu()
-		#satorinon1()
-		#mandrill2()
-	elif phase == 2:
-		picklenon3()
-		#test_ndl()
-		#bowap2()
-		#water()
-		#waternon3()
-		#mandrill3()
-		#funny_junko2()
-		#satorinon1()
-	elif phase == 3:
-		picklenon4()
-		#t = 0
-		#dest = Vector2(Constants.FIELD_SIZE.x * 0.5, Constants.FIELD_SIZE.y * 0.3)
-		#position = dest
-		#thunder2()
-		pass
-		#satorinon2()
-	elif phase == 4:
-		#dest = Vector2(Constants.FIELD_SIZE.x * 0.5, Constants.FIELD_SIZE.y * 0.3)
-		#t = 0
-		#fire()
-		pass
-	elif phase == 5:
-		bowap()
-	elif phase == 6:
-		megumu()
-	elif phase == 7:
-		#t = 0
-		dest.x = Constants.FIELD_SIZE.x * 0.5
-		dest.y = Constants.FIELD_SIZE.y * 0.2
 		
-		funny_junko2()
-	
-	if $Healthbar.value >= health:
-		$Healthbar.value = health
-	else:
-		$Healthbar.value += delta * $Healthbar.max_value
-	
-	if health <= 0:
-		invincible = true
-		#Bullets.clear_screen()
-		health = 1
-		$Healthbar.max_value = health
-		fade_radius = FADE_RAD_MAX
-		t = -1
-		phase += 1
-		root.warp.warp(position, 16)
-		root.blast.play()
-		Bullets.deactivate_screen()
-		#queue_free()	
-		for _i in 100:
-			Bullets.create_item(position, Constants.ITEM.LIFE, true, randf()*360.0, rand_range(12.0, 20.0))
-			#Bullets.create_item(position, Constants.ITEM.POWER, true, randf()*360.0, rand_range(12.0, 20.0))
-		#Bullets.create_item(position, Constants.ITEM.BOMB_FRAGMENT, true, 180.0, 5.0)
-		#Bullets.create_item(position, Constants.ITEM.LIFE_FRAGMENT, true, 0.0, 5.0)
-		#Bullets.create_item(position, Constants.ITEM.LIFE_FRAGMENT, true, 0.0, 0.0)
-	if fade_radius > 0:
-		Bullets.clear_screen_fade(position, FADE_RAD_MAX - fade_radius, true)
-		fade_radius -= 16
-	#position += (dest - position) / weight
-	
-	if move_timer < move_time:
-		move_timer += 1
-		var prog = (float(move_timer) / float(move_time))
-		var interp = 1 - (prog - 1.0) * (prog - 1.0)
-		#var interp = prog / (prog * (prog - 1) + 1)
+		if (health <= 0 || attack_time <= 0):
+			$Healthbar.hide()
+			$Sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
+			if attack_time <= 0 && !to:
+				root.scb_failed = true
+			health = 1
+			attack_time = 1
+			start_delay = -1
+			invincible = true
+			spell_bg.visible = false
+			attack_name.visible = false
+			#Bullets.clear_screen()
+			t = -1
+			phase += 1
+			#queue_free()
+			if current_attack.type != Globals.ATTACK_TYPE.NON:
+				root.shoot1.play()
+				if !root.scb_failed:
+					root.cardget.play()
+					root.score += scb
+				for _i in 100:
+					Bullets.create_item(position, Constants.ITEM.POINT, true, randf()*360.0, rand_range(12.0, 20.0))
+					#Bullets.create_item(position, Constants.ITEM.POWER, true, randf()*360.0, rand_range(12.0, 20.0))
+				#Bullets.create_item(position, Constants.ITEM.BOMB_FRAGMENT, true, 180.0, 5.0)
+				#Bullets.create_item(position, Constants.ITEM.LIFE_FRAGMENT, true, 0.0, 5.0)
+				#Bullets.create_item(position, Constants.ITEM.LIFE_FRAGMENT, true, 0.0, 0.0)
+			if current_attack:
+				#remove_child(current_attack)
+				current_attack.queue_free()
+		if fade_radius > 0:
+			Bullets.clear_screen_fade(position, FADE_RAD_MAX - fade_radius, true)
+			fade_radius -= 16
 		
-		position = lerp(start, dest, interp)
-
-	
-	t += 1
+		if move_timer < move_time:
+			move_timer += 1
+			var prog = (float(move_timer) / float(move_time))
+			var interp = 1 - (prog - 1.0) * (prog - 1.0)
+			#var interp = prog / (prog * (prog - 1) + 1)
+			
+			position = lerp(start, dest, interp)
+		
+		t += 1
 
 func set_dest(destination, time):
 	start = position

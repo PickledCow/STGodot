@@ -76,10 +76,13 @@ func create_curve_laser(position: Vector2, speed, angle, length, width, accel, m
 	laser.angle = true_angle
 	laser.direction = Vector2(cos(true_angle), sin(true_angle))
 	laser.length = length
+	laser.spawn_time = int(length)
 	laser.width = width
 	laser.accel = accel
 	laser.max_speed = max_speed
 	laser.w_vel = deg2rad(w_vel)
+	
+	laser.active = true
 	
 	laser.type = type
 	laser.colour = colour
@@ -120,6 +123,9 @@ func create_curve_laser(position: Vector2, speed, angle, length, width, accel, m
 	laser.points = points
 	laser.verts = verts
 	laser.uvs = uvs
+	laser.laser_spawn_uv = Color(0.0, 416.0 / 2048.0, 64.0 / 1024.0, 64.0 / 2048.0)
+	if laser.bullets:
+		laser.laser_spawn_uv.r += laser.laser_spawn_uv.b * get_large_colour(laser.bullets[0])
 	#laser.points = points
 	
 	#var tst = ArrayMesh.new()
@@ -1035,7 +1041,9 @@ func move_bullets():
 				i += 1
 			for _a in range(i-j):
 				b.transform_queue.pop_back()
-	
+		b.spawn_time -= 1
+		
+		
 	for b in active_items:
 		b.position += b.direction * b.speed
 		b.position.x = clamp(b.position.x, 0.0, 1000.0)
@@ -1059,6 +1067,61 @@ func move_bullets():
 func player_collision(pos, r1, r2, focused):
 	var data = BulletManager.player_collision(pos, r1, r2, focused, root.piv)
 	root.graze += data[1]
+	
+	# Temp
+	var hit = false
+	for l in curve_lasers:
+		if l.active:
+			for i in len(l.bullets)-1:
+				var b = l.bullets[i]
+				var p1 = b.position
+				var p2 = l.bullets[i+1].position
+				
+				if p1 == p2:
+					continue
+				
+				var min_x = p1.x
+				var max_x = p2.x
+				if min_x > max_x:
+					var temp = min_x
+					min_x = max_x
+					max_x = temp
+				#min_x -= (b.size + r2) * abs(b.direction.y)
+				#max_x += (b.size + r2) * abs(b.direction.y)
+				var x_margin_graze = (b.size + r2) * abs(b.direction.y)
+				if pos.x < (min_x - x_margin_graze) || pos.x > (max_x + x_margin_graze):
+					continue
+			
+				var min_y = p1.y
+				var max_y = p2.y
+				if min_y > max_y:
+					var temp = min_y
+					min_y = max_y
+					max_y = temp
+				#min_y -= (b.size + r2) * abs(b.direction.x)
+				#max_y += (b.size + r2) * abs(b.direction.x)
+				var y_margin_graze = (b.size + r2) * abs(b.direction.x)
+				if pos.y < (min_y - y_margin_graze) || pos.y > (max_y + y_margin_graze):
+					continue
+				
+				var x_margin = (b.size + r1) * abs(b.direction.y)
+				var y_margin = (b.size + r1) * abs(b.direction.x)
+				
+				var numerator = (p2.x - p1.x) * (p1.y - pos.y) - (p1.x - pos.x) * (p2.y - p1.y)
+				var dist_squared = numerator * numerator / p1.distance_squared_to(p2)
+				
+				if !hit && pos.x > (min_x - x_margin) && pos.x < (max_x + x_margin) && pos.y > (min_y - y_margin) && pos.y < (max_y + y_margin) && dist_squared < (r1 + b.size) * (r1 + b.size):
+					b.hit()
+					hit = true
+				if !b.grazed && dist_squared < (r2 + b.size) * (r2 + b.size):
+					l.grazed = true
+					b.grazed = true
+					#graze()
+					#graze += 1
+					root.graze += 1
+	if hit:
+		data[0] = true
+	
 	return data
 	
 	
@@ -1255,8 +1318,7 @@ func deactivate_screen():
 	for l in straight_lasers:
 		l.active = false
 	for l in curve_lasers:
-		for b in l.bullets:
-			b.active = false
+		l.active = false
 			
 func clear_all_bullets():
 	for b in active_bullets:

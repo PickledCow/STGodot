@@ -2,10 +2,10 @@
 
 float BulletRender::s(float t)
 {
-	if (t < 0.25) {
-		return t * 10.0;
+	if (t < 0.25f) {
+		return t * 10.0f;
 	}
-	return 2.5 - (t - 0.25) * 2;
+	return 2.5f - (t - 0.25f) * 2.0f;
 }
 
 void BulletRender::_register_methods()
@@ -79,15 +79,15 @@ void BulletRender::_process(float delta)
 				uv.r += uv.b * std::floor(b->anim_frame);
 			}
 			float angle = b->sprite_angle;
-			angle -= 1.57079632679;
+			angle -= 1.57079632679f;
 			if (b->no_rotate) {
 				angle = 0.0;
 			}
 
-			float fade_frames = b->fade_frames;
-			float fade_time = b->fade_time;
-			float interp = std::max((fade_frames - 1.0) / fade_time, 0.0);
-			float scale = s(1.0 - interp);
+			float fade_frames = (float)b->fade_frames;
+			float fade_time = (float)b->fade_time;
+			float interp = std::max((fade_frames - 1.0f) / fade_time, 0.0f);
+			float scale = s(1.0f - interp);
 			float b_scale = b->scale;
 			Vector2 b_position = b->position;
 
@@ -102,7 +102,7 @@ void BulletRender::_process(float delta)
 					array_alpha.set(count_alpha * 16 + 8, angle);
 					array_alpha.set(count_alpha * 16 + 9, b->offset);
 					array_alpha.set(count_alpha * 16 + 10, b_scale * scale);
-					array_alpha.set(count_alpha * 16 + 11, 1.0 - interp);
+					array_alpha.set(count_alpha * 16 + 11, 1.0f - interp);
 					array_alpha.set(count_alpha * 16 + 12, uv.r);
 					array_alpha.set(count_alpha * 16 + 13, uv.g);
 					array_alpha.set(count_alpha * 16 + 14, uv.b);
@@ -118,7 +118,7 @@ void BulletRender::_process(float delta)
 					array_alpha_upper.set(count_alpha_upper * 16 + 8, angle);
 					array_alpha_upper.set(count_alpha_upper * 16 + 9, b->offset);
 					array_alpha_upper.set(count_alpha_upper * 16 + 10, b_scale * scale);
-					array_alpha_upper.set(count_alpha_upper * 16 + 11, 1.0 - interp);
+					array_alpha_upper.set(count_alpha_upper * 16 + 11, 1.0f - interp);
 					array_alpha_upper.set(count_alpha_upper * 16 + 12, uv.r);
 					array_alpha_upper.set(count_alpha_upper * 16 + 13, uv.g);
 					array_alpha_upper.set(count_alpha_upper * 16 + 14, uv.b);
@@ -136,7 +136,7 @@ void BulletRender::_process(float delta)
 				array_add.set(count_add * 16 + 8, angle);
 				array_add.set(count_add * 16 + 9, b->offset);
 				array_add.set(count_add * 16 + 10, b_scale * scale);
-				array_add.set(count_add * 16 + 11, 1.0 - interp);
+				array_add.set(count_add * 16 + 11, 1.0f - interp);
 				array_add.set(count_add * 16 + 12, uv.r);
 				array_add.set(count_add * 16 + 13, uv.g);
 				array_add.set(count_add * 16 + 14, uv.b);
@@ -405,15 +405,6 @@ void BulletRender::_process(float delta)
 	}
 
 
-	BulletRendererMesh->set_as_bulk_array(array_alpha);
-	BulletRendererUpperMesh->set_as_bulk_array(array_alpha_upper);
-	BulletRendererAddMesh->set_as_bulk_array(array_add);
-	BulletClearMesh->set_as_bulk_array(array_clear);
-	BulletRendererMesh->set_visible_instance_count(count_alpha);
-	BulletRendererUpperMesh->set_visible_instance_count(count_alpha_upper);
-	BulletRendererAddMesh->set_visible_instance_count(count_add);
-	BulletClearMesh->set_visible_instance_count(count_clear);
-
 	Array curve_lasers = Bullets->get("curve_lasers");
 
 	for (int i = 0; i < curve_lasers.size(); ++i) {
@@ -451,7 +442,38 @@ void BulletRender::_process(float delta)
 			laser->mesh->add_surface_from_arrays(5, arr, Array(), 97280 + 262144);
 			//st->commit(laser->mesh, 97280 + 262144);
 		}
+		if (laser->spawn_time > 0) {
+			float interp = std::min(std::max((float)laser->spawn_time*0.125f, 0.0f), 1.0f);
+			Color uv = laser->laser_spawn_uv;
+			Vector2 b_position = laser->points[laser->points.size() - 1];
+
+			array_add.set(count_add * 16, 1.0);
+			array_add.set(count_add * 16 + 1, 0.0);
+			array_add.set(count_add * 16 + 3, b_position.x);
+			array_add.set(count_add * 16 + 4, 0.0);
+			array_add.set(count_add * 16 + 5, 1.0);
+			array_add.set(count_add * 16 + 7, b_position.y);
+			array_add.set(count_add * 16 + 8, 360.0 * rand() / (RAND_MAX + 1.0));
+			array_add.set(count_add * 16 + 9, 0.0);
+			array_add.set(count_add * 16 + 10, laser->width * 1.5f * interp);
+			array_add.set(count_add * 16 + 11, 1.0);
+			array_add.set(count_add * 16 + 12, uv.r);
+			array_add.set(count_add * 16 + 13, uv.g);
+			array_add.set(count_add * 16 + 14, uv.b);
+			array_add.set(count_add * 16 + 15, uv.a);
+			count_add += 1;
+		}
 	}
+
+	BulletRendererMesh->set_as_bulk_array(array_alpha);
+	BulletRendererUpperMesh->set_as_bulk_array(array_alpha_upper);
+	BulletRendererAddMesh->set_as_bulk_array(array_add);
+	BulletClearMesh->set_as_bulk_array(array_clear);
+	BulletRendererMesh->set_visible_instance_count(count_alpha);
+	BulletRendererUpperMesh->set_visible_instance_count(count_alpha_upper);
+	BulletRendererAddMesh->set_visible_instance_count(count_add);
+	BulletClearMesh->set_visible_instance_count(count_clear);
+
 
 	ItemRendererMesh->set_visible_instance_count(4096);
 	int count = 0;

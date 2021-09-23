@@ -39,20 +39,20 @@ class BulletManager : public Node
 	};
 
 	const vector<Vector3> LASER_SIZES = {
-		Vector3(0.15, 0.05, 0.05), Vector3(0.1875, 0.6, 0.2), Vector3(0.15, 0.25, 0.25), Vector3(0.15, 0.25, 0.25), Vector3(0.25, 0.125, 0.125), Vector3(0.25, 0.125, 0.5), Vector3(0.25, 0.125, 0.125), Vector3(0.5, 0.125, 0.125), Vector3(0.25, 0.2, 0.125), Vector3(0.1, 0.3, 0.3), Vector3(0.25, 0.125, 0.125), Vector3(0.125, 0.25, 0.25),
-			Vector3(0.25, 0.2, 0.2), Vector3(0.25, 0.2, 0.2), Vector3(0.375, 0.3125, 0.3125), Vector3(0.25, 0.2, 0.2),
-			Vector3(0.3, 0.4, 0.3125), Vector3(0.5, 0.3125, 0.3125), Vector3(0.16, 0.43, 0.3125), Vector3(0.1, 0.1, 0.4), Vector3(0.1875, 0.28, 0.28), Vector3(0.3125, 0.35, 0.35),
-			Vector3(0.45, 0.28, 0.28),
-			Vector3(0.25, 0.35, 0.3), Vector3(0.15, 0.1, 0.72), Vector3(0.1875, 0.43, 0.43), Vector3(0.125, 0.25, 0.25), Vector3(0.375, 0.28, 0.375),
-			Vector3(0.3, 0.35, 0.35),
-			Vector3(0.15, 0.1, 0.1),
-			Vector3(0.0625, 0.1, 0.1),
-			Vector3(0.0625, 0.1, 0.1),
-			Vector3(0.0625, 0.1, 0.1),
-			Vector3(0.0625, 0.1, 0.1),
-			Vector3(0.0625, 0.1, 0.1),
-			Vector3(0.03, 0.1, 0.1),
-			Vector3(0.15, 0.05, 0.05),
+		Vector3(0.15f, 0.05f, 0.05f), Vector3(0.1875f, 0.6f, 0.2f), Vector3(0.15f, 0.25f, 0.25f), Vector3(0.15f, 0.25f, 0.25f), Vector3(0.25f, 0.125f, 0.125f), Vector3(0.25f, 0.125f, 0.5f), Vector3(0.25f, 0.125f, 0.125f), Vector3(0.5f, 0.125f, 0.125f), Vector3(0.25f, 0.2f, 0.125f), Vector3(0.1f, 0.3f, 0.3f), Vector3(0.25f, 0.125f, 0.125f), Vector3(0.125f, 0.25f, 0.25f),
+			Vector3(0.25f, 0.2f, 0.2f), Vector3(0.25f, 0.2f, 0.2f), Vector3(0.375f, 0.3125f, 0.3125f), Vector3(0.25f, 0.2f, 0.2f),
+			Vector3(0.3f, 0.4f, 0.3125f), Vector3(0.5f, 0.3125f, 0.3125f), Vector3(0.16f, 0.43f, 0.3125f), Vector3(0.1f, 0.1f, 0.4f), Vector3(0.1875f, 0.28f, 0.28f), Vector3(0.3125f, 0.35f, 0.35f),
+			Vector3(0.45f, 0.28f, 0.28f),
+			Vector3(0.25f, 0.35f, 0.3f), Vector3(0.15f, 0.1f, 0.72f), Vector3(0.1875f, 0.43f, 0.43f), Vector3(0.125f, 0.25f, 0.25f), Vector3(0.375f, 0.28f, 0.375f),
+			Vector3(0.3f, 0.35f, 0.35f),
+			Vector3(0.15f, 0.1f, 0.1f),
+			Vector3(0.0625f, 0.1f, 0.1f),
+			Vector3(0.0625f, 0.1f, 0.1f),
+			Vector3(0.0625f, 0.1f, 0.1f),
+			Vector3(0.0625f, 0.1f, 0.1f),
+			Vector3(0.0625f, 0.1f, 0.1f),
+			Vector3(0.03f, 0.1f, 0.1f),
+			Vector3(0.15f, 0.05f, 0.05f),
 	};
 
 	int small2largecolour(int x);

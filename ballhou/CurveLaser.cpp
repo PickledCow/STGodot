@@ -50,11 +50,14 @@ void CurveLaser::_register_methods()
 	register_property("anim_width", &CurveLaser::anim_width, 32.0f);
 	register_property("anim_frame", &CurveLaser::anim_frame, 0.0f);
 
+	register_property("active", &CurveLaser::active, false);
+
 	register_property("BULLET_FADE_TIME", &CurveLaser::BULLET_FADE_TIME, 0);
 	register_property("fade_time", &CurveLaser::fade_time, 8);
 	register_property("fade_frames", &CurveLaser::fade_frames, 0);
 
 	register_property("transform_queue", &CurveLaser::transform_queue, Array());
+	register_property("spawn_time", &CurveLaser::spawn_time, 0);
 
 }
 

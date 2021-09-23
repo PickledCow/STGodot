@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
 [ext_resource path="res://player/eff_sloweffect.png" type="Texture" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://playerHurt.wav" type="AudioStream" id=4]
 [ext_resource path="res://se/graze.wav" type="AudioStream" id=5]
 [ext_resource path="res://bullet/add.tres" type="Material" id=6]
-[ext_resource path="res://DeathEffect.tscn" type="PackedScene" id=7]
 [ext_resource path="res://funnyobscure.png" type="Texture" id=8]
 [ext_resource path="res://se/item.wav" type="AudioStream" id=9]
 [ext_resource path="res://se/se_extend.wav" type="AudioStream" id=10]
@@ -44,7 +43,7 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
-shader_param/colour = Vector3( 0, 1, 0.5 )
+shader_param/colour = Vector3( 0, 0, 1 )
 shader_param/rate = 2.0
 shader_param/frame = 0.0
 shader_param/direction = 1.0
@@ -390,7 +389,6 @@ z_index = -1
 visible = false
 
 [node name="cosmicflame" parent="unusuals" instance=ExtResource( 16 )]
-visible = false
 
 [node name="redflame" parent="unusuals" instance=ExtResource( 22 )]
 visible = false
@@ -498,9 +496,6 @@ texture = ExtResource( 15 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="bombtemp"]
 "anims/New Anim" = SubResource( 14 )
-
-[node name="DeathEffect" parent="." instance=ExtResource( 7 )]
-z_index = 10
 
 [node name="Sprite2" type="Sprite" parent="."]
 visible = false

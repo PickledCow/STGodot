@@ -7,7 +7,7 @@ code = "shader_type canvas_item;
 
 const float PI = 3.14159265358979323846;
 const float R = 64.0;
-const float RADIUS = 1000.0;
+const float RADIUS = 1064.0;
 
 uniform vec2 position;
 uniform float radius;
@@ -42,6 +42,6 @@ shader_param/radius = 0.0
 
 [node name="DeathEffect" type="Sprite"]
 material = SubResource( 2 )
-scale = Vector2( 1000, 1000 )
+scale = Vector2( 1064, 1064 )
 texture = ExtResource( 1 )
 centered = false

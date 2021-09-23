@@ -140,25 +140,25 @@ void Bullet::move_bullet() {
 		bounced = false;
 		// TODO: make the constants not magic
 		if (bounce_count != 0) {
-			if (bounce_left && position.x < 0) {
+			if (bounce_left && position.x < 0.0f) {
 				position.x *= -1;
 				direction.x *= -1;
-				angle = 3.14159265358979323846 - angle;
-				sprite_angle = 3.14159265358979323846 - sprite_angle;
+				angle = 3.14159265358979323846f - angle;
+				sprite_angle = 3.14159265358979323846f - sprite_angle;
 				bounce_count -= 1;
 				bounced = true;
 			}
-			else if (bounce_right && position.x > 1000.0) {
-				position.x = 2 * 1000.0 - position.x;
+			else if (bounce_right && position.x > 1000.0f) {
+				position.x = 2000.0f - position.x;
 				direction.x *= -1;
-				angle = 3.14159265358979323846 - angle;
-				sprite_angle = 3.14159265358979323846 - sprite_angle;
+				angle = 3.14159265358979323846f - angle;
+				sprite_angle = 3.14159265358979323846f - sprite_angle;
 				bounce_count -= 1;
 				bounced = true;
 			}
 		}
 		if (bounce_count != 0) {
-			if (bounce_top && position.y < 0) {
+			if (bounce_top && position.y < 0.0f) {
 				position.y *= -1;
 				direction.y *= -1;
 				angle *= -1;
@@ -166,8 +166,8 @@ void Bullet::move_bullet() {
 				bounce_count -= 1;
 				bounced = true;
 			}
-			else if (bounce_bottom && position.y > 1000.0) {
-				position.y = 2 * 1000.0 - position.y;
+			else if (bounce_bottom && position.y > 1000.0f) {
+				position.y = 2000.0f - position.y;
 				direction.y *= -1;
 				angle *= -1;
 				sprite_angle *= -1;

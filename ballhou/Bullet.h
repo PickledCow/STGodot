@@ -15,15 +15,15 @@ public:
 	void _init();
 	void hit();
 	void move_bullet();
-	Vector2 position = Vector2(0, 0);
-	Vector2 direction = Vector2(0, 0);
-	float speed = 0.0;
-	float angle = 0.0;
-	float accel = 0.0;
-	float max_speed = 0.0;
-	float w_vel = 0.0;
-	Vector2 acc_vector = Vector2(0, 0);
-	Vector2 vel_max_vector = Vector2(0, 0);
+	Vector2 position = Vector2(0.0f, 0.0f);
+	Vector2 direction = Vector2(0.0f, 0.0f);
+	float speed = 0.0f;
+	float angle = 0.0f;
+	float accel = 0.0f;
+	float max_speed = 0.0f;
+	float w_vel = 0.0f;
+	Vector2 acc_vector = Vector2(0.0f, 0.0f);
+	Vector2 vel_max_vector = Vector2(0.0f, 0.0f);
 
 	bool grazed = false;
 	bool already_grazed = false;
@@ -31,16 +31,16 @@ public:
 	int GRAZE_TIME = 8;
 
 	bool no_rotate = false;
-	float sprite_angle = 0.0;
-	float spin = 0.0;
+	float sprite_angle = 0.0f;
+	float spin = 0.0f;
 
 	int type = 0;
 	int colour = 0;
 
 	Color uv = Color();
-	float scale = 1.0;
+	float scale = 1.0f;
 	int blend = 0;
-	float offset = 0.0;
+	float offset = 0.0f;
 
 	Color laser_spawn_uv = Color();
 
@@ -49,16 +49,16 @@ public:
 
 	int anim_frame_max = 4;
 	bool animated = false;
-	float anim_step = 0.3334;
-	float anim_width = 32.0;
-	float anim_frame = 0.0;
+	float anim_step = 0.3334f;
+	float anim_width = 32.0f;
+	float anim_frame = 0.0f;
 
 	int collision_type = 0;
-	float size = 0.0;
-	float length = 0.0;
-	float width = 0.0;
-	float clearance_back = 0.0;
-	float clearance_front = 0.0;
+	float size = 0.0f;
+	float length = 0.0f;
+	float width = 0.0f;
+	float clearance_back = 0.0f;
+	float clearance_front = 0.0f;
 	bool free = true;
 	bool auto_delete = true;
 
@@ -91,11 +91,11 @@ public:
 	bool fade_clear = true;
 	Vector2 fade_position = Vector2();
 	Color fade_colour = Color();
-	float CLEAR_TIME = 8;
-	float clear_timer = 0;
-	float fade_angle = 0.0;
-	float fade_scale = 1.0;
-	float fade_angle2 = 0.0;
+	float CLEAR_TIME = 8.0f;
+	float clear_timer = 0.0f;
+	float fade_angle = 0.0f;
+	float fade_scale = 1.0f;
+	float fade_angle2 = 0.0f;
 	int fade_lr = 1;
 
 };
