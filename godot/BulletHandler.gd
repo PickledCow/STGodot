@@ -53,7 +53,8 @@ func _ready():
 	
 	var new_playerbullet = PlayerBullet.new()
 	get_node("../PlayerBulletManager").bullets.append(new_playerbullet)
-		
+	#clear_bullets_from_memory()
+	#print(free_bullets[0].has_method("free"))
 	
 var curve_lasers = []
 var loose_lasers = []
@@ -64,6 +65,32 @@ var clearing_bullets = []
 var free_items = []
 var active_items = []
 var collected_items = []
+
+func clear_bullets_from_memory():
+	for b in active_bullets:
+		b.free()
+	active_bullets.clear()
+	for b in free_bullets:
+		b.free()
+	free_bullets.clear()
+	for b in loose_lasers:
+		b.free()
+	loose_lasers.clear()
+	for b in straight_lasers:
+		b.free()
+	straight_lasers.clear()
+	for l in curve_lasers:
+		for b in l.bullets:
+			b.free()
+	curve_lasers.clear()
+	clearing_bullets.clear()
+	for i in active_items:
+		i.free()
+	active_items.clear()
+	for i in free_items:
+		i.free()
+	free_items.clear()
+
 
 # TODO: add fade functionality
 func create_curve_laser(position: Vector2, speed, angle, length, width, accel, max_speed, type, colour, _fade=true, w_vel = 0.0, blend=BLEND_MODE_MIX, sample_rate=2):

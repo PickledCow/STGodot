@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://player.gd" type="Script" id=1]
 [ext_resource path="res://player/eff_sloweffect.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://playerHurt.wav" type="AudioStream" id=4]
 [ext_resource path="res://se/graze.wav" type="AudioStream" id=5]
 [ext_resource path="res://bullet/add.tres" type="Material" id=6]
+[ext_resource path="res://se/player_shoot.wav" type="AudioStream" id=7]
 [ext_resource path="res://funnyobscure.png" type="Texture" id=8]
 [ext_resource path="res://se/item.wav" type="AudioStream" id=9]
 [ext_resource path="res://se/se_extend.wav" type="AudioStream" id=10]
@@ -14,16 +15,7 @@
 [ext_resource path="res://se/spark.wav" type="AudioStream" id=13]
 [ext_resource path="res://effect/eff_deadcircle.png" type="Texture" id=14]
 [ext_resource path="res://player/particle.png" type="Texture" id=15]
-[ext_resource path="res://effect/unusual/cosmicflame.tscn" type="PackedScene" id=16]
-[ext_resource path="res://effect/unusual/money.tscn" type="PackedScene" id=17]
-[ext_resource path="res://player/p0/pl.png" type="Texture" id=18]
-[ext_resource path="res://effect/unusual/thundercloud.tscn" type="PackedScene" id=19]
-[ext_resource path="res://effect/unusual/greenflame.tscn" type="PackedScene" id=20]
-[ext_resource path="res://effect/unusual/blueflame.tscn" type="PackedScene" id=21]
-[ext_resource path="res://effect/unusual/redflame.tscn" type="PackedScene" id=22]
-[ext_resource path="res://effect/unusual/eyestorm.tscn" type="PackedScene" id=23]
-[ext_resource path="res://effect/unusual/raincloud.tscn" type="PackedScene" id=24]
-[ext_resource path="res://effect/unusual/iciclebowl.tscn" type="PackedScene" id=25]
+[ext_resource path="res://se/player_missile.wav" type="AudioStream" id=18]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
@@ -43,7 +35,7 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
-shader_param/colour = Vector3( 0, 0, 1 )
+shader_param/colour = Vector3( 0, 0, 0 )
 shader_param/rate = 2.0
 shader_param/frame = 0.0
 shader_param/direction = 1.0
@@ -352,10 +344,11 @@ texture = ExtResource( 2 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 128, 128 )
 
+[node name="unusual" type="Node2D" parent="."]
+
 [node name="Sprite" type="Sprite" parent="."]
 material = SubResource( 2 )
 scale = Vector2( 0.75, 0.75 )
-texture = ExtResource( 18 )
 hframes = 4
 vframes = 2
 region_enabled = true
@@ -381,36 +374,6 @@ amount = 360
 lifetime = 0.2
 local_coords = false
 process_material = SubResource( 8 )
-
-[node name="unusuals" type="Node2D" parent="."]
-z_index = -1
-
-[node name="money" parent="unusuals" instance=ExtResource( 17 )]
-visible = false
-
-[node name="cosmicflame" parent="unusuals" instance=ExtResource( 16 )]
-
-[node name="redflame" parent="unusuals" instance=ExtResource( 22 )]
-visible = false
-
-[node name="blueflame" parent="unusuals" instance=ExtResource( 21 )]
-visible = false
-
-[node name="greenflame" parent="unusuals" instance=ExtResource( 20 )]
-visible = false
-
-[node name="eyestorm" parent="unusuals" instance=ExtResource( 23 )]
-visible = false
-
-[node name="thundercloud" parent="unusuals" instance=ExtResource( 19 )]
-visible = false
-z_index = 2
-
-[node name="raincloud" parent="unusuals" instance=ExtResource( 24 )]
-visible = false
-
-[node name="iciclebowl" parent="unusuals" instance=ExtResource( 25 )]
-visible = false
 
 [node name="options" type="Node2D" parent="."]
 z_index = 1
@@ -542,3 +505,11 @@ stream = ExtResource( 12 )
 volume_db = -20.0
 
 [node name="Node2D" type="Node2D" parent="."]
+
+[node name="shoot1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+volume_db = -35.0
+
+[node name="shoot2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 18 )
+volume_db = -30.0

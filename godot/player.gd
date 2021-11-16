@@ -18,7 +18,7 @@ var moving = false
 
 var Shot = preload("res://player/shot.tscn")
 
-onready var shot_sprites = [load("res://player/p"+str(pid)+"/0.tres"),  load("res://player/p"+str(pid)+"/1.tres"), load("res://player/p"+str(pid)+"/2.tres")]
+var shot_sprites = []
 
 var root: Node2D
 onready var Bullets = Globals.Bullets
@@ -30,7 +30,7 @@ var focused = false
 
 var graze_piv_progress = 0
 
-var lives = 2
+var lives = 8
 var life_fragments = 0
 var life_requirement = 3
 var bombs = 3
@@ -108,6 +108,14 @@ class Shooter:
 	
 
 func _ready():
+	pid = Globals.pid
+	if pid == 1:
+		speed = 10.0
+	
+	if Globals.unusual:
+		$unusual.add_child(Globals.unusual)
+	
+	shot_sprites = [load("res://player/p"+str(pid)+"/0.tres"),  load("res://player/p"+str(pid)+"/1.tres"), load("res://player/p"+str(pid)+"/2.tres")]
 	for i in len(prev_pos):
 		prev_pos[i] = position
 	
@@ -252,7 +260,7 @@ func hit():
 	#$Sprite.hide()
 	#$blood.emitting = true
 	$deathparticles.emitting = true
-	#got_hit = true
+	got_hit = true
 
 func move():
 	var move = Vector2(0,0)
@@ -348,7 +356,10 @@ func shoot():
 				var option_pos = Vector2(0,0)
 				if s.option != -1:
 					option_pos = option_positions_unfocus[power-1][s.option] * (1 - option_interp) + option_positions_focus[power-1][s.option] * option_interp
-				
+					if pid == 1:
+						$shoot2.play()
+				else:
+					$shoot1.play()
 				if s.stationary_piercing:
 					shot.piercing = true
 					shot.limited_life = true
@@ -360,7 +371,7 @@ func shoot():
 				else:
 					shot.position = position + s.offset + option_pos
 					root.add_child(shot)
-					shot.collision_box.get_node("CollisionShape2D").shape.extents = s.hitbox
+					#shot.collision_box.get_node("CollisionShape2D").shape.extents = s.hitbox
 					
 				#print(option_pos)
 				if s.laser_animated:
@@ -445,7 +456,7 @@ func _process(delta):
 			dead = true
 			Sprite.hide()
 			if !respawning:
-				lives -= 1
+				#lives -= 1
 				#power_decimal -= 50
 				bombs = 3
 				death_wave_radius = -300

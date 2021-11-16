@@ -28,21 +28,21 @@
             ],
             [
                 {
-                    "x": -40,
+                    "x": -32,
                     "y": -80
                 },
                 {
-                    "x": 40,
+                    "x": 32,
                     "y": -80
                 }
             ],
             [
                 {
-                    "x": -64,
+                    "x": -54,
                     "y": -72
                 },
                 {
-                    "x": 64,
+                    "x": 54,
                     "y": -72
                 },
                 {
@@ -52,19 +52,19 @@
             ],
             [
                 {
-                    "x": -72,
+                    "x": -60,
                     "y": -60
                 },
                 {
-                    "x": 72,
+                    "x": 60,
                     "y": -60
                 },
                 {
-                    "x": -32,
+                    "x": -27,
                     "y": -96
                 },
                 {
-                    "x": 32,
+                    "x": 27,
                     "y": -96
                 }
             ]
@@ -638,12 +638,12 @@
                 {
                     "fire_rate": 8,
                     "start_delay": 0,
-                    "dmg": 12,
+                    "dmg": 85,
                     "off_x": 0,
                     "off_y": 0,
                     "hitbox_x": 48,
                     "hitbox_y": 18,
-                    "angle": -1.5707963705062866,
+                    "angle": -1.64060954059,
                     "speed": 0,
                     "unknown_sht_int32": 0,
                     "option": 1,
@@ -672,12 +672,12 @@
                 {
                     "fire_rate": 8,
                     "start_delay": 0,
-                    "dmg": 12,
+                    "dmg": 85,
                     "off_x": 0,
                     "off_y": 0,
                     "hitbox_x": 48,
                     "hitbox_y": 18,
-                    "angle": -1.5707963705062866,
+                    "angle": -1.50098320043,
                     "speed": 0,
                     "unknown_sht_int32": 0,
                     "option": 2,
@@ -706,7 +706,7 @@
                 {
                     "fire_rate": 8,
                     "start_delay": 4,
-                    "dmg": 9,
+                    "dmg": 5,
                     "off_x": 0,
                     "off_y": 0,
                     "hitbox_x": 48,
@@ -740,7 +740,7 @@
                 {
                     "fire_rate": 8,
                     "start_delay": 4,
-                    "dmg": 9,
+                    "dmg": 5,
                     "off_x": 0,
                     "off_y": 0,
                     "hitbox_x": 48,
@@ -774,7 +774,7 @@
                 {
                     "fire_rate": 3,
                     "start_delay": 0,
-                    "dmg": 10,
+                    "dmg": 8,
                     "off_x": -20,
                     "off_y": -16,
                     "hitbox_x": 48,
@@ -808,7 +808,7 @@
                 {
                     "fire_rate": 3,
                     "start_delay": 0,
-                    "dmg": 10,
+                    "dmg": 8,
                     "off_x": 20,
                     "off_y": -16,
                     "hitbox_x": 48,
@@ -1330,11 +1330,11 @@
                 {
                     "fire_rate": 8,
                     "start_delay": 0,
-                    "dmg": 12,
+                    "dmg": 25,
                     "off_x": 0,
                     "off_y": 0,
-                    "hitbox_x": 48,
-                    "hitbox_y": 18,
+                    "hitbox_x": 32,
+                    "hitbox_y": 12,
                     "angle": -1.5707963705062866,
                     "speed": 0,
                     "unknown_sht_int32": 0,
@@ -1364,11 +1364,11 @@
                 {
                     "fire_rate": 8,
                     "start_delay": 0,
-                    "dmg": 12,
+                    "dmg": 25,
                     "off_x": 0,
                     "off_y": 0,
-                    "hitbox_x": 48,
-                    "hitbox_y": 18,
+                    "hitbox_x": 32,
+                    "hitbox_y": 12,
                     "angle": -1.5707963705062866,
                     "speed": 0,
                     "unknown_sht_int32": 0,
@@ -1398,11 +1398,11 @@
                 {
                     "fire_rate": 8,
                     "start_delay": 4,
-                    "dmg": 9,
+                    "dmg": 16,
                     "off_x": 0,
                     "off_y": 0,
-                    "hitbox_x": 48,
-                    "hitbox_y": 18,
+                    "hitbox_x": 32,
+                    "hitbox_y": 12,
                     "angle": -1.5707963705062866,
                     "speed": 0,
                     "unknown_sht_int32": 0,
@@ -1432,11 +1432,11 @@
                 {
                     "fire_rate": 8,
                     "start_delay": 4,
-                    "dmg": 9,
+                    "dmg": 16,
                     "off_x": 0,
                     "off_y": 0,
-                    "hitbox_x": 48,
-                    "hitbox_y": 18,
+                    "hitbox_x": 32,
+                    "hitbox_y": 12,
                     "angle": -1.5707963705062866,
                     "speed": 0,
                     "unknown_sht_int32": 0,
@@ -1466,11 +1466,11 @@
                 {
                     "fire_rate": 3,
                     "start_delay": 0,
-                    "dmg": 10,
+                    "dmg": 15,
                     "off_x": -20,
                     "off_y": -16,
-                    "hitbox_x": 48,
-                    "hitbox_y": 18,
+                    "hitbox_x": 32,
+                    "hitbox_y": 12,
                     "angle": -1.5707963705062866,
                     "speed": 24,
                     "unknown_sht_int32": 1,
@@ -1500,11 +1500,11 @@
                 {
                     "fire_rate": 3,
                     "start_delay": 0,
-                    "dmg": 10,
+                    "dmg": 15,
                     "off_x": 20,
                     "off_y": -16,
-                    "hitbox_x": 48,
-                    "hitbox_y": 18,
+                    "hitbox_x": 32,
+                    "hitbox_y": 12,
                     "angle": -1.5707963705062866,
                     "speed": 24,
                     "unknown_sht_int32": 1,

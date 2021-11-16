@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://enemy/cow/spell5.gd" type="Script" id=1]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 1 )
+type = 1
+attack_name = "Bovine Disaster[b]「[/b]Corrupted Milk[b]」[/b]"
+attack_time = 3600
+start_pos = Vector2( 500, 200 )
+health = 27500
+scb = 20000000

@@ -14,7 +14,10 @@ func _process(delta):
 	#	set_dest(Vector2(500, 300), 60)
 	#if u == 0:
 	#	invincible = false
-	if u >= 0:
+	if u == 0:
+		for i in 5000:
+			Bullets.create_bullet(position, rand_range(4, 8), randf()*360.0, -0.1, 0.0, Constants.BULLET_TYPE.BALL, Constants.COLOURS.TEAL)
+	if u >= 99999999990:
 		if u % RATE[difficulty] == 0:
 			a += 0.15
 			var o2 = randf()*360.0
@@ -33,5 +36,5 @@ func _process(delta):
 			if Globals.player.position.y < 500:
 				var o = randf()*360.0
 				for i in 120:
-					Bullets.create_bullet(position, 2.0, o + i * 3.0, 0.0, 0.0, Constants.BULLET_TYPE.RICE, Constants.COLOURS.TEAL_D)
+					Bullets.create_bullet(position, 2.0, o + i * 3.0, 0.0, 0.0, Constants.BULLET_TYPE.RICE, Constants.COLOURS.TEAL_D, false)
 	t += 1

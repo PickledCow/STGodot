@@ -50,7 +50,7 @@ anim_offset_random = 1.0
 [node name="flame" type="Particles2D"]
 material = SubResource( 1 )
 position = Vector2( 0, -32 )
-amount = 128
+amount = 140
 lifetime = 0.5
 local_coords = false
 draw_order = 1
@@ -60,10 +60,11 @@ texture = ExtResource( 3 )
 [node name="flame" type="Particles2D" parent="."]
 material = SubResource( 1 )
 z_index = 2
-amount = 32
+amount = 40
 local_coords = false
 draw_order = 1
 process_material = SubResource( 5 )
 texture = ExtResource( 3 )
 
 [node name="spark" parent="." instance=ExtResource( 1 )]
+amount = 72

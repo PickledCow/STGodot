@@ -1,6 +1,7 @@
 extends Node2D
 
-export(String, FILE, "*.txt") var dialogue_path
+export(String, FILE, "*.txt") var dialogue_path_0
+export(String, FILE, "*.txt") var dialogue_path_1
 
 export var root_path: NodePath
 onready var root = get_node(root_path)
@@ -19,7 +20,7 @@ onready var text_bg = get_node("Panel")
 func load_dialogue():
 	dialogue.clear()
 	var f = File.new()
-	f.open(dialogue_path, File.READ)
+	f.open(dialogue_path_0 if Globals.pid == 0 else dialogue_path_1, File.READ)
 	while !f.eof_reached():
 		var line = f.get_line()
 		var dialogue_line = Array(line.split('|'))
@@ -29,6 +30,7 @@ func load_dialogue():
 
 func _ready():
 	load_dialogue()
+	$Player.frame = Globals.pid
 
 func _process(_delta):
 	if dialogue_time == 0:
@@ -75,6 +77,7 @@ func _process(_delta):
 			$AnimationPlayer.play("exit")
 			root.dialogue = false
 			skippable = false
+			root.bgm.play()
 			
 	
 	dialogue_time -= 1

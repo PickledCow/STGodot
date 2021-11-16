@@ -638,7 +638,7 @@
                 {
                     "fire_rate": 5,
                     "start_delay": 0,
-                    "dmg": 9,
+                    "dmg": 8,
                     "off_x": 0,
                     "off_y": 0,
                     "hitbox_x": 16,
@@ -672,7 +672,7 @@
                 {
                     "fire_rate": 5,
                     "start_delay": 0,
-                    "dmg": 9,
+                    "dmg": 8,
                     "off_x": 0,
                     "off_y": 0,
                     "hitbox_x": 16,
@@ -706,7 +706,7 @@
                 {
                     "fire_rate": 5,
                     "start_delay": 0,
-                    "dmg": 9,
+                    "dmg": 8,
                     "off_x": 0,
                     "off_y": 0,
                     "hitbox_x": 16,
@@ -740,7 +740,7 @@
                 {
                     "fire_rate": 5,
                     "start_delay": 0,
-                    "dmg": 9,
+                    "dmg": 8,
                     "off_x": 0,
                     "off_y": 0,
                     "hitbox_x": 16,
@@ -774,7 +774,7 @@
                 {
                     "fire_rate": 3,
                     "start_delay": 0,
-                    "dmg": 14,
+                    "dmg": 15,
                     "off_x": 20,
                     "off_y": -16,
                     "hitbox_x": 48,
@@ -808,7 +808,7 @@
                 {
                     "fire_rate": 3,
                     "start_delay": 0,
-                    "dmg": 14,
+                    "dmg": 15,
                     "off_x": -20,
                     "off_y": -16,
                     "hitbox_x": 48,
@@ -1330,7 +1330,7 @@
                 {
                     "fire_rate": 5,
                     "start_delay": 0,
-                    "dmg": 9,
+                    "dmg": 8,
                     "off_x": 0,
                     "off_y": 0,
                     "hitbox_x": 16,
@@ -1364,7 +1364,7 @@
                 {
                     "fire_rate": 5,
                     "start_delay": 0,
-                    "dmg": 9,
+                    "dmg": 8,
                     "off_x": 0,
                     "off_y": 0,
                     "hitbox_x": 16,
@@ -1398,7 +1398,7 @@
                 {
                     "fire_rate": 5,
                     "start_delay": 0,
-                    "dmg": 9,
+                    "dmg": 8,
                     "off_x": 0,
                     "off_y": 0,
                     "hitbox_x": 16,
@@ -1432,7 +1432,7 @@
                 {
                     "fire_rate": 5,
                     "start_delay": 0,
-                    "dmg": 9,
+                    "dmg": 8,
                     "off_x": 0,
                     "off_y": 0,
                     "hitbox_x": 16,
@@ -1466,7 +1466,7 @@
                 {
                     "fire_rate": 3,
                     "start_delay": 0,
-                    "dmg": 14,
+                    "dmg": 15,
                     "off_x": 20,
                     "off_y": -16,
                     "hitbox_x": 48,
@@ -1500,7 +1500,7 @@
                 {
                     "fire_rate": 3,
                     "start_delay": 0,
-                    "dmg": 14,
+                    "dmg": 15,
                     "off_x": -20,
                     "off_y": -16,
                     "hitbox_x": 48,

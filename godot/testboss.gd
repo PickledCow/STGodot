@@ -2199,7 +2199,7 @@ func monstercucumber():
 
 
 var fade_radius = 0
-var FADE_RAD_MAX = 1000
+var FADE_RAD_MAX = 1500
 
 var difficulty = 3
 
@@ -2210,10 +2210,11 @@ var invincible = true
 var phase = 0
 var attack_prefabs = [	
 						preload("res://enemy/cow/non1.tscn"), preload("res://enemy/cow/spell1.tscn"), 
-						preload("res://enemy/cow/non2.tscn"),
-						preload("res://enemy/cow/non3.tscn"), preload("res://enemy/cow/spell3.tscn"),  
-						preload("res://enemy/cow/non4.tscn"), preload("res://enemy/cow/spell4.tscn"),  
-						
+						preload("res://enemy/cow/non2.tscn"), preload("res://enemy/cow/spell2.tscn"), 
+						preload("res://enemy/cow/non3.tscn"), preload("res://enemy/cow/spell3.tscn"), 
+						preload("res://enemy/cow/non4.tscn"), preload("res://enemy/cow/spell4.tscn"), 
+						preload("res://enemy/cow/spell5.tscn"), 
+						preload("res://enemy/cow/spell6.tscn"), 
 						
 						]
 var attacks = []
@@ -2221,7 +2222,6 @@ var attacks = []
 var current_attack: Node2D
 var time = 0
 var start_delay = 0
-
 var attack_time = 0
 
 export var spell_bg_path: NodePath
@@ -2242,6 +2242,13 @@ var current_attack_icon: Node
 
 export var dialogue_path: NodePath
 onready var dialogue_node = get_node(dialogue_path)
+
+var explosion = preload("res://effect/explosion.tscn")
+var next_explosion_time = 20
+var next_explosion_timer = 0
+var explosion_death_time = 60*4
+var explosion_death_timer = 0
+
 
 func order_attack_icons():
 	var attack = len(attacks) - 1
@@ -2264,19 +2271,32 @@ var icon_hidden = false
 export var scb_text_path: NodePath
 onready var scb_text = get_node(scb_text_path)
 var scb = 0
-var to = false
+var attack_type = 0
+
+var final_attack = false
+
+export var inframe_path: NodePath
+onready var inframe = get_node(inframe_path)
+
+export var sc_capture_path: NodePath
+onready var sc_cap = get_node(sc_capture_path)
+
+var start_time = 0.0
 
 var icons_started = false
+var dead = false
+var dead2 = false
+
+var return_timer = 60*5
 
 func _process(delta):
 	
 	# debug difficulty change
-	for i in range(4):
+	for i in range(0):
 		if Input.is_action_just_pressed("debug_" + str(i+1) + "p"):
 			Globals.DIFFICULTY = i
 	#misdirection()
 		
-	
 	# rotate sprite
 	$Sprite.rotation_degrees = -8 + 8*sin(time*0.01)
 	time += 1
@@ -2294,6 +2314,7 @@ func _process(delta):
 			order_attack_icons()
 			root.scb_failed = false
 			icon_hidden = false
+			if phase == len(attacks)-1: final_attack = true
 			current_attack = attacks[phase]
 			add_child(current_attack)
 			start_delay = current_attack.start_delay
@@ -2305,18 +2326,20 @@ func _process(delta):
 			scb = current_attack.scb
 			scb_text.bbcode_text = '[right]' + str(scb).replace("0", "O")
 			root.bg_flag = current_attack.bg_flag
-			to = false
-			match current_attack.type:
-				Globals.ATTACK_TYPE.NON:
-					attack_name.visible = false
-					spell_bg.visible = false
-				Globals.ATTACK_TYPE.SPELL:
+			$Hitbox.monitorable = true
+			if current_attack.type == Globals.ATTACK_TYPE.NON:
+				spell_bg.visible = false
+				attack_name.visible = false
+				attack_type = Globals.ATTACK_TYPE.NON
+			else:
+				if !current_attack.timeout:
 					attack_name.visible = true
 					spell_bg.visible = true
 					spell_bg.get_node("AnimationPlayer").play("fade")
 					attack_name.bbcode_text = "[right]" + current_attack.attack_name
 					attack_name_anim.play("spawn")
-				Globals.ATTACK_TYPE.TO:
+					attack_type = Globals.ATTACK_TYPE.SPELL
+				else:
 					attack_name.visible = true
 					spell_bg.visible = true
 					spell_bg.get_node("AnimationPlayer").play("fade")
@@ -2324,27 +2347,48 @@ func _process(delta):
 					attack_name_anim.play("spawn")
 					$Sprite.modulate = Color(0.5, 0.5, 0.5, 1.0)
 					$Healthbar.hide()
-					to = true
+					attack_type = Globals.ATTACK_TYPE.TO
+					$Hitbox.monitorable = false
 			
+				if current_attack.no_bg:
+					spell_bg.visible = false
+					
+					
 			if current_attack.type != Globals.ATTACK_TYPE.NON:
 				fade_radius = FADE_RAD_MAX
 				root.warp.warp(position, 16)
 				root.blast.play()
 				Bullets.deactivate_screen()
 			else:
-				Bullets.clear_screen_fade(Vector2(500, 500), 1000, true)
-		elif t == 0:
-			Bullets.clear_screen_fade(Vector2(500, 500), 1000, true)
-		if t == start_delay && current_attack.type != Globals.ATTACK_TYPE.TO:
-			invincible = false
-		if t >= start_delay:
-			attack_time -= 1
-			if !to:
-				scb = max(scb - 1000, 0)
-			scb_text.bbcode_text = "[right]FAILED" if root.scb_failed else '[right]' + str(scb).replace("0", "O")
-		# "[center]" + str(attack_time / 60).replace("0", "O") + "[b]." + str((attack_time % 60) * 100 / 60).replace("0", "O")
-		attack_timer.bbcode_text = ("[center]%02d[b].%02d" % [attack_time / 60, (attack_time % 60) * 100 / 60]).replace("0", "O")
+				Bullets.clear_screen_fade(Vector2(500, 500), 3000, true)
 		
+			#fade_radius = FADE_RAD_MAX
+			#root.warp.warp(position, 16)
+			#root.blast.play()
+			#Bullets.deactivate_screen()
+			
+			#Bullets.clear_screen_fade(Vector2(500, 500), 3000, true)
+		if !dead2:
+			if t == start_delay:
+				start_time = OS.get_ticks_msec()
+				if attack_type != Globals.ATTACK_TYPE.TO:
+					invincible = false
+			if t >= start_delay:
+				attack_time -= 1
+				if attack_type != Globals.ATTACK_TYPE.TO:
+					scb = max(scb - 1000, 0)
+				scb_text.bbcode_text = "[right]FAILED" if root.scb_failed else '[right]' + str(scb).replace("0", "O")
+			# "[center]" + str(attack_time / 60).replace("0", "O") + "[b]." + str((attack_time % 60) * 100 / 60).replace("0", "O")
+			attack_timer.bbcode_text = format_timer(attack_time)
+		else:
+			attack_timer.hide()
+			$Sprite.hide()
+			$Hitbox.monitorable = false
+			return_timer -= 1
+			if return_timer <= 0:
+				Bullets.clear_bullets_from_memory()
+				Globals.clear_objects()
+				get_tree().change_scene("res://titlescreen.tscn")
 		# Healthbar buildup
 		if $Healthbar.value >= health:
 			$Healthbar.value = health
@@ -2360,6 +2404,7 @@ func _process(delta):
 		elif !icon_hidden:
 			icon_hidden = true
 			current_attack.hide()
+		
 		
 		
 		# old behaviour
@@ -2513,39 +2558,78 @@ func _process(delta):
 				
 				funny_junko2()
 		
+		if dead && !dead2:
+			explosion_death_timer += 1
+			next_explosion_timer -= 1
+			if next_explosion_timer <= 0:
+				next_explosion_time = max(1, next_explosion_time-1)
+				next_explosion_timer = next_explosion_time
+				root.shoot1.play()
+				var xplo = explosion.instance()
+				xplo.position = Vector2(rand_range(0, 200), 0).rotated(randf()*TAU)
+				add_child(xplo)
 		
-		if (health <= 0 || attack_time <= 0):
+		if !dead2 && (health <= 0 || attack_time <= 0) && (!final_attack || explosion_death_timer >= explosion_death_time):
 			$Healthbar.hide()
 			$Sprite.modulate = Color(1.0, 1.0, 1.0, 1.0)
-			if attack_time <= 0 && !to:
+			if attack_time <= 0 && attack_type != Globals.ATTACK_TYPE.TO:
 				root.scb_failed = true
 			health = 1
 			attack_time = 1
-			start_delay = -1
 			invincible = true
 			spell_bg.visible = false
 			attack_name.visible = false
 			#Bullets.clear_screen()
-			t = -1
 			phase += 1
 			#queue_free()
-			if current_attack.type != Globals.ATTACK_TYPE.NON:
+			if attack_type != Globals.ATTACK_TYPE.NON:
 				root.shoot1.play()
+				inframe.get_node("ClearTime").bbcode_text = format_timer(t - start_delay)
+				var end_time = (OS.get_ticks_msec() - start_time) * 0.001
+				inframe.get_node("ActualTime").bbcode_text = ("[center]%02d[b].%02d" % [int(end_time), int(fmod(end_time, 1.0)*100)]).replace("0", "O")
+				
 				if !root.scb_failed:
 					root.cardget.play()
 					root.score += scb
-				for _i in 100:
-					Bullets.create_item(position, Constants.ITEM.POINT, true, randf()*360.0, rand_range(12.0, 20.0))
+					inframe.get_node("score").bbcode_text = format_score(str(scb))
+					sc_cap.play("capture")
+				else:
+					sc_cap.play("fail")
+					
+				for _i in 200 if final_attack else 100:
+					Bullets.create_item(position, Constants.ITEM.POINT, true, randf()*360.0, rand_range(12.0, 20.0), final_attack)
+				for _i in 50 if final_attack else 0:
+					Bullets.create_item(position, Constants.ITEM.BOMB, true, randf()*360.0, rand_range(5.0, 15.0), true)
+					Bullets.create_item(position, Constants.ITEM.LIFE, true, randf()*360.0, rand_range(5.0, 15.0), true)
 					#Bullets.create_item(position, Constants.ITEM.POWER, true, randf()*360.0, rand_range(12.0, 20.0))
 				#Bullets.create_item(position, Constants.ITEM.BOMB_FRAGMENT, true, 180.0, 5.0)
 				#Bullets.create_item(position, Constants.ITEM.LIFE_FRAGMENT, true, 0.0, 5.0)
 				#Bullets.create_item(position, Constants.ITEM.LIFE_FRAGMENT, true, 0.0, 0.0)
-			if current_attack:
+				if dead:
+					dead2 = true
+					fade_radius = FADE_RAD_MAX
+					root.warp.warp(position, 16)
+					root.blast.play()
+			if !dead:
 				#remove_child(current_attack)
 				current_attack.queue_free()
+				
+				
+			start_delay = -1
+			t = -1
+		elif !dead && (health <= 0 || attack_time <= 0) && (final_attack && explosion_death_timer < explosion_death_time):
+			dead = true
+			phase += 1
+			Bullets.deactivate_screen()
+			current_attack.queue_free()
+		
 		if fade_radius > 0:
 			Bullets.clear_screen_fade(position, FADE_RAD_MAX - fade_radius, true)
 			fade_radius -= 16
+		elif fade_radius >= -16:
+			Bullets.clear_screen_fade(position, 3000, true)
+			fade_radius = -1000
+		
 		
 		if move_timer < move_time:
 			move_timer += 1
@@ -2574,3 +2658,16 @@ func hit(damage):
 	else:
 		Globals.root.hit.play()
 
+func format_score(t):
+	var text = t.replace('0', 'O')
+	var out = "[center]" + text.substr(0, len(text) % 3)
+	var sections = len(text) / 3
+	var current_section = 0
+	while current_section < sections:
+		out += "[b],[/b]"
+		out += text.substr(len(text) % 3 + current_section*3, 3)
+		current_section += 1
+	return out
+
+func format_timer(t):
+	return ("[center]%02d[b].%02d" % [t / 60, (t % 60) * 100 / 60]).replace("0", "O")

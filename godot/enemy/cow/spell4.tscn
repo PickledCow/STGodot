@@ -7,5 +7,5 @@ script = ExtResource( 1 )
 type = 1
 attack_name = "Cow Grinder 6000"
 attack_time = 3600
-health = 21000
+health = 25000
 scb = 17500000

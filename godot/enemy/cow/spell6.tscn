@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://enemy/cow/spell6.gd" type="Script" id=1]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 1 )
+type = 3
+attack_name = "\"Pickle Dimensions\""
+attack_time = 10800
+health = 50000
+start_delay = 480
+no_bg = true
+scb = 30000000
+bg_flag = 3

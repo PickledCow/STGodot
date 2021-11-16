@@ -3,7 +3,7 @@ extends "res://enemy/attack.gd"
 var CYCLE_TIME = 60 * 3
 var CYCLE_TIME2 = 60 * 4
 var DENSITY = [16, 20, 24, 30, 50]
-var DENSITY2 = [30, 60, 80, 95, 120]
+var DENSITY2 = [30, 60, 80, 92, 120]
 var SPEED = [3.0, 3.5, 4.0, 5.0, 5.0]
 var RATE = [15, 13, 12, 10, 8]
 var RATE2 = [30, 24, 20, 16, 12]
@@ -14,7 +14,7 @@ func _process(_delta):
 	var u = t - start_delay
 	if u >= 0:
 		if u % CYCLE_TIME2 == 0:
-			a = 90.0
+			a = 90.0 + 180.0/DENSITY[difficulty]
 		if u % CYCLE_TIME2 < CYCLE_TIME:
 			if u % RATE[difficulty] == 0:
 				var o = a + rand_range(-1, 1)

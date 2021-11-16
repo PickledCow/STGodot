@@ -29,7 +29,7 @@ func _process(delta):
 			var y = rand_range( max(Constants.FIELD_SIZE.y*0.25, position.y - 150 * (position.y / Constants.FIELD_SIZE.y)), min(Constants.FIELD_SIZE.y*0.3, position.y + 150 * (1 - position.y / Constants.FIELD_SIZE.y))  )
 			#dest = Vector2(x, 300)
 			set_dest(Vector2(x, y), 60)
-		if u % 30 == 0:
+		if u % 30 == 0 && u > 120:
 			if Globals.player.position.y < 500:
 				var o = randf()*360.0
 				for i in 120:

@@ -4,6 +4,9 @@
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
-health = 12500
+type = 1
+attack_name = "Picklemancy[b]「[/b]Curse of the Pickle Jar[b]」[/b]"
+attack_time = 4140
+health = 20000
 start_delay = 180
 scb = 12500000

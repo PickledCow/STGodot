@@ -3,8 +3,8 @@ extends "res://enemy/attack.gd"
 
 var CYCLE_TIME = [270, 240, 210, 180]
 # Killing Floor, Machined Cow
-var DENSITY = [12,15,20,28]
-var DENSITY2 = [30,36,40,52]
+var DENSITY = [12,15,20,26]
+var DENSITY2 = [30,36,40,50]
 var SPEED = [2.0, 2.0, 2.5, 3.0]
 var SPEED2 = [3.0, 3.0, 4.5, 5.0]
 
@@ -17,7 +17,7 @@ func _process(delta):
 			lr *= -1
 			var o = randf() * 360.0
 			for i in DENSITY[difficulty]:
-				var b = Bullets.create_bullet(pos, 15.0, o + i * 360.0 / DENSITY[difficulty], -0.5, SPEED[difficulty], Constants.BULLET_TYPE.SAW, Constants.COLOURS_SAW.BLOOD, true, 0.0, lr*2)
+				var b = Bullets.create_bullet(pos, 15.0, o + i * 360.0 / DENSITY[difficulty], -0.5, SPEED[difficulty], Constants.BULLET_TYPE.SAW, Constants.COLOURS_SAW.BLOOD if randi()% 6 == 0 else Constants.COLOURS_SAW.NORMAL, true, 0.0, lr*2)
 				if lr == 1:
 					b.sprite_angle = randf()*360.0
 				lr *= -1
@@ -25,7 +25,7 @@ func _process(delta):
 			root.shoot1.play()
 			var o = randf() * 360.0
 			for i in DENSITY2[difficulty]:
-				var b = Bullets.create_bullet(pos, 12.0, o + i * 360.0 / DENSITY2[difficulty], -1, SPEED2[difficulty], Constants.BULLET_TYPE.SAW_SMALL, Constants.COLOURS_SAW.BLOOD, true, 0.0, lr*4)
+				var b = Bullets.create_bullet(pos, 12.0, o + i * 360.0 / DENSITY2[difficulty], -1, SPEED2[difficulty], Constants.BULLET_TYPE.SAW_SMALL, Constants.COLOURS_SAW.BLOOD if randi()% 6 == 0 else Constants.COLOURS_SAW.NORMAL, true, 0.0, lr*4)
 				b.bounce_count = 2
 				b.layer = 1
 				if lr == 1:

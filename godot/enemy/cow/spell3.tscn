@@ -6,7 +6,7 @@
 script = ExtResource( 1 )
 type = 2
 attack_name = "Pickle Sign[b]「[/b]Cucumber Fermentation[b]」[/b]"
-attack_time = 4100
+attack_time = 2810
 start_pos = Vector2( 500, 250 )
 start_delay = 180
 timeout = true

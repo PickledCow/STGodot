@@ -9,6 +9,7 @@ export var health = 7500
 export var start_delay = 120
 
 export var timeout = false
+export var no_bg = false
 
 export var scb = 1000000
 

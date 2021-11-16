@@ -1,6 +1,6 @@
 extends "res://enemy/attack.gd"
 
-var DENSITY = [10, 15, 20, 24]
+var DENSITY = [14, 18, 20, 24]
 var DENSITY_D = [1, 1, 2, 2]
 var SPEED = [3, 4, 5, 6]
 var SPEED3 = [2.0, 2.1, 2.25, 2.25]
@@ -9,7 +9,7 @@ var TIME = [48, 52, 64, 69]
 var TIME_D = [2, 2, 3.5, 4.8]
 var RATE = [180, 180, 180, 180]
 
-var CYCLE_TIME = 540
+var CYCLE_TIME = 500
 
 var dests = [Vector2(500, 250), Vector2(750, 500), Vector2(500, 750), Vector2(250, 500)]
 

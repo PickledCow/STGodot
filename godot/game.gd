@@ -7,6 +7,8 @@ onready var player = get_node('player')
 
 onready var Bullets = get_node("BulletHandler")
 
+export var tdbgpath: NodePath
+
 var graze = 0
 var score = 0
 var piv = 10000
@@ -28,6 +30,11 @@ onready var cardget = get_node("cardget")
 onready var hit = get_node("hit")
 onready var hit2 = get_node("hit2")
 
+onready var freeze = get_node("freeze")
+
+
+onready var bgm = get_node("bgm")
+
 var fast_forward = false
 
 var shake_frames = 0
@@ -39,8 +46,10 @@ var dialogue = true
 
 var scb_failed = false
 
+var reset = false
 
 func _ready():
+	reset = false
 	Globals.root = self
 	#seed(69)
 	randomize()
@@ -54,6 +63,10 @@ func _ready():
 
 	#p = Constants.FIELD_SIZE * .5
 	#p2 = Constants.FIELD_SIZE * .5
+	
+	if Globals.BG_TYPE == 0:
+		var bg = Globals.TDBG.instance()
+		get_node(tdbgpath).add_child(bg)
 
 	
 const mode = 1
@@ -369,6 +382,29 @@ var t = -1
 
 var timeleft = 300
 
+func reset_bullets():
+	for b in Bullets.active_bullets:
+		b.free()
+	Bullets.active_bullets.clear()
+	for b in Bullets.free_bullets:
+		b.free()
+	Bullets.free_bullets.clear()
+	for b in Bullets.loose_lasers:
+		b.free()
+	Bullets.loose_lasers.clear()
+	for b in Bullets.straight_lasers:
+		b.free()
+	Bullets.straight_lasers.clear()
+	for l in Bullets.curve_lasers:
+		for b in l.bullets:
+			b.free()
+	Bullets.curve_lasers.clear()
+	Bullets.clearing_bullets.clear()
+	for i in Bullets.active_items:
+		i.free()
+	Bullets.active_items.clear()
+
+
 func _process(_delta):
 	
 	#agni_brilliance()
@@ -403,31 +439,13 @@ func _process(_delta):
 	else:
 		Engine.target_fps = 60
 	
-	if Input.is_action_just_pressed("reset"):
-		for b in Bullets.active_bullets:
-			b.free()
-		Bullets.active_bullets.clear()
-		for b in Bullets.free_bullets:
-			b.free()
-		Bullets.free_bullets.clear()
-		for b in Bullets.loose_lasers:
-			b.free()
-		Bullets.loose_lasers.clear()
-		for b in Bullets.straight_lasers:
-			b.free()
-		Bullets.straight_lasers.clear()
-		for l in Bullets.curve_lasers:
-			for b in l.bullets:
-				b.free()
-		Bullets.curve_lasers.clear()
-		Bullets.clearing_bullets.clear()
-		for i in Bullets.active_items:
-			i.free()
-		Bullets.active_items.clear()
-# warning-ignore:return_value_discarded
+	# Engine.target_fps = 60
+	
+	if reset:
+		#Bullets.clear_bullets_from_memory()
+		#reset_bullets()
 		get_tree().reload_current_scene()
 		Globals.graze = 0
-
 	timeleft -= 1
 	if timeleft <= 0:
 		timeleft = 300 + randi()%300
